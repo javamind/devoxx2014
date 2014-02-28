@@ -121,7 +121,7 @@
                 <executions>
                     <!-- Create unittest testdata -->
                     <execution>
-                        <id>create-data</id>
+                        <id>delete-data</id>
                         <phase>generate-test-resources</phase>
                         <goals>
                             <goal>execute</goal>
@@ -141,7 +141,10 @@
                         </goals>
                         <configuration>
                             <srcFiles>
+                                <srcFile>src/test/resources/sql/CREATE_CONFERENCE.sql</srcFile>
                                 <srcFile>src/test/resources/sql/CREATE_COUNTRY.sql</srcFile>
+                                <srcFile>src/test/resources/sql/CREATE_SPEAKER.sql</srcFile>
+                                <srcFile>src/test/resources/sql/CREATE_TALK.sql</srcFile>
                             </srcFiles>
                         </configuration>
                     </execution>

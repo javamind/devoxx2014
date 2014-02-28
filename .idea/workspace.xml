@@ -64,6 +64,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="123" column="34" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0" vertical-offset="1729" max-vertical-offset="2445">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DROP_TABLE.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/sql/DROP_TABLE.sql">
           <provider selected="true" editor-type-id="text-editor">
@@ -73,19 +82,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="5" selection-start="24" selection-end="24" vertical-scroll-proportion="0.07745267" vertical-offset="0" max-vertical-offset="581">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CoreDomainIntegrationTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/ninjamind/conference/config/CoreDomainIntegrationTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="18" selection-start="64" selection-end="64" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
+            <state line="4" column="13" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
               <folding />
             </state>
           </provider>
@@ -105,7 +105,7 @@
       <file leaf-file-name="CREATE_CONFERENCE.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_CONFERENCE.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="310" selection-end="310" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+            <state line="5" column="2" selection-start="80" selection-end="110" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
               <folding />
             </state>
           </provider>
@@ -114,53 +114,43 @@
       <file leaf-file-name="CREATE_COUNTRY.sql" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_COUNTRY.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="13" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+            <state line="7" column="26" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Country.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Country.java">
+      <file leaf-file-name="CREATE_SPEAKER.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_SPEAKER.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="37" selection-start="725" selection-end="725" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
+            <state line="12" column="26" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Conference.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Conference.java">
+      <file leaf-file-name="CREATE_TALK.sql" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_TALK.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="20" selection-start="207" selection-end="207" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1425">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1465#1466#0" expanded="true" />
-                <element signature="e#1497#1498#0" expanded="true" />
-                <element signature="e#1545#1546#0" expanded="true" />
-                <element signature="e#1587#1588#0" expanded="true" />
-                <element signature="e#1619#1620#0" expanded="true" />
-                <element signature="e#1649#1650#0" expanded="true" />
-                <element signature="e#1693#1694#0" expanded="true" />
-                <element signature="e#1731#1732#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServiceConfig.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/config/ServiceConfig.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="13" selection-start="132" selection-end="132" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
+            <state line="12" column="6" selection-start="294" selection-end="294" vertical-scroll-proportion="0.30981067" vertical-offset="0" max-vertical-offset="581">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CoreConfig.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/config/CoreConfig.java">
+      <file leaf-file-name="Talk.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Talk.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+            <state line="66" column="0" selection-start="1177" selection-end="1177" vertical-scroll-proportion="-9.592592" vertical-offset="401" max-vertical-offset="1275">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Speaker.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Speaker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="0" selection-start="115" selection-end="361" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1515">
               <folding />
             </state>
           </provider>
@@ -184,7 +174,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Level.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Country.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Speaker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Talk.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/ConferenceController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/events/IUpdateEvent.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/events/IReadEvent.java" />
@@ -195,13 +184,16 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/config/ServiceConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/config/PersistenceConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Conference.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/sql/CREATE_CONFERENCE.sql" />
-        <option value="$PROJECT_DIR$/src/test/resources/sql/CREATE_COUNTRY.sql" />
         <option value="$PROJECT_DIR$/src/main/filter/myfilte.properties" />
         <option value="$PROJECT_DIR$/src/main/filter/myfilter.properties" />
-        <option value="$PROJECT_DIR$/src/test/resources/sql/DROP_TABLE.sql" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/test/resources/sql/CREATE_CONFERENCE.sql" />
+        <option value="$PROJECT_DIR$/src/test/resources/sql/DROP_TABLE.sql" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Talk.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/resources/sql/CREATE_COUNTRY.sql" />
+        <option value="$PROJECT_DIR$/src/test/resources/sql/CREATE_SPEAKER.sql" />
+        <option value="$PROJECT_DIR$/src/test/resources/sql/CREATE_TALK.sql" />
       </list>
     </option>
   </component>
@@ -266,9 +258,15 @@
               <option name="myItemId" value="devoxx2014" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+              <option name="myItemId" value="devoxx2014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -278,6 +276,114 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="devoxx014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx2014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx2014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx2014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conference" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx2014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="devoxx014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conference" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="domain" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -730,16 +836,16 @@
       <workItem from="1393347552625" duration="1959000" />
       <workItem from="1393365812802" duration="9000" />
       <workItem from="1393368800208" duration="6068000" />
-      <workItem from="1393441079429" duration="16239000" />
+      <workItem from="1393441079429" duration="17812000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24711000" />
+    <option name="totallyTimeSpent" value="26284000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -762,7 +868,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33645892" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2498621" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3290735" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3290735" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -851,86 +957,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Speaker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="37" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.0" vertical-offset="1487" max-vertical-offset="2055">
-          <folding>
-            <element signature="e#550#551#0" expanded="false" />
-            <element signature="e#575#576#0" expanded="false" />
-            <element signature="e#609#610#0" expanded="false" />
-            <element signature="e#637#638#0" expanded="false" />
-            <element signature="e#673#674#0" expanded="false" />
-            <element signature="e#705#706#0" expanded="false" />
-            <element signature="e#755#756#0" expanded="false" />
-            <element signature="e#797#798#0" expanded="false" />
-            <element signature="e#832#833#0" expanded="false" />
-            <element signature="e#863#864#0" expanded="false" />
-            <element signature="e#911#912#0" expanded="false" />
-            <element signature="e#951#952#0" expanded="false" />
-            <element signature="e#985#986#0" expanded="false" />
-            <element signature="e#1015#1016#0" expanded="false" />
-            <element signature="e#1061#1062#0" expanded="false" />
-            <element signature="e#1099#1100#0" expanded="false" />
-            <element signature="e#1138#1139#0" expanded="false" />
-            <element signature="e#1173#1174#0" expanded="false" />
-            <element signature="e#1229#1230#0" expanded="false" />
-            <element signature="e#1277#1278#0" expanded="false" />
-            <element signature="e#1308#1309#0" expanded="false" />
-            <element signature="e#1335#1336#0" expanded="false" />
-            <element signature="e#1375#1376#0" expanded="false" />
-            <element signature="e#1407#1408#0" expanded="false" />
-            <element signature="e#1444#1445#0" expanded="false" />
-            <element signature="e#1477#1478#0" expanded="false" />
-            <element signature="e#1529#1530#0" expanded="false" />
-            <element signature="e#1573#1574#0" expanded="false" />
-            <element signature="e#1608#1609#0" expanded="false" />
-            <element signature="e#1638#1639#0" expanded="false" />
-            <element signature="e#1685#1686#0" expanded="false" />
-            <element signature="e#1723#1724#0" expanded="false" />
-            <element signature="e#1758#1759#0" expanded="false" />
-            <element signature="e#1786#1787#0" expanded="false" />
-            <element signature="e#1831#1832#0" expanded="false" />
-            <element signature="e#1865#1866#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Talk.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1695">
-          <folding>
-            <element signature="e#416#417#0" expanded="true" />
-            <element signature="e#441#442#0" expanded="true" />
-            <element signature="e#475#476#0" expanded="true" />
-            <element signature="e#503#504#0" expanded="true" />
-            <element signature="e#534#535#0" expanded="true" />
-            <element signature="e#561#562#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-            <element signature="e#633#634#0" expanded="true" />
-            <element signature="e#671#672#0" expanded="true" />
-            <element signature="e#705#706#0" expanded="true" />
-            <element signature="e#759#760#0" expanded="true" />
-            <element signature="e#805#806#0" expanded="true" />
-            <element signature="e#837#838#0" expanded="true" />
-            <element signature="e#865#866#0" expanded="true" />
-            <element signature="e#907#908#0" expanded="true" />
-            <element signature="e#941#942#0" expanded="true" />
-            <element signature="e#979#980#0" expanded="true" />
-            <element signature="e#1013#1014#0" expanded="true" />
-            <element signature="e#1067#1068#0" expanded="true" />
-            <element signature="e#1113#1114#0" expanded="true" />
-            <element signature="e#1144#1145#0" expanded="true" />
-            <element signature="e#1172#1173#0" expanded="true" />
-            <element signature="e#1213#1214#0" expanded="true" />
-            <element signature="e#1247#1248#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-            <element signature="e#1319#1320#0" expanded="true" />
-            <element signature="e#1373#1374#0" expanded="true" />
-            <element signature="e#1413#1414#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="11" selection-start="11" selection-end="11" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="579">
@@ -977,7 +1003,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="18" selection-start="339" selection-end="339" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -993,7 +1019,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="0" selection-start="797" selection-end="797" vertical-scroll-proportion="0.0" vertical-offset="79" max-vertical-offset="660">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1025,7 +1051,20 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Country.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="37" selection-start="725" selection-end="725" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
-          <folding />
+          <folding>
+            <element signature="e#324#325#0" expanded="false" />
+            <element signature="e#349#350#0" expanded="false" />
+            <element signature="e#383#384#0" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+            <element signature="e#442#443#0" expanded="false" />
+            <element signature="e#469#470#0" expanded="false" />
+            <element signature="e#509#510#0" expanded="false" />
+            <element signature="e#541#542#0" expanded="false" />
+            <element signature="e#572#573#0" expanded="false" />
+            <element signature="e#599#600#0" expanded="false" />
+            <element signature="e#639#640#0" expanded="false" />
+            <element signature="e#671#672#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1052,34 +1091,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/DROP_TABLE.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="39" selection-start="5086" selection-end="5086" vertical-scroll-proportion="0.0" vertical-offset="1819" max-vertical-offset="2400">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_CONFERENCE.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="310" selection-end="310" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_COUNTRY.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="13" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="0" selection-start="575" selection-end="575" vertical-scroll-proportion="0.23235801" vertical-offset="0" max-vertical-offset="581">
@@ -1089,7 +1100,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="5" selection-start="24" selection-end="24" vertical-scroll-proportion="0.07745267" vertical-offset="0" max-vertical-offset="581">
+        <state line="4" column="13" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Speaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="115" selection-end="361" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1515">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/DROP_TABLE.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ninjamind/conference/domain/Talk.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="0" selection-start="1177" selection-end="1177" vertical-scroll-proportion="-9.592592" vertical-offset="401" max-vertical-offset="1275">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="34" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0" vertical-offset="1729" max-vertical-offset="2445">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_CONFERENCE.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="2" selection-start="80" selection-end="110" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_COUNTRY.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="26" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_SPEAKER.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="26" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/sql/CREATE_TALK.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="6" selection-start="294" selection-end="294" vertical-scroll-proportion="0.30981067" vertical-offset="0" max-vertical-offset="581">
           <folding />
         </state>
       </provider>

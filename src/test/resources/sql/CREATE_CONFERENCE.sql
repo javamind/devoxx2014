@@ -8,6 +8,8 @@ CREATE TABLE conference
   country_id integer,
   datestart date,
   dateend date,
+  majuser character varying(40),
+  majdate date,
   CONSTRAINT conference_name_key UNIQUE (name)
 )
 WITH (

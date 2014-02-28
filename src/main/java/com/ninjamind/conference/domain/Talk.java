@@ -10,7 +10,7 @@ public class Talk {
     private String name;
     private String description;
     private String place;
-    private String nbpeoplemax;
+    private Integer nbpeoplemax;
     private Level level;
     Set<Speaker> speakers;
 
@@ -53,11 +53,11 @@ public class Talk {
         this.place = place;
     }
 
-    public String getNbpeoplemax() {
+    public Integer getNbpeoplemax() {
         return nbpeoplemax;
     }
 
-    public void setNbpeoplemax(String nbpeoplemax) {
+    public void setNbpeoplemax(Integer nbpeoplemax) {
         this.nbpeoplemax = nbpeoplemax;
     }
 
