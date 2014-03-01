@@ -1,9 +1,18 @@
 package com.ninjamind.conference.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author ehret_g
  */
+@Entity
+@Table(name = "country")
 public class Country {
+    @Id
+    @GeneratedValue
     private Long id;
     private String code;
     private String name;

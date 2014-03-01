@@ -1,11 +1,19 @@
 package com.ninjamind.conference.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Set;
 
 /**
  * @author ehret_g
  */
+@Entity
+@Table(name = "speaker")
 public class Speaker {
+    @Id
+    @GeneratedValue
     private Long id;
     private String firstname;
     private String lastname;

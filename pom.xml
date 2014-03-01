@@ -43,6 +43,28 @@
             <version>4.0.2.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.5.0.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-asm</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>4.3.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.1.Final</version>
+        </dependency>
 
         <!-- Jackson pour JSON -->
         <dependency>
@@ -145,6 +167,8 @@
                                 <srcFile>src/test/resources/sql/CREATE_COUNTRY.sql</srcFile>
                                 <srcFile>src/test/resources/sql/CREATE_SPEAKER.sql</srcFile>
                                 <srcFile>src/test/resources/sql/CREATE_TALK.sql</srcFile>
+                                <srcFile>src/test/resources/sql/CREATE_CONFERENCE_TALK.sql</srcFile>
+                                <srcFile>src/test/resources/sql/CREATE_SPEAKER_TALK.sql</srcFile>
                             </srcFiles>
                         </configuration>
                     </execution>

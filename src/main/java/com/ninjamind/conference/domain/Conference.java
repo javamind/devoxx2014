@@ -1,12 +1,20 @@
 package com.ninjamind.conference.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.Set;
 
 /**
  * @author ehret_g
  */
+@Entity
+@Table(name = "conference")
 public class Conference {
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String streetAdress;
