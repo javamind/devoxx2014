@@ -1,9 +1,6 @@
 package com.ninjamind.conference.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author ehret_g
@@ -12,10 +9,15 @@ import javax.persistence.Table;
 @Table(name = "country")
 public class Country {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_country")
+    @SequenceGenerator(name="seq_country", sequenceName="seq_country", allocationSize=1)
     private Long id;
+    @Column(nullable = false)
     private String code;
+    @Column(nullable = false)
     private String name;
+    @Version
+    private long version;
 
     public Country() {
     }
@@ -47,6 +49,14 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     @Override

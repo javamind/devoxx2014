@@ -1,9 +1,6 @@
 package com.ninjamind.conference.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -13,14 +10,22 @@ import java.util.Set;
 @Table(name = "talk")
 public class Talk {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_talk")
+    @SequenceGenerator(name="seq_talk", sequenceName="seq_talk", allocationSize=1)
     private Long id;
+    @Column(nullable = false)
     private String name;
     private String description;
     private String place;
     private Integer nbpeoplemax;
     private Level level;
+    @ManyToMany(mappedBy="talks")
     Set<Speaker> speakers;
+    @ManyToMany(mappedBy="talks")
+    Set<Conference> conferences;
+
+    @Version
+    private long version;
 
     public Talk() {
     }
@@ -83,6 +88,22 @@ public class Talk {
 
     public void setSpeakers(Set<Speaker> speakers) {
         this.speakers = speakers;
+    }
+
+    public Set<Conference> getConferences() {
+        return conferences;
+    }
+
+    public void setConferences(Set<Conference> conferences) {
+        this.conferences = conferences;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     @Override

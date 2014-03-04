@@ -8,3 +8,10 @@ CREATE TABLE speaker_talk
 WITH (
   OIDS=FALSE
 );
+
+CREATE SEQUENCE seq_speaker_talk
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;

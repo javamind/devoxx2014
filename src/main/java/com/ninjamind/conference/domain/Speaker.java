@@ -1,9 +1,6 @@
 package com.ninjamind.conference.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -13,15 +10,27 @@ import java.util.Set;
 @Table(name = "speaker")
 public class Speaker {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_speaker")
+    @SequenceGenerator(name="seq_speaker", sequenceName="seq_speaker", allocationSize=1)
     private Long id;
+    @Column(nullable = false)
     private String firstname;
+    @Column(nullable = false)
     private String lastname;
     private String company;
     private String streetAdress;
     private String city;
     private String postalCode;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
     private Country country;
+    @Version
+    private long version;
+    @ManyToMany
+    @JoinTable(
+            name="speaker_talk",
+            joinColumns={@JoinColumn(name="speaker_id", referencedColumnName="id")},
+            inverseJoinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")})
     Set<Talk> talks;
 
     public Speaker() {
@@ -102,6 +111,14 @@ public class Speaker {
 
     public void setTalks(Set<Talk> talks) {
         this.talks = talks;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     @Override

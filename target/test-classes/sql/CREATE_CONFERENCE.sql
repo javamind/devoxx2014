@@ -1,6 +1,6 @@
 CREATE TABLE conference
 (
-  id serial NOT NULL,
+  id integer NOT NULL,
   name character varying(40),
   city character varying(40),
   streetadress character varying(50),
@@ -15,3 +15,10 @@ CREATE TABLE conference
 WITH (
   OIDS=FALSE
 );
+
+CREATE SEQUENCE seq_conference
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;

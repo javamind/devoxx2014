@@ -8,7 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -21,12 +23,14 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan("com.ninjamind.conference")
 @PropertySource("classpath:application.properties")
+@EnableJpaRepositories("com.ninjamind.conference.repository")
 public class PersistenceConfig {
 
     private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
     private static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
     private static final String PROPERTY_NAME_DATABASE_URL = "db.url";
     private static final String PROPERTY_NAME_DATABASE_USERNAME = "db.username";
+    private static final String PROPERTY_NAME_DATABASE_SUPRESSCLOSE = "db.supressclose";
     private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
     private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "hibernate.package_toscan";
@@ -36,12 +40,12 @@ public class PersistenceConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         dataSource.setDriverClassName(env.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
         dataSource.setUrl(env.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
         dataSource.setUsername(env.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
         dataSource.setPassword(env.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
-
+        dataSource.setSuppressClose(new Boolean(env.getRequiredProperty(PROPERTY_NAME_DATABASE_SUPRESSCLOSE)));
         return dataSource;
     }
 

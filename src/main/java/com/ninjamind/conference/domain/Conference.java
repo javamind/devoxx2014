@@ -1,9 +1,6 @@
 package com.ninjamind.conference.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -14,15 +11,32 @@ import java.util.Set;
 @Table(name = "conference")
 public class Conference {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_conference")
+    @SequenceGenerator(name="seq_conference", sequenceName="seq_conference", allocationSize=1)
     private Long id;
+    @Column(nullable = false)
     private String name;
     private String streetAdress;
     private String city;
     private String postalCode;
+    @Enumerated(EnumType.STRING)
+    private Level level;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
     private Country country;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date dateStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date dateEnd;
+    @Version
+    private long version;
+    @ManyToMany
+    @JoinTable(
+            name="conference_talk",
+            joinColumns={@JoinColumn(name="conference_id", referencedColumnName="id")},
+            inverseJoinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")})
     Set<Talk> talks;
 
     public Conference() {
@@ -104,6 +118,23 @@ public class Conference {
 
     public void setTalks(Set<Talk> talks) {
         this.talks = talks;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     @Override
