@@ -6,6 +6,7 @@ CREATE TABLE talk
   place character varying(50),
   nbpeoplemax integer,
   level character varying(40),
+  version integer,
   majuser character varying(40),
   majdate date,
   CONSTRAINT talk_name_key UNIQUE (name)

@@ -8,6 +8,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "country")
 public class Country {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_country")
     @SequenceGenerator(name="seq_country", sequenceName="seq_country", allocationSize=1)

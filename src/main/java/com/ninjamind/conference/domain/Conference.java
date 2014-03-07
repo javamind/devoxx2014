@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "conference")
 public class Conference {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_conference")
     @SequenceGenerator(name="seq_conference", sequenceName="seq_conference", allocationSize=1)

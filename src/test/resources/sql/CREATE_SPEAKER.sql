@@ -8,6 +8,7 @@ CREATE TABLE speaker
   postalcode character varying(40),
   city character varying(40),
   country_id integer,
+  version integer,
   majuser character varying(40),
   majdate date,
   CONSTRAINT speaker_name_key UNIQUE (firstname,lastname)
