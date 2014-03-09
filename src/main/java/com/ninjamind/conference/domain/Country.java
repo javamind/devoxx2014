@@ -19,7 +19,7 @@ public class Country {
     @Column(nullable = false)
     private String name;
     @Version
-    private long version;
+    private Long version;
 
     public Country() {
     }
@@ -53,11 +53,11 @@ public class Country {
         this.name = name;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 

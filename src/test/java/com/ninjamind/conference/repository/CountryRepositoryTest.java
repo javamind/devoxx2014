@@ -9,9 +9,14 @@ import com.ninjamind.conference.domain.Country;
 import static com.ninja_squad.dbsetup.Operations.*;
 
 import static org.fest.assertions.Assertions.*;
+
+import org.fest.assertions.Assertions;
+import org.hibernate.PropertyValueException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
@@ -58,9 +63,6 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
                         CountryOperations.INSERT_REFERENCE_DATA);
         DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
         dbSetup.launch();
-
-        // use the tracker to launch the DbSetup.
-        dbSetupTracker.launchIfNecessary(dbSetup);
     }
 
     /**
@@ -68,7 +70,6 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByCodeNull_should_returnNull() {
-        dbSetupTracker.skipNextLaunch();
         Country returnedCountry = countryRepository.findCountryByCode(null);
         assertThat(returnedCountry).isNull();
     }
@@ -78,7 +79,6 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByCodeValid_should_returnCountry() {
-        dbSetupTracker.skipNextLaunch();
         Country returnedCountry = countryRepository.findCountryByCode("FRA");
         assertThat(returnedCountry.getName()).isEqualTo("France");
     }
@@ -88,7 +88,6 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByCodeInvalid_should_returnCountry() {
-        dbSetupTracker.skipNextLaunch();
         Country returnedCountry = countryRepository.findCountryByCode("ZZZ");
         assertThat(returnedCountry).isNull();
     }
@@ -99,17 +98,29 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByNamePart_should_returnCountry() {
-        dbSetupTracker.skipNextLaunch();
-        List<Country> returnedCountry = countryRepository.findCountryByNamePart("Fra");
+        List<Country> returnedCountry = countryRepository.findCountryByNamePart("Fra%");
         assertThat(returnedCountry).isNotEmpty().hasSize(1).onProperty("code").containsSequence("FRA");
     }
-    
+
+    /**
+     * Test permettant de vérifier la création d'une nouvelle entité
+     */
     @Test
-    @Transactional
-    public void createCountry() {
+    public void createCountry_should_returnInstanceWithId() {
         Country country = new Country("CODE", "Libelle");
         Country returnedCountry = countryRepository.save(country);
 
-        System.out.printf("account ID is %d and for returned account ID is %d\n", country.getId(), returnedCountry.getId());
+        Assertions.assertThat(returnedCountry.getId()).isNotNull().isEqualTo(country.getId());
+    }
+
+    /**
+     * Test permettant de vérifier la création d'une nouvelle entité sans avoir renseigné un champ obligatoire comme
+     * le code
+     */
+    @Test(expected = JpaSystemException.class)
+    public void createCountryWithoutRequiredField_should_returnException() {
+        Country country = new Country();
+        country.setName("Libelle");
+        countryRepository.save(country);
     }
 }

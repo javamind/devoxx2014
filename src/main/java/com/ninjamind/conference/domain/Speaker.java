@@ -25,7 +25,7 @@ public class Speaker {
     @JoinColumn(name = "country_id")
     private Country country;
     @Version
-    private long version;
+    private Long version;
     @ManyToMany
     @JoinTable(
             name="speaker_talk",
@@ -113,11 +113,11 @@ public class Speaker {
         this.talks = talks;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 

@@ -25,7 +25,7 @@ public class Talk {
     Set<Conference> conferences;
 
     @Version
-    private long version;
+    private Long version;
 
     public Talk() {
     }
@@ -98,11 +98,11 @@ public class Talk {
         this.conferences = conferences;
     }
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 

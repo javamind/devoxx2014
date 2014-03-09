@@ -32,7 +32,7 @@ public class Conference {
     @Column(nullable = false)
     private Date dateEnd;
     @Version
-    private long version;
+    private Long version;
     @ManyToMany
     @JoinTable(
             name="conference_talk",
@@ -130,11 +130,11 @@ public class Conference {
     }
 
 
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 
