@@ -11,10 +11,6 @@
 
     <properties>
         <postgresql-version>9.1-901.jdbc4</postgresql-version>
-        <db-username>ehret_g</db-username>
-        <db-password>Iorga+07</db-password>
-        <db-url>jdbc:postgresql://localhost:5432/devoxx2014</db-url>
-        <db-driver>org.postgresql.Driver</db-driver>
     </properties>
 
     <dependencies>
@@ -153,6 +149,25 @@
                 </configuration>
             </plugin>
 
+            <!-- Rend accessible dans le scope Maven les propriétés du filtre de l'environnement -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>src/main/resources/application.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>sql-maven-plugin</artifactId>
@@ -166,10 +181,10 @@
 
                 <!-- common configuration shared by all executions -->
                 <configuration>
-                    <username>${db-username}</username>
-                    <password>${db-password}</password>
-                    <url>${db-url}</url>
-                    <driver>${db-driver}</driver>
+                    <username>${db.username}</username>
+                    <password>${db.password}</password>
+                    <url>${db.url}</url>
+                    <driver>${db.driver}</driver>
                 </configuration>
 
                 <executions>
