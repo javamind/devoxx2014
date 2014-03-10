@@ -123,4 +123,5 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
         country.setName("Libelle");
         countryRepository.save(country);
     }
+
 }
