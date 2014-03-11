@@ -1,68 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="true"    > <!-- debug="true" flag utile quelques fois .. -->
-    <!-- Appenders -->
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="true">
     <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{HH:mm:ss,SSS} [%t] %-p %c{1} - %m%n"/>
         </layout>
     </appender>
-
-    <appender name="FILE" class="org.apache.log4j.rolling.RollingFileAppender">
-        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
-            <param name="FileNamePattern" value="${log4j.path}/LOG/synfwk-testRemoting-2.4.%d.log"/>
-        </rollingPolicy>
-        <param name="threshold" value="debug"/>
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{HH:mm:ss,SSS} [%t] %-p %c{1} - %m%n"/>
-        </layout>
-    </appender>
-
-    <!--<logger name="org.springframework.transaction">-->
-        <!--<level value="DEBUG"/>-->
-        <!--<appender-ref ref="CONSOLE" />-->
-    <!--</logger>-->
-
-    <logger name="org.hibernate.SQL">
-        <level value="DEBUG"/>
-    </logger>
-
-    <logger name="org.apache.velocity">
-        <level value="TRACE"/>
-    </logger>
-
-	<logger name="com.boiron.syn.postsynchro">
-        <level value="DEBUG"/>
-        <appender-ref ref="CONSOLE" />
-    </logger>
-    
-    <logger name="com.boiron.syn.reception">
-        <level value="DEBUG"/>
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="com.boiron.syn.tx">
-        <level value="INFO"/>
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="com.boiron.syn.publication">
-        <level value="DEBUG"/>
-        <!-- On garde au moins une ref au fichier de log pour le TU cherchant à découvrir ce fichier -->
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="com.boiron.syn.utils">
-        <level value="DEBUG"/>
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="com.boiron.ref">
-        <level value="DEBUG"/>
-        <appender-ref ref="CONSOLE" />
-    </logger>
 
     <root>
         <level value="INFO" />

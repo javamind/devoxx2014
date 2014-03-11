@@ -10,12 +10,10 @@ import java.util.UUID;
  */
 public class ReadConferenceEvent extends AbstractConferenceEvent {
     /**
-     *
-     * @param uuid
      * @param entityFound
      * @param conference
      */
-    public ReadConferenceEvent(UUID uuid, boolean entityFound, ConferenceDetail conference) {
-        super(uuid, entityFound, conference);
+    public ReadConferenceEvent(boolean entityFound, ConferenceDetail conference) {
+        super(entityFound, conference);
     }
 }

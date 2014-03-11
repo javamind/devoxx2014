@@ -11,11 +11,10 @@ import java.util.UUID;
 public class DeletedConferenceEvent extends AbstractConferenceEvent {
     /**
      *
-     * @param uuid
      * @param entityFound
      * @param conference
      */
-    public DeletedConferenceEvent(UUID uuid, boolean entityFound, ConferenceDetail conference) {
-        super(uuid, entityFound, conference);
+    public DeletedConferenceEvent(boolean entityFound, ConferenceDetail conference) {
+        super(entityFound, conference);
     }
 }

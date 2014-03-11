@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Handler d'exception se chargeant des exceptions pouvant être levées
  * @author EHRET_G
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionControllerAdvice {
     /**
      * Logger commun à la publication
@@ -23,9 +23,10 @@ public class ExceptionControllerAdvice {
      * Traitement des erreurs de persistence
      * @param e
      */
-    @ExceptionHandler(JpaSystemException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public void handleException(JpaSystemException e){
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleException(JpaSystemException  e){
         LOG.error("Persistence error", e);
+        //return "Persistence error : " + e.getCause().getMessage();
     }
 }

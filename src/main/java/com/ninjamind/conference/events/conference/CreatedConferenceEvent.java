@@ -11,10 +11,9 @@ import java.util.UUID;
 public class CreatedConferenceEvent extends AbstractConferenceEvent {
     /**
      *
-     * @param uuid
      * @param conference
      */
-    public CreatedConferenceEvent(UUID uuid, ConferenceDetail conference) {
-        super(uuid, conference);
+    public CreatedConferenceEvent(ConferenceDetail conference) {
+        super(conference);
     }
 }

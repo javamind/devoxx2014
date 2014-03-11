@@ -21,22 +21,19 @@ public abstract class AbstractConferenceEvent extends AbstractEvent {
 
     /**
      *
-     * @param uuid
      * @param entityFound
      * @param conference
      */
-    public AbstractConferenceEvent(UUID uuid, boolean entityFound, ConferenceDetail conference) {
-        this(uuid, conference);
+    public AbstractConferenceEvent(boolean entityFound, ConferenceDetail conference) {
+        this(conference);
         this.entityFound = entityFound;
     }
 
     /**
-     *
-     * @param uuid
      * @param conference
      */
-    public AbstractConferenceEvent(UUID uuid, ConferenceDetail conference) {
-        this.key = uuid;
+    public AbstractConferenceEvent(ConferenceDetail conference) {
+        super();
         this.conference = conference;
     }
 

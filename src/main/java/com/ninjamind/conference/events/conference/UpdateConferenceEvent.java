@@ -11,6 +11,6 @@ import java.util.UUID;
 public class UpdateConferenceEvent extends AbstractConferenceEvent {
 
     public UpdateConferenceEvent(ConferenceDetail conference) {
-        super(UUID.randomUUID(), conference);
+        super(conference);
     }
 }

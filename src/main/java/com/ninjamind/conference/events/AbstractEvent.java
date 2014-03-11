@@ -12,6 +12,10 @@ public abstract class AbstractEvent {
      */
     protected UUID key;
 
+    protected AbstractEvent() {
+        this.key = UUID.randomUUID();
+    }
+
     public UUID getKey() {
         return key;
     }

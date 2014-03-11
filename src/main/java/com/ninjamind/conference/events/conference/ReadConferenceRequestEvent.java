@@ -1,26 +1,26 @@
 package com.ninjamind.conference.events.conference;
 
-import com.ninjamind.conference.events.Event;
+import com.ninjamind.conference.events.AbstractEvent;
 
 /**
- * Event envoyé pour rechercher la liste des conférences. Contient l'ensemble des critères de
+ * AbstractEvent envoyé pour rechercher la liste des conférences. Contient l'ensemble des critères de
  * recherche
  *
  * @author EHRET_G
  * @see com.ninjamind.conference.domain.Conference
  */
-public class ReadConferenceRequestEvent implements Event{
+public class ReadConferenceRequestEvent extends AbstractEvent {
 
     /**
      * Id de la conference
      */
-    private Long id;
+    protected String id;
 
-    public Long getId() {
-        return id;
+    public ReadConferenceRequestEvent(String id) {
+        this.id = id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 }

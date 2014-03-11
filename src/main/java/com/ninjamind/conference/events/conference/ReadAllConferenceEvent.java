@@ -1,25 +1,21 @@
 package com.ninjamind.conference.events.conference;
 
-import com.ninjamind.conference.domain.Conference;
-import com.ninjamind.conference.events.Event;
+import com.ninjamind.conference.events.AbstractEvent;
 
 import java.util.List;
 
 /**
- * Event retourné lors de la recherche de la liste des conférences
+ * AbstractEvent retourné lors de la recherche de la liste des conférences
  *
  * @author EHRET_G
  * @see com.ninjamind.conference.domain.Conference
  */
-public class ReadAllConferenceEvent implements Event{
+public class ReadAllConferenceEvent extends AbstractEvent {
 
-    private List<Conference> conferences;
+    protected List<ConferenceDetail> conferences;
 
-    public List<Conference> getConferences() {
+    public List<ConferenceDetail> getConferences() {
         return conferences;
     }
 
-    public void setConferences(List<Conference> conferences) {
-        this.conferences = conferences;
-    }
 }

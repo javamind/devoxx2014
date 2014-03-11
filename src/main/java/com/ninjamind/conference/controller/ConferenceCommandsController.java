@@ -1,5 +1,6 @@
 package com.ninjamind.conference.controller;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.service.ConferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class ConferenceCommandsController {
     /**
      * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Conference}
      */
+    @Autowired
     private ConferenceService conferenceService;
 
     /**
@@ -71,11 +73,11 @@ public class ConferenceCommandsController {
      *  <li>406 - {@link org.springframework.http.HttpStatus#NOT_ACCEPTABLE}</li>
      * </ul>
      * </code>
-     * @param id
+     * @param conference
      * @return
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Conference> update(@RequestBody Conference id) {
+    public ResponseEntity<Conference> update(@RequestBody Conference conference) {
         return new ResponseEntity<Conference>(new Conference("test", null, null), HttpStatus.OK);
     }
 
@@ -83,7 +85,8 @@ public class ConferenceCommandsController {
      *
      * @param conferenceService
      */
-    public void setConferenceService(ConferenceService conferenceService) {
+    @VisibleForTesting
+    protected void setConferenceService(ConferenceService conferenceService) {
         this.conferenceService = conferenceService;
     }
 }

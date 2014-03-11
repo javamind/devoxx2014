@@ -1,11 +1,24 @@
 package com.ninjamind.conference.utils;
 
 import junit.framework.TestCase;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.fest.assertions.Assertions;
+import org.junit.Test;
 
 /**
- * {@link }
- *
- * @author EHRET_G
+ * Test de la classe {@link LoggerFactory}  pour vérifier le fonction de la factory
+ * de {@link org.apache.log4j.Logger}
  */
-public class LoggerFactoryTest extends TestCase {
+public class LoggerFactoryTest {
+
+    @Test
+    public void makeTest_Should_BeOk() {
+        Logger logger = LoggerFactory.make();
+
+        Assertions.assertThat(logger).isNotNull();
+        Assertions.assertThat(logger.getName()).isEqualTo("com.ninjamind.conference.utils.LoggerFactoryTest");
+        //Par defaut pour les tests on est en niveau info
+        Assertions.assertThat(logger.getEffectiveLevel()).isEqualTo(Level.INFO);
+    }
 }
