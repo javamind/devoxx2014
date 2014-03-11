@@ -1,6 +1,8 @@
 package com.ninjamind.conference.controller;
 
 import com.ninjamind.conference.domain.Conference;
+import com.ninjamind.conference.service.ConferenceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,45 +17,11 @@ import java.util.logging.Logger;
  */
 @Controller
 @RequestMapping("/conferences")
-public class ConferenceController {
+public class ConferenceCommandsController {
     /**
-     * Retourne la liste complete
-     * <code>
-     * uri : /conferences
-     * status :
-     * <ul>
-     *  <li>200 - {@link org.springframework.http.HttpStatus#OK}</li>
-     * </ul>
-     * </code>
-     * @return
+     * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Conference}
      */
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<Conference> getAll() {
-        return new ArrayList<>();
-    }
-
-    /**
-     * Retourne l'enregistrement suivant id
-     * <code>
-     * uri : /conferences/{id}
-     * status :
-     * <ul>
-     *  <li>200 - {@link org.springframework.http.HttpStatus#OK}</li>
-     *  <li>404 - {@link org.springframework.http.HttpStatus#NOT_FOUND}</li>
-     * </ul>
-     * </code>
-     * @param id
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    public ResponseEntity<Conference> getById(@PathVariable String id) {
-        if(id==null || id.equals("0")){
-            return new ResponseEntity<Conference>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Conference>(new Conference("test", null, null), HttpStatus.OK);
-    }
+    private ConferenceService conferenceService;
 
     /**
      * Essaye de creer un nouvel enregistrement
@@ -109,5 +77,13 @@ public class ConferenceController {
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Conference> update(@RequestBody Conference id) {
         return new ResponseEntity<Conference>(new Conference("test", null, null), HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @param conferenceService
+     */
+    public void setConferenceService(ConferenceService conferenceService) {
+        this.conferenceService = conferenceService;
     }
 }
