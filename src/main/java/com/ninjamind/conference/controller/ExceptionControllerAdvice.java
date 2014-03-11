@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Handler d'exception se chargeant des exceptions pouvant être levées
+ * Handler d'exception se chargeant des exceptions pouvant ï¿½tre levï¿½es
  * @author EHRET_G
  */
-//@ControllerAdvice
+@ControllerAdvice
 public class ExceptionControllerAdvice {
     /**
-     * Logger commun à la publication
+     * Logger commun ï¿½ la publication
      */
     private static final Logger LOG = LoggerFactory.make();
 

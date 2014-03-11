@@ -1,11 +1,10 @@
 package com.ninjamind.conference.controller;
 
+import com.google.common.collect.Lists;
 import com.ninjamind.conference.config.PersistenceConfig;
 import com.ninjamind.conference.config.WebAppInitializer;
 import com.ninjamind.conference.config.WebMvcConfiguration;
-import com.ninjamind.conference.events.conference.ConferenceDetail;
-import com.ninjamind.conference.events.conference.ReadConferenceEvent;
-import com.ninjamind.conference.events.conference.ReadConferenceRequestEvent;
+import com.ninjamind.conference.events.conference.*;
 import com.ninjamind.conference.service.ConferenceService;
 import com.ninjamind.conference.utils.Utils;
 import org.junit.Before;
@@ -28,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.contains;
@@ -61,7 +61,7 @@ public class ConferenceQueriesControllerTest {
     }
 
     /**
-     * Test de la recupération d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas passant
+     * Test de la recupï¿½ration d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas passant
      * @throws Exception
      */
     @Test
@@ -88,40 +88,64 @@ public class ConferenceQueriesControllerTest {
     }
 
     /**
-     * Test de la recupération d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas où l'enregistrement
+     * Test de la recupï¿½ration d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas oï¿½ l'enregistrement
      * n'existe pas
      * @throws Exception
      */
     @Test
     public void shouldReturnNotFoundStatusWhenSearchByIdInvalid() throws Exception {
-        String idCherche = "1";
-
         //Le service renvoie une entite
         when(conferenceService.getConference(any(ReadConferenceRequestEvent.class))).thenReturn(
                 new ReadConferenceEvent(false,null));
 
         //L'appel de l'URL doit retourner un status 200
-        mockMvc.perform(get("/conferences/{id}", idCherche))
+        mockMvc.perform(get("/conferences/{id}", "1"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     /**
-     * Test de la recupération d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas où une exception
+     * Test de la recupï¿½ration d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas oï¿½ une exception
      * est remontee par le service
      * @throws Exception
      */
     @Test
-    public void getConferenceById_Should_ReturnNotFoundStatus() throws Exception {
-        String idCherche = "1";
-
+    public void shouldReturnErrorStatusWhenExceptionIsThrown() throws Exception {
         //Le service renvoie une entite
         when(conferenceService.getConference(any(ReadConferenceRequestEvent.class))).thenThrow(
                 new JpaSystemException(new PersistenceException("erreur persistence")));
 
         //L'appel de l'URL doit retourner un status 200
-        mockMvc.perform(get("/conferences/{id}", idCherche))
-                .andDo(print())
+        mockMvc.perform(get("/conferences/{id}", "1"))
+                //.andDo(print())
                 .andExpect(status().isInternalServerError());
+    }
+
+    /**
+     * Test de la recupï¿½ration de toutes les conferences via l'API REST : <code>/conferences</code>. On teste le cas passant
+     *
+     * @throws Exception
+     */
+    @Test
+    public void shouldReturnListEntityWhenSearchAllConference() throws Exception {
+        List<ConferenceDetail> listExpected = Lists.newArrayList (new ConferenceDetail(
+                    Long.valueOf("1"),
+                    "Mix-IT",
+                    Utils.dateJavaToJson(new Date(0)),
+                    Utils.dateJavaToJson(new Date(0))),
+                new ConferenceDetail(
+                        Long.valueOf("2"),
+                        "Devoxx",
+                        Utils.dateJavaToJson(new Date(0)),
+                        Utils.dateJavaToJson(new Date(0))));
+
+        //Le service renvoie une entite
+        when(conferenceService.getAllConference(any(ReadAllConferenceRequestEvent.class))).thenReturn(
+                new ReadAllConferenceEvent(listExpected));
+
+        //L'appel de l'URL doit retourner un status 200
+        mockMvc.perform(get("/conferences"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

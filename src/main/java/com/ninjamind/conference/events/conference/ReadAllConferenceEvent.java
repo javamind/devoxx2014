@@ -5,7 +5,7 @@ import com.ninjamind.conference.events.AbstractEvent;
 import java.util.List;
 
 /**
- * AbstractEvent retourné lors de la recherche de la liste des conférences
+ * AbstractEvent retournï¿½ lors de la recherche de la liste des confï¿½rences
  *
  * @author EHRET_G
  * @see com.ninjamind.conference.domain.Conference
@@ -13,6 +13,10 @@ import java.util.List;
 public class ReadAllConferenceEvent extends AbstractEvent {
 
     protected List<ConferenceDetail> conferences;
+
+    public ReadAllConferenceEvent(List<ConferenceDetail> conferences) {
+        this.conferences = conferences;
+    }
 
     public List<ConferenceDetail> getConferences() {
         return conferences;
