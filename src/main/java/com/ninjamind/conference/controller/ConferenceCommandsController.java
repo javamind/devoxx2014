@@ -2,11 +2,13 @@ package com.ninjamind.conference.controller;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.ninjamind.conference.domain.Conference;
+import com.ninjamind.conference.events.conference.*;
 import com.ninjamind.conference.service.ConferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,8 +42,13 @@ public class ConferenceCommandsController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Conference> create(@RequestBody Conference conference) {
-        return new ResponseEntity<Conference>(new Conference("test", null, null), HttpStatus.CREATED);
+    public ResponseEntity<ConferenceDetail> create(@RequestBody  ConferenceDetail conference) {
+        CreatedConferenceEvent createdConferenceEvent =  conferenceService.createConference(new CreateConferenceEvent(conference));
+
+        if(!createdConferenceEvent.isValidEntity()){
+            return new ResponseEntity<ConferenceDetail>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity<ConferenceDetail>(createdConferenceEvent.getConference(), HttpStatus.CREATED);
     }
 
     /**
@@ -58,8 +65,14 @@ public class ConferenceCommandsController {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public ResponseEntity<Conference> delete(@PathVariable String id) {
-        return new ResponseEntity<Conference>(new Conference("test", null, null), HttpStatus.OK);
+    @ResponseBody
+    public ResponseEntity<ConferenceDetail> delete(@PathVariable String id) {
+        DeletedConferenceEvent deletedConferenceEvent =  conferenceService.deleteConference(new DeleteConferenceEvent(id));
+
+        if(!deletedConferenceEvent.isEntityFound()){
+            return new ResponseEntity<ConferenceDetail>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<ConferenceDetail>(deletedConferenceEvent.getConference(), HttpStatus.OK);
     }
 
     /**
@@ -76,17 +89,18 @@ public class ConferenceCommandsController {
      * @param conference
      * @return
      */
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Conference> update(@RequestBody Conference conference) {
-        return new ResponseEntity<Conference>(new Conference("test", null, null), HttpStatus.OK);
+    @RequestMapping(method = RequestMethod.PUT, consumes="application/json")
+    @ResponseBody
+    public ResponseEntity<ConferenceDetail> update(@RequestBody  ConferenceDetail conference) {
+        UpdatedConferenceEvent updatedConferenceEvent =  conferenceService.updateConference(new UpdateConferenceEvent(conference));
+
+        if(!updatedConferenceEvent.isEntityFound()){
+            return new ResponseEntity<ConferenceDetail>(HttpStatus.NOT_FOUND);
+        }
+        if(!updatedConferenceEvent.isValidEntity()){
+            return new ResponseEntity<ConferenceDetail>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity<ConferenceDetail>(updatedConferenceEvent.getConference(), HttpStatus.OK);
     }
 
-    /**
-     *
-     * @param conferenceService
-     */
-    @VisibleForTesting
-    protected void setConferenceService(ConferenceService conferenceService) {
-        this.conferenceService = conferenceService;
-    }
 }

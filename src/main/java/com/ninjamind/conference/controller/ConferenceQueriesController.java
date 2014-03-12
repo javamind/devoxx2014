@@ -59,6 +59,7 @@ public class ConferenceQueriesController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @ResponseBody
     public ResponseEntity<ConferenceDetail> getById(@PathVariable String id) {
         ReadConferenceEvent readConferenceEvent = conferenceService.getConference(new ReadConferenceRequestEvent(id));
 
@@ -68,11 +69,4 @@ public class ConferenceQueriesController {
         return new ResponseEntity<ConferenceDetail>(readConferenceEvent.getConference(), HttpStatus.OK);
     }
 
-    /**
-     *
-     * @param conferenceService
-     */
-    public void setConferenceService(ConferenceService conferenceService) {
-        this.conferenceService = conferenceService;
-    }
 }

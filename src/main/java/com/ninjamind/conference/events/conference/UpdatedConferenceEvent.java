@@ -10,11 +10,30 @@ import java.util.UUID;
  */
 public class UpdatedConferenceEvent extends AbstractConferenceEvent {
     /**
+     * Entity valid
+     */
+    protected boolean validEntity = true;
+
+    /**
      *
      * @param entityFound
      * @param conference
      */
     public UpdatedConferenceEvent(boolean entityFound, ConferenceDetail conference) {
         super(entityFound, conference);
+    }
+
+    /**
+     * @param validEntity
+     * @param entityFound
+     * @param conference
+     */
+    public UpdatedConferenceEvent(boolean validEntity, boolean entityFound, ConferenceDetail conference) {
+        super(entityFound, conference);
+        this.validEntity=validEntity;
+    }
+
+    public boolean isValidEntity() {
+        return validEntity;
     }
 }

@@ -61,7 +61,7 @@ public class ConferenceQueriesControllerTest {
     }
 
     /**
-     * Test de la recup�ration d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas passant
+     * Test de la recuperation d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas passant
      * @throws Exception
      */
     @Test
@@ -88,7 +88,7 @@ public class ConferenceQueriesControllerTest {
     }
 
     /**
-     * Test de la recup�ration d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas o� l'enregistrement
+     * Test de la recuperation d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas oe l'enregistrement
      * n'existe pas
      * @throws Exception
      */
@@ -105,30 +105,14 @@ public class ConferenceQueriesControllerTest {
     }
 
     /**
-     * Test de la recup�ration d'une conference via l'API REST : <code>/conferences/{id}</code>. On teste le cas o� une exception
-     * est remontee par le service
-     * @throws Exception
-     */
-    @Test
-    public void shouldReturnErrorStatusWhenExceptionIsThrown() throws Exception {
-        //Le service renvoie une entite
-        when(conferenceService.getConference(any(ReadConferenceRequestEvent.class))).thenThrow(
-                new JpaSystemException(new PersistenceException("erreur persistence")));
-
-        //L'appel de l'URL doit retourner un status 200
-        mockMvc.perform(get("/conferences/{id}", "1"))
-                //.andDo(print())
-                .andExpect(status().isInternalServerError());
-    }
-
-    /**
-     * Test de la recup�ration de toutes les conferences via l'API REST : <code>/conferences</code>. On teste le cas passant
+     * Test de la recuperation de toutes les conferences via l'API REST : <code>/conferences</code>. On teste le cas passant
      *
      * @throws Exception
      */
     @Test
     public void shouldReturnListEntityWhenSearchAllConference() throws Exception {
-        List<ConferenceDetail> listExpected = Lists.newArrayList (new ConferenceDetail(
+        List<ConferenceDetail> listExpected = Lists.newArrayList (
+                new ConferenceDetail(
                     Long.valueOf("1"),
                     "Mix-IT",
                     Utils.dateJavaToJson(new Date(0)),
@@ -146,6 +130,8 @@ public class ConferenceQueriesControllerTest {
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/conferences"))
                 .andDo(print())
+                .andExpect(jsonPath("$[0].name").value("Mix-IT"))
+                .andExpect(jsonPath("$[1].name").value("Devoxx"))
                 .andExpect(status().isOk());
     }
 }

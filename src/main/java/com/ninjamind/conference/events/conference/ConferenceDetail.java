@@ -24,6 +24,9 @@ public class ConferenceDetail implements Serializable {
     protected String dateStart;
     protected String dateEnd;
 
+    public ConferenceDetail() {
+    }
+
     /**
      * @param id
      * @param name

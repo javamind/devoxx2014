@@ -33,12 +33,12 @@ public interface ConferenceService {
      * @param event
      * @return
      */
-    UpdatedConferenceEvent createConference(UpdateConferenceEvent event);
+    UpdatedConferenceEvent updateConference(UpdateConferenceEvent event);
 
     /**
      * Suppression d'une conference
      * @param event
      * @return
      */
-    DeletedConferenceEvent createConference(DeletedConferenceEvent event);
+    DeletedConferenceEvent deleteConference(DeleteConferenceEvent event);
 }

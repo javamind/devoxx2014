@@ -32,12 +32,12 @@ public class ConferenceHandlerEvent implements ConferenceService
     }
 
     @Override
-    public UpdatedConferenceEvent createConference(UpdateConferenceEvent event) {
+    public UpdatedConferenceEvent updateConference(UpdateConferenceEvent event) {
         return null;
     }
 
     @Override
-    public DeletedConferenceEvent createConference(DeletedConferenceEvent event) {
+    public DeletedConferenceEvent deleteConference(DeleteConferenceEvent event) {
         return null;
     }
 }

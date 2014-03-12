@@ -12,6 +12,7 @@ import static org.fest.assertions.Assertions.*;
 
 import org.fest.assertions.Assertions;
 import org.hibernate.PropertyValueException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,11 +118,17 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      * Test permettant de vérifier la création d'une nouvelle entité sans avoir renseigné un champ obligatoire comme
      * le code
      */
-    @Test(expected = JpaSystemException.class)
+    @Test
     public void createCountryWithoutRequiredField_should_returnException() {
         Country country = new Country();
         country.setName("Libelle");
-        countryRepository.save(country);
+        try {
+            countryRepository.save(country);
+            Assert.fail();
+        }
+        catch (JpaSystemException e){
+            Assertions.assertThat(e.getCause().getCause()).isInstanceOf(PropertyValueException.class);
+        }
     }
 
 }
