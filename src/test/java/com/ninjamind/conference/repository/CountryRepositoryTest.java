@@ -4,6 +4,7 @@ import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.DbSetupTracker;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
+import com.ninjamind.conference.database.InitializeOperations;
 import com.ninjamind.conference.domain.Country;
 
 import static com.ninja_squad.dbsetup.Operations.*;
@@ -28,29 +29,11 @@ import java.util.List;
  * @author ehret_g
  */
 public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
-
-    /**
-     * the tracker is static because JUnit uses a separate Test instance for every test method.
-     */
-    private static DbSetupTracker dbSetupTracker = new DbSetupTracker();
-
     /**
      * Repository à tester
      */
     @Autowired
     private CountryRepository countryRepository;
-
-    /**
-     * Classe contenant les opérations communes d'intialisation
-     */
-    private static class CountryOperations {
-        public static final Operation DELETE_ALL = deleteAllFrom("country");
-        public static final Operation INSERT_REFERENCE_DATA = insertInto("country")
-                .columns("id", "code", "name")
-                .values(1, "FRA", "France")
-                .values(2, "USA", "United States")
-                .build();
-    }
 
     /**
      * Avant chaque test un jeu de données est injecté
@@ -60,8 +43,8 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
     public void prepare() throws Exception {
         Operation operation =
                 sequenceOf(
-                        CountryOperations.DELETE_ALL,
-                        CountryOperations.INSERT_REFERENCE_DATA);
+                        deleteAllFrom("country"),
+                        InitializeOperations.INSERT_COUNTRY_DATA);
         DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
         dbSetup.launch();
     }

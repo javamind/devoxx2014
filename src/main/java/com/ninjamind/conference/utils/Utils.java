@@ -49,4 +49,21 @@ public class Utils {
         }
         return DATE_FORMAT_JSON.format(date);
     }
+
+    /**
+     * Permet de convertir une chaine de cractere en Long
+     * @param number
+     * @return
+     */
+    public static Long stringToLong(String number){
+        if(number==null){
+            return null;
+        }
+        try{
+            return Long.valueOf(number);
+        }
+        catch (NumberFormatException e){
+            return null;
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.ninjamind.conference.events.conference;
 
+import com.ninjamind.conference.domain.Conference;
+
 import java.util.UUID;
 
 /**
@@ -31,6 +33,15 @@ public class UpdatedConferenceEvent extends AbstractConferenceEvent {
     public UpdatedConferenceEvent(boolean validEntity, boolean entityFound, ConferenceDetail conference) {
         super(entityFound, conference);
         this.validEntity=validEntity;
+    }
+
+    /**
+     *
+     * @param conference
+     * @param conference
+     */
+    public UpdatedConferenceEvent(Conference conference) {
+        this(conference != null, conference != null ? new ConferenceDetail(conference) : null);
     }
 
     public boolean isValidEntity() {

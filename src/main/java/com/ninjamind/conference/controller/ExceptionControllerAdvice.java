@@ -29,7 +29,6 @@ public class ExceptionControllerAdvice {
      * @param e
      */
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<String> handleException(JpaSystemException  e){
         //L'excpetion  JpaSystemException et liée à une {@link javax.persistence.PersistenceException} qui elle même encapsule
         //des exceptions plus précises
@@ -46,11 +45,30 @@ public class ExceptionControllerAdvice {
     }
 
     /**
+     * Traitement des erreurs NullPointerException
+     * @param e
+     */
+    @ExceptionHandler
+    public ResponseEntity<String> handleNullPointerException(NullPointerException  e){
+        LOG.error(e);
+        return new ResponseEntity<String>("NullPointer : " + e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    /**
+     * Traitement des erreurs de IllegalArgumentException
+     * @param e
+     */
+    @ExceptionHandler
+    public ResponseEntity<String> handleException(IllegalArgumentException  e){
+        LOG.error(e);
+        return new ResponseEntity<String>("Illegal Argument : " + e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    /**
      * Traitement des erreurs de persistence
      * @param e
      */
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<String> handleException(RuntimeException  e){
         LOG.error(e);
         return new ResponseEntity<String>("Internal error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

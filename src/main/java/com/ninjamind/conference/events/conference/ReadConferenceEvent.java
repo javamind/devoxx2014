@@ -1,5 +1,7 @@
 package com.ninjamind.conference.events.conference;
 
+import com.ninjamind.conference.domain.Conference;
+
 import java.util.UUID;
 
 /**
@@ -15,5 +17,12 @@ public class ReadConferenceEvent extends AbstractConferenceEvent {
      */
     public ReadConferenceEvent(boolean entityFound, ConferenceDetail conference) {
         super(entityFound, conference);
+    }
+
+    /**
+     * @param conference
+     */
+    public ReadConferenceEvent(Conference conference) {
+        this(true, conference != null ? new ConferenceDetail(conference) : null);
     }
 }

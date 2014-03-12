@@ -8,9 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
+ * Repository associé au {@link com.ninjamind.conference.domain.Country}
+ *
  * @author ehret_g
  */
-public interface CountryRepository extends JpaRepository<Country, Long>{
+public interface CountryRepository extends JpaRepository<Country, Long> {
 
     @Query(value = "SELECT c FROM Country c WHERE c.code = :code")
     Country findCountryByCode(@Param("code") String code);

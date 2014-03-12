@@ -8,7 +8,7 @@ import java.util.UUID;
  * @author EHRET_G
  * @see com.ninjamind.conference.domain.Conference
  */
-public class UpdateConferenceEvent extends AbstractConferenceEvent {
+public class UpdateConferenceEvent extends CreateConferenceEvent {
 
     public UpdateConferenceEvent(ConferenceDetail conference) {
         super(conference);

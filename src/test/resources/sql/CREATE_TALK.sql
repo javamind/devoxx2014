@@ -1,7 +1,7 @@
 CREATE TABLE talk
 (
   id serial NOT NULL,
-  name character varying(40),
+  name character varying(250),
   description character varying(1000),
   place character varying(50),
   nbpeoplemax integer,

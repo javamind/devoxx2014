@@ -15,6 +15,7 @@ public class Conference {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_conference")
     @SequenceGenerator(name="seq_conference", sequenceName="seq_conference", allocationSize=1)
     private Long id;
+
     @Column(nullable = false)
     private String name;
     private String streetAdress;

@@ -54,4 +54,31 @@ public class UtilsTest{
     public void dateJsonToJavaNotValid_should_ReturnNull() throws Exception {
         Assertions.assertThat(Utils.dateJsonToJava("1970-01-01 01:00:00")).isNotNull().isEqualTo(new Date(0));
     }
+
+    /**
+     * Test de {@link com.ninjamind.conference.utils.Utils#stringToLong(String)}
+     * Cas ou argument null
+     */
+    @Test
+    public void stringToLong_should_ReturnNullIfParamIsNull() throws Exception {
+        Assertions.assertThat(Utils.stringToLong(null)).isNull();
+    }
+
+    /**
+     * Test de {@link com.ninjamind.conference.utils.Utils#stringToLong(String)}
+     * Cas ou argument invalid
+     */
+    @Test
+    public void stringToLong_should_ReturnNullIfParamIsInvalid() throws Exception {
+        Assertions.assertThat(Utils.stringToLong("toto")).isNull();
+    }
+
+    /**
+     * Test de {@link com.ninjamind.conference.utils.Utils#stringToLong(String)}
+     * Cas nominal
+     */
+    @Test
+    public void stringToLong_should_Return1() throws Exception {
+        Assertions.assertThat(Utils.stringToLong("1")).isNotNull().isEqualTo(1L);
+    }
 }
