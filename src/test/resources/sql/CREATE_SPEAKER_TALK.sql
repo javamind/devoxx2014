@@ -1,6 +1,6 @@
 CREATE TABLE speaker_talk
 (
-  id serial NOT NULL,
+  id serial,
   speaker_id integer,
   talk_id integer,
   CONSTRAINT speaker_talk_key UNIQUE (speaker_id, talk_id)
@@ -9,9 +9,3 @@ WITH (
   OIDS=FALSE
 );
 
-CREATE SEQUENCE seq_speaker_talk
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;

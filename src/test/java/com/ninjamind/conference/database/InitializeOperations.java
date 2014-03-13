@@ -40,4 +40,17 @@ public class InitializeOperations {
                     .columns("id", "name")
                     .values(1, "Le bon testeur il teste... le mauvais testeur il teste...")
                     .build();
+
+    public static final Operation INSERT_SPEAKER_TALK_DATA =
+            insertInto("speaker_talk")
+                    .columns("speaker_id", "talk_id")
+                    .values(1, 1)
+                    .values(2, 1)
+                    .build();
+
+    public static final Operation INSERT_CONFERENCE_TALK_DATA =
+            insertInto("conference_talk")
+                    .columns("conference_id", "talk_id")
+                    .values(1, 1)
+                    .build();
 }

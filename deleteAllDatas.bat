@@ -1,0 +1,1 @@
+mvn test -Dtest=com.ninjamind.conference.database.DeleteAllData -Pinitdata

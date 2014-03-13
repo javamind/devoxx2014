@@ -12,13 +12,12 @@ import org.junit.experimental.categories.Category;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 
 /**
- * Cette classe se base sur DbSetup pour charger un jeu de données plus complet
- * pour pouvoir faire des tests d'intégration
+ * Cette classe se base sur DbSetup pour supprimer toutes les données présentes en base de données
  *
  * @author EHRET_G
  */
 @Category(InitializeTest.class)
-public class InitializeData extends AbstractJpaRepositoryTest {
+public class DeleteAllData extends AbstractJpaRepositoryTest {
 
     /**
      * Avant chaque test un jeu de données est injecté
@@ -27,14 +26,7 @@ public class InitializeData extends AbstractJpaRepositoryTest {
     @Before
     public void prepare() throws Exception {
         Operation operation =
-                sequenceOf(
-                        InitializeOperations.DELETE_ALL,
-                        InitializeOperations.INSERT_COUNTRY_DATA,
-                        InitializeOperations.INSERT_CONFERENCE_DATA,
-                        InitializeOperations.INSERT_SPEAKER_DATA,
-                        InitializeOperations.INSERT_TALK_DATA,
-                        InitializeOperations.INSERT_CONFERENCE_TALK_DATA,
-                        InitializeOperations.INSERT_SPEAKER_TALK_DATA);
+                sequenceOf(InitializeOperations.DELETE_ALL);
         DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
         dbSetup.launch();
     }
