@@ -45,7 +45,7 @@ public class ConferenceHandlerEvent implements ConferenceService
     public ReadAllConferenceEvent getAllConference(ReadAllConferenceRequestEvent event) {
         Preconditions.checkNotNull(event);
 
-        //Pour le moment nous n'avons pas de critère de filtre dans ReadAllConferenceRequestEvent
+        //Pour le moment nous n'avons pas de critère de filtre dans ReadAllSpeakerRequestEvent
         List<Conference> conferences  = conferenceRepository.findAll(sortByNameAsc());
 
         //Construction du resultat
