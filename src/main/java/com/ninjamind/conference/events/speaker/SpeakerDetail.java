@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Objet de transit lie
  *
  * @author EHRET_G
- * @see com.ninjamind.conference.domain.Conference
+ * @see com.ninjamind.conference.domain.Speaker
  */
 public class SpeakerDetail implements Serializable {
     protected Long id;

@@ -1,19 +1,14 @@
 package com.ninjamind.conference.controller;
 
 import com.google.common.collect.Lists;
-import com.ninjamind.conference.config.WebAppInitializer;
 import com.ninjamind.conference.events.conference.*;
 import com.ninjamind.conference.service.ConferenceService;
 import com.ninjamind.conference.utils.Utils;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Date;

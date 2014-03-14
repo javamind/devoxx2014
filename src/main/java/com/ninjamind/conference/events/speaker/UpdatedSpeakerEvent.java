@@ -1,16 +1,17 @@
 package com.ninjamind.conference.events.speaker;
 
 import com.ninjamind.conference.domain.Conference;
+import com.ninjamind.conference.domain.Speaker;
 import com.ninjamind.conference.events.conference.AbstractConferenceEvent;
 import com.ninjamind.conference.events.conference.ConferenceDetail;
 
 /**
- * AbstractEvent retourn� lors de la recherche de la liste des conf�rences
+ * AbstractEvent retourne lors de la recherche de la liste des speakers
  *
  * @author EHRET_G
- * @see com.ninjamind.conference.domain.Conference
+ * @see com.ninjamind.conference.domain.Speaker
  */
-public class UpdatedSpeakerEvent extends AbstractConferenceEvent {
+public class UpdatedSpeakerEvent extends AbstractSpeakerEvent {
     /**
      * Entity valid
      */
@@ -19,29 +20,29 @@ public class UpdatedSpeakerEvent extends AbstractConferenceEvent {
     /**
      *
      * @param entityFound
-     * @param conference
+     * @param speaker
      */
-    public UpdatedSpeakerEvent(boolean entityFound, ConferenceDetail conference) {
-        super(entityFound, conference);
+    public UpdatedSpeakerEvent(boolean entityFound, SpeakerDetail speaker) {
+        super(entityFound, speaker);
     }
 
     /**
      * @param validEntity
      * @param entityFound
-     * @param conference
+     * @param speaker
      */
-    public UpdatedSpeakerEvent(boolean validEntity, boolean entityFound, ConferenceDetail conference) {
-        super(entityFound, conference);
+    public UpdatedSpeakerEvent(boolean validEntity, boolean entityFound, SpeakerDetail speaker) {
+        super(entityFound, speaker);
         this.validEntity=validEntity;
     }
 
     /**
      *
-     * @param conference
-     * @param conference
+     * @param speaker
+     * @param speaker
      */
-    public UpdatedSpeakerEvent(Conference conference) {
-        this(conference != null, conference != null ? new ConferenceDetail(conference) : null);
+    public UpdatedSpeakerEvent(Speaker speaker) {
+        this(speaker != null, speaker != null ? new SpeakerDetail(speaker) : null);
     }
 
     public boolean isValidEntity() {

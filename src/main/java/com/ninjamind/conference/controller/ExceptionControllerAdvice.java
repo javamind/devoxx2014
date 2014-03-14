@@ -1,17 +1,12 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.events.conference.ConferenceDetail;
 import com.ninjamind.conference.utils.LoggerFactory;
 import org.apache.log4j.Logger;
-import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import javax.persistence.NoResultException;
 
 /**
  * Handler d'exception se chargeant des exceptions pouvant etre levees
