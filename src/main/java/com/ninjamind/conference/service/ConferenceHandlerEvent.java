@@ -23,18 +23,13 @@ import java.util.List;
 @Transactional
 public class ConferenceHandlerEvent implements ConferenceService
 {
-    private Logger LOG;
+    private static Logger LOG = LoggerFactory.make();
 
     @Autowired
     private CountryRepository countryRepository;
 
     @Autowired
     private ConferenceRepository conferenceRepository;
-
-    public ConferenceHandlerEvent() {
-        LOG = LoggerFactory.make();
-    }
-
 
     /**
      * Recuperation de la liste des conferences
@@ -123,11 +118,11 @@ public class ConferenceHandlerEvent implements ConferenceService
         Preconditions.checkNotNull(event.getConference(), "conference is required to update it");
 
 
-        UpdatedConferenceEvent eventReturned = new UpdatedConferenceEvent(
-                transformAndSaveConferenceDetailToConference(event, false));
+        UpdatedConferenceEvent eventReturned = new UpdatedConferenceEvent(transformAndSaveConferenceDetailToConference(event, false));
 
         LOG.debug(String.format("Modification de la conference ayant id=[%d] name=[%s] UUID:%s",
-                eventReturned.getConference().getId(), eventReturned.getConference().getName(),
+                eventReturned.getConference() !=null ? eventReturned.getConference().getId() : null,
+                eventReturned.getConference() !=null ? eventReturned.getConference().getName() : null,
                 eventReturned.getKey().toString()));
 
         return eventReturned;

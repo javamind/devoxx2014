@@ -17,10 +17,7 @@ import javax.transaction.Transactional;
  * au repository
  * @author ehret_g
  */
-@TestExecutionListeners({TransactionalTestExecutionListener.class})
 @ContextConfiguration(classes = PersistenceConfig.class)
-@Transactional
-@RunWith(SpringJUnit4ClassRunner.class)
 public abstract class AbstractJpaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     /**
