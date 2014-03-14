@@ -23,6 +23,6 @@ public class ReadConferenceEvent extends AbstractConferenceEvent {
      * @param conference
      */
     public ReadConferenceEvent(Conference conference) {
-        this(true, conference != null ? new ConferenceDetail(conference) : null);
+        this(conference != null, conference != null ? new ConferenceDetail(conference) : null);
     }
 }
