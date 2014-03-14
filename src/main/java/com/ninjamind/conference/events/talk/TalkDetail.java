@@ -61,7 +61,7 @@ public class TalkDetail implements Serializable {
         talk.setDescription(description);
         talk.setPlace(place);
         talk.setNbpeoplemax(nbpeoplemax);
-        talk.setLevel(Level.valueOf(level));
+        talk.setLevel(level!=null ? Level.valueOf(level) : null);
         return talk;
     }
 
