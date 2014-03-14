@@ -20,6 +20,6 @@ public class ReadTalkEvent extends AbstractTalkEvent {
      * @param talk
      */
     public ReadTalkEvent(Talk talk) {
-        this(true, talk != null ? new TalkDetail(talk) : null);
+        this(talk != null, talk != null ? new TalkDetail(talk) : null);
     }
 }

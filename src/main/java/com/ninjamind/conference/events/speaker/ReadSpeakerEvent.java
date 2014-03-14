@@ -23,6 +23,6 @@ public class ReadSpeakerEvent extends AbstractSpeakerEvent {
      * @param speaker
      */
     public ReadSpeakerEvent(Speaker speaker) {
-        this(true, speaker != null ? new SpeakerDetail(speaker) : null);
+        this(speaker != null, speaker != null ? new SpeakerDetail(speaker) : null);
     }
 }
