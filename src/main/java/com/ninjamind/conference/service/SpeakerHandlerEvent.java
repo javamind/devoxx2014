@@ -159,6 +159,6 @@ public class SpeakerHandlerEvent implements SpeakerService
      * @return
      */
     private Sort sortByNameAsc() {
-        return new Sort(Sort.Direction.ASC, "name");
+        return new Sort(Sort.Direction.ASC, "lastname");
     }
 }

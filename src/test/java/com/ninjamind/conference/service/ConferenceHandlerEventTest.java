@@ -93,7 +93,7 @@ public class ConferenceHandlerEventTest {
         //On appelle notre service de creation
         CreatedConferenceEvent createdConferenceEvent =
                 service.createConference(new CreateConferenceEvent(new ConferenceDetail(null, "Mix-IT", null,
-                        null,null, Level.Beginer.toString(), "FR", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
+                        null,null,"FR", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
         assertThat(createdConferenceEvent.getConference().getId()).isEqualTo(1L);
         assertThat(createdConferenceEvent.getConference().getDateStart()).isEqualTo("2014-04-29 09:00:00");
 
@@ -165,7 +165,7 @@ public class ConferenceHandlerEventTest {
         //On appelle notre service de creation
         UpdatedConferenceEvent updatedConferenceEvent =
                 service.updateConference(new UpdateConferenceEvent(new ConferenceDetail(1L, "Mix-IT", null,
-                        null, null, Level.Beginer.toString(), "FR", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
+                        null, null, "FR", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
 
         assertThat(updatedConferenceEvent.getConference()).isNull();
         assertThat(updatedConferenceEvent.isEntityFound()).isEqualTo(false);

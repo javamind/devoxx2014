@@ -19,7 +19,6 @@ public class ConferenceDetail implements Serializable {
     protected String streetAdress;
     protected String city;
     protected String postalCode;
-    protected String level;
     protected String codeCountry;
     protected String dateStart;
     protected String dateEnd;
@@ -46,17 +45,15 @@ public class ConferenceDetail implements Serializable {
      * @param streetAdress
      * @param city
      * @param postalCode
-     * @param level
      * @param codeCountry
      * @param dateStart
      * @param dateEnd
      */
-    public ConferenceDetail(Long id, String name, String streetAdress, String city, String postalCode, String level, String codeCountry, String dateStart, String dateEnd) {
+    public ConferenceDetail(Long id, String name, String streetAdress, String city, String postalCode, String codeCountry, String dateStart, String dateEnd) {
         this(id, name, dateStart, dateEnd);
         this.streetAdress = streetAdress;
         this.city = city;
         this.postalCode = postalCode;
-        this.level = level;
         this.codeCountry = codeCountry;
     }
 
@@ -67,7 +64,6 @@ public class ConferenceDetail implements Serializable {
                 conference.getStreetAdress(),
                 conference.getCity(),
                 conference.getPostalCode(),
-                conference.getLevel() != null ? conference.getLevel().toString() : null,
                 conference.getCountry() != null ? conference.getCountry().getCode() : null,
                 Utils.dateJavaToJson(conference.getDateStart()),
                 Utils.dateJavaToJson(conference.getDateEnd())
@@ -83,7 +79,6 @@ public class ConferenceDetail implements Serializable {
         conference.setStreetAdress(streetAdress);
         conference.setCity(city);
         conference.setPostalCode(postalCode);
-        conference.setLevel(level!=null ? Level.valueOf(level) : null);
         conference.setCountry(new Country(codeCountry, null));
         return conference;
     }
@@ -102,10 +97,6 @@ public class ConferenceDetail implements Serializable {
 
     public String getPostalCode() {
         return postalCode;
-    }
-
-    public String getLevel() {
-        return level;
     }
 
     public String getCodeCountry() {

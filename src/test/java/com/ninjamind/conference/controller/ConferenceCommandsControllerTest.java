@@ -46,7 +46,7 @@ public class ConferenceCommandsControllerTest {
      * @return
      */
     private String generateConferenceJson(String id, String name){
-        return String.format("{\"id\":%s,\"name\":\"%s\",\"streetAdress\":null,\"city\":null,\"postalCode\":null,\"level\":null," +
+        return String.format("{\"id\":%s,\"name\":\"%s\",\"streetAdress\":null,\"city\":null,\"postalCode\":null," +
                 "\"codeCountry\":null,\"dateStart\":\"2014-05-01 12:05:00\",\"dateEnd\":\"2014-07-01 12:05:00\"}", id, name);
     }
 

@@ -21,8 +21,6 @@ public class Conference {
     private String streetAdress;
     private String city;
     private String postalCode;
-    @Enumerated(EnumType.STRING)
-    private Level level;
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
@@ -121,15 +119,6 @@ public class Conference {
     public void setTalks(Set<Talk> talks) {
         this.talks = talks;
     }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
 
     public Long getVersion() {
         return version;
