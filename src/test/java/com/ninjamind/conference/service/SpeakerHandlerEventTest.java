@@ -146,7 +146,6 @@ public class SpeakerHandlerEventTest {
         assertThat(updatedSpeakerEvent.getSpeaker().getFirstname()).isEqualTo("Martin");
 
         //Le but est de verifier que la sauvegarde et la recherche sont appelees
-        verify(speakerRepository, times(1)).save(any(Speaker.class));
         verify(speakerRepository, times(1)).findOne(1L);
         verifyNoMoreInteractions(speakerRepository);
     }

@@ -133,7 +133,6 @@ public class TalkHandlerEventTest {
         assertThat(updatedTalkEvent.getTalk().getName()).isEqualTo("Le bon testeur il teste... le mauvais testeur il teste...");
 
         //Le but est de verifier que la sauvegarde et la recherche sont appelees
-        verify(talkRepository, times(1)).save(any(Talk.class));
         verify(talkRepository, times(1)).findOne(1L);
         verifyNoMoreInteractions(talkRepository);
     }

@@ -145,8 +145,7 @@ public class ConferenceHandlerEventTest {
         assertThat(updatedConferenceEvent.getConference().getId()).isEqualTo(1L);
         assertThat(updatedConferenceEvent.getConference().getDateStart()).isEqualTo("2014-04-29 09:00:00");
 
-        //Le but est de verifier que la sauvegarde et la recherche sont appelees
-        verify(conferenceRepository, times(1)).save(any(Conference.class));
+        //Le but est de verifier que la recherche est appelee
         verify(conferenceRepository, times(1)).findOne(1L);
         verifyNoMoreInteractions(conferenceRepository);
     }

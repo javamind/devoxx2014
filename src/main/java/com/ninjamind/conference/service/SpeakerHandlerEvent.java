@@ -1,6 +1,7 @@
 package com.ninjamind.conference.service;
 
 import com.google.common.base.Preconditions;
+import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.domain.Speaker;
 import com.ninjamind.conference.events.speaker.*;
 import com.ninjamind.conference.repository.CountryRepository;
@@ -104,12 +105,24 @@ public class SpeakerHandlerEvent implements SpeakerService
         speaker.setCountry(countryRepository.findCountryByCode(speaker.getCountry().getCode()));
 
         //Si pas en creation on regarde si enreg existe
-        if(!creation && speakerRepository.findOne(speaker.getId())==null){
-            return null;
+        if(!creation){
+            Speaker speakerToPersist = speakerRepository.findOne(speaker.getId());
+            if(speakerToPersist==null){
+                return null;
+            }
+            speakerToPersist.setCountry(speaker.getCountry());
+            speakerToPersist.setPostalCode(speaker.getPostalCode());
+            speakerToPersist.setCity(speaker.getCity());
+            speakerToPersist.setFirstname(speaker.getFirstname());
+            speakerToPersist.setLastname(speaker.getLastname());
+            speakerToPersist.setCompany(speaker.getCompany());
+            speakerToPersist.setStreetAdress(speaker.getStreetAdress());
+            return speakerToPersist;
         }
-
-        //On enregistre
-        return speakerRepository.save(speaker);
+        else{
+            //On enregistre
+            return speakerRepository.save(speaker);
+        }
     }
 
     @Override

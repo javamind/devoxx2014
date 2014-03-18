@@ -1,6 +1,7 @@
 package com.ninjamind.conference.service;
 
 import com.google.common.base.Preconditions;
+import com.ninjamind.conference.domain.Speaker;
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.events.talk.*;
 import com.ninjamind.conference.repository.TalkRepository;
@@ -96,12 +97,22 @@ public class TalkHandlerEvent implements TalkService
         Talk talk = event.getTalk().toTalk();
 
         //Si pas en creation on regarde si enreg existe
-        if(!creation && talkRepository.findOne(talk.getId())==null){
-            return null;
+        if(!creation){
+            Talk talkToPersist = talkRepository.findOne(talk.getId());
+            if(talkToPersist==null){
+                return null;
+            }
+            talkToPersist.setLevel(talk.getLevel());
+            talkToPersist.setNbpeoplemax(talk.getNbpeoplemax());
+            talkToPersist.setPlace(talk.getPlace());
+            talkToPersist.setDescription(talk.getDescription());
+            talkToPersist.setName(talk.getName());
+            return talkToPersist;
         }
-
-        //On enregistre
-        return talkRepository.save(talk);
+        else{
+            //On enregistre
+            return talkRepository.save(talk);
+        }
     }
 
     @Override

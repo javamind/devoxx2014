@@ -101,15 +101,29 @@ public class ConferenceHandlerEvent implements ConferenceService
 
         //Le pays envoye est simplement un code on doit mettre a jour le pays avec les données présentes
         //en base de données
-        conference.setCountry(countryRepository.findCountryByCode(conference.getCountry().getCode()));
-
-        //Si pas en creation on regarde si enreg existe
-        if(!creation && conferenceRepository.findOne(conference.getId())==null){
-            return null;
+        if(conference.getCountry()!=null){
+            conference.setCountry(countryRepository.findCountryByCode(conference.getCountry().getCode()));
         }
 
-        //On enregistre
-        return conferenceRepository.save(conference);
+        //Si pas en creation on regarde si enreg existe
+        if(!creation){
+            Conference conferenceToPersist = conferenceRepository.findOne(conference.getId());
+            if(conferenceToPersist==null){
+                return null;
+            }
+            conferenceToPersist.setCountry(conference.getCountry());
+            conferenceToPersist.setPostalCode(conference.getPostalCode());
+            conferenceToPersist.setCity(conference.getCity());
+            conferenceToPersist.setDateEnd(conference.getDateEnd());
+            conferenceToPersist.setDateStart(conference.getDateStart());
+            conferenceToPersist.setName(conference.getName());
+            conferenceToPersist.setStreetAdress(conference.getStreetAdress());
+            return conferenceToPersist;
+        }
+        else{
+            //On enregistre
+            return conferenceRepository.save(conference);
+        }
     }
 
     @Override
