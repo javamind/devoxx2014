@@ -1,16 +1,10 @@
 package com.ninjamind.conference.repository;
 
 import com.ninja_squad.dbsetup.DbSetup;
-import com.ninja_squad.dbsetup.DbSetupTracker;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import com.ninjamind.conference.database.InitializeOperations;
 import com.ninjamind.conference.domain.Country;
-
-import static com.ninja_squad.dbsetup.Operations.*;
-
-import static org.fest.assertions.Assertions.*;
-
 import org.fest.assertions.Assertions;
 import org.hibernate.PropertyValueException;
 import org.junit.Assert;
@@ -18,17 +12,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.sql.DataSource;
-import javax.transaction.Transactional;
 import java.util.List;
+
+import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
+import static com.ninja_squad.dbsetup.Operations.sequenceOf;
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * Classe de test du repository {@link com.ninjamind.conference.repository.CountryRepository}
  * @author ehret_g
  */
 public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
+
     /**
      * Repository à tester
      */
