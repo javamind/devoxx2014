@@ -1,13 +1,12 @@
 package com.ninjamind.conference.utils;
 
-import junit.framework.TestCase;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
+import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
 /**
- * Test de la classe {@link LoggerFactory}  pour vérifier le fonction de la factory
+ * Test de la classe {@link LoggerFactory}  pour vï¿½rifier le fonction de la factory
  * de {@link org.apache.log4j.Logger}
  */
 public class LoggerFactoryTest {

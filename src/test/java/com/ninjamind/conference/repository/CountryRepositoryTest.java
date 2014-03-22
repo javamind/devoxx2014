@@ -5,9 +5,8 @@ import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import com.ninjamind.conference.database.InitializeOperations;
 import com.ninjamind.conference.domain.Country;
-import org.fest.assertions.Assertions;
+import org.fest.assertions.api.Assertions;
 import org.hibernate.PropertyValueException;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,9 @@ import java.util.List;
 
 import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.extractProperty;
+import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrown;
 
 /**
  * Classe de test du repository {@link com.ninjamind.conference.repository.CountryRepository}
@@ -50,8 +51,8 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByCodeNull_should_returnNull() {
-        Country returnedCountry = countryRepository.findCountryByCode(null);
-        assertThat(returnedCountry).isNull();
+        Country persistantCountry = countryRepository.findCountryByCode(null);
+        assertThat(persistantCountry).isNull();
     }
 
     /**
@@ -59,8 +60,8 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByCodeValid_should_returnCountry() {
-        Country returnedCountry = countryRepository.findCountryByCode("FRA");
-        assertThat(returnedCountry.getName()).isEqualTo("France");
+        Country persistantCountry = countryRepository.findCountryByCode("FRA");
+        assertThat(persistantCountry.getName()).isEqualTo("France");
     }
 
     /**
@@ -68,8 +69,8 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByCodeInvalid_should_returnCountry() {
-        Country returnedCountry = countryRepository.findCountryByCode("ZZZ");
-        assertThat(returnedCountry).isNull();
+        Country persistantCountry = countryRepository.findCountryByCode("ZZZ");
+        assertThat(persistantCountry).isNull();
     }
 
 
@@ -78,8 +79,9 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void findCountryByNamePart_should_returnCountry() {
-        List<Country> returnedCountry = countryRepository.findCountryByNamePart("Fra%");
-        assertThat(returnedCountry).isNotEmpty().hasSize(1).onProperty("code").containsSequence("FRA");
+        List<Country> countriesStartByFra = countryRepository.findCountryByNamePart("Fra%");
+        assertThat(countriesStartByFra).isNotEmpty().hasSize(1);
+       assertThat(extractProperty("code").from(countriesStartByFra)).contains("FRA");
     }
 
     /**
@@ -88,9 +90,9 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
     @Test
     public void createCountry_should_returnInstanceWithId() {
         Country country = new Country("CODE", "Libelle");
-        Country returnedCountry = countryRepository.save(country);
+        Country persistantCountry = countryRepository.save(country);
 
-        Assertions.assertThat(returnedCountry.getId()).isNotNull().isEqualTo(country.getId());
+        assertThat(persistantCountry.getId()).isNotNull().isEqualTo(country.getId());
     }
 
     /**
@@ -103,7 +105,7 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
         country.setName("Libelle");
         try {
             countryRepository.save(country);
-            Assert.fail();
+            failBecauseExceptionWasNotThrown(IndexOutOfBoundsException.class);
         }
         catch (JpaSystemException e){
             Assertions.assertThat(e.getCause().getCause()).isInstanceOf(PropertyValueException.class);

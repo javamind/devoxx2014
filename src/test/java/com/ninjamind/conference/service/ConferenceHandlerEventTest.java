@@ -1,13 +1,10 @@
 package com.ninjamind.conference.service;
 
-import com.google.common.base.Preconditions;
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.domain.Country;
-import com.ninjamind.conference.domain.Level;
 import com.ninjamind.conference.events.conference.*;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import com.ninjamind.conference.repository.CountryRepository;
-import com.ninjamind.conference.utils.Utils;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 

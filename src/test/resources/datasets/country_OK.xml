@@ -1,15 +1,12 @@
 <?xml version="1.0"?>
 <dataset>
-    <COUNTRY id="1"
-             code="FRA"
+    <COUNTRY code="FRA"
              name="France"
     />
-    <COUNTRY id="2"
-             code="USA"
+    <COUNTRY code="USA"
              name="United States"
             />
-    <COUNTRY id="3"
-             code="SPA"
+    <COUNTRY code="SPA"
              name="Spain"
             />
 </dataset>

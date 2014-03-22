@@ -6,6 +6,7 @@ import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.PropertyValueException;
@@ -13,6 +14,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.File;
 import java.util.List;
@@ -24,6 +30,7 @@ import static org.junit.Assert.fail;
 
 /**
  * Classe de test du repository {@link CountryRepository}
+ *
  * @author agnes
  */
 public class CountryRepositoryBadTest extends AbstractJpaRepositoryTest {
@@ -44,8 +51,12 @@ public class CountryRepositoryBadTest extends AbstractJpaRepositoryTest {
     @Autowired
     private CountryRepository countryRepository;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     /**
      * Avant chaque test un jeu de données est injecté
+     *
      * @throws Exception
      */
     @Before
@@ -70,16 +81,17 @@ public class CountryRepositoryBadTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void testFindCountryByCode_OK() {
-        Country returnedCountry = countryRepository.findCountryByCode("FRA");
-        assertEquals("France", returnedCountry.getName());
+        Country persistantCountry = countryRepository.findCountryByCode("FRA");
+        assertEquals("France", persistantCountry.getName());
     }
+
     /**
      * Test de la classe {@link CountryRepository#findCountryByCode(String)}
      */
     @Test
     public void testFindCountryByCode_KO() {
-        Country returnedCountry = countryRepository.findCountryByCode(null);
-        assertNull(returnedCountry);
+        Country persistantCountry = countryRepository.findCountryByCode(null);
+        assertNull(persistantCountry);
     }
 
     /**
@@ -87,8 +99,8 @@ public class CountryRepositoryBadTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void testFindCountryByCode_KO2() {
-        Country returnedCountry = countryRepository.findCountryByCode("ZZZ");
-        assertNull(returnedCountry);
+        Country persistantCountry = countryRepository.findCountryByCode("ZZZ");
+        assertNull(persistantCountry);
     }
 
 
@@ -97,33 +109,40 @@ public class CountryRepositoryBadTest extends AbstractJpaRepositoryTest {
      */
     @Test
     public void testFindCountryByNamePart_OK() {
-        List<Country> returnedCountry = countryRepository.findCountryByNamePart("Fra%");
-        assertNotNull(returnedCountry);
-        assertEquals(1,returnedCountry.size());
-        assertEquals("FRA", returnedCountry.get(0).getCode());
+        List<Country> persistantCountry = countryRepository.findCountryByNamePart("Fra%");
+        assertNotNull(persistantCountry);
+        assertEquals(1, persistantCountry.size());
+        assertEquals("FRA", persistantCountry.get(0).getCode());
     }
 
     /**
      * Test permettant de vérifier la création d'une nouvelle entité OK
+     * Avec DBUnit le but est de montrer le côté fastidieux de l'écriture du test:
+     * - necessite de declarer un transactionTemplate pour avoir une transaction separee et qu'elle soit commitee pour ensuite verifier les donnees
+     * - pour les assertions sur les donnees : necessite de filtrer les datasets pour exclure certaines colonnes
      */
     @Test
-    public void testSave_OK() throws Exception{
-        Country country = new Country("SPA", "Spain");
-        Country returnedCountry = countryRepository.save(country);
+    public void testSave_OK() throws Exception {
+        final Country country = new Country("SPA", "Spain");
 
-        assertNotNull(returnedCountry);
-        assertEquals(country.getId(),returnedCountry.getId());
+        TransactionTemplate tp = new TransactionTemplate(transactionManager);
+        tp.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        tp.execute(new TransactionCallback<Object>() {
+            @Override
+            public Object doInTransaction(TransactionStatus transactionStatus) {
+                Country persistantCountry = countryRepository.save(country);
+                assertNotNull(persistantCountry);
+                assertEquals(country.getId(), persistantCountry.getId());
+                return null;
+            }
+        });
 
-        // Fetch database data after executing your code
-//        IDataSet databaseDataSet = databaseTester.getConnection().createDataSet();
-//        ITable actualTable = databaseDataSet.getTable("COUNTRY");
-//
-//        // Load expected data from an XML dataset
-//        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/country_OK.xml"));
-//        ITable expectedTable = expectedDataSet.getTable("COUNTRY");
-//
-//        // Assert actual database table match expected table
-//        Assertion.assertEquals(expectedTable, actualTable);
+        IDataSet databaseDataSet = databaseTester.getConnection().createDataSet();
+        ITable actualTable = databaseDataSet.getTable("COUNTRY");
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/country_OK.xml"));
+        ITable expectedTable = expectedDataSet.getTable("COUNTRY");
+        ITable filteredActualTable = DefaultColumnFilter.excludedColumnsTable(actualTable, new String[]{"id*", "version", "maj*"});
+        Assertion.assertEquals(expectedTable, filteredActualTable);
 
     }
 
@@ -137,10 +156,9 @@ public class CountryRepositoryBadTest extends AbstractJpaRepositoryTest {
         try {
             countryRepository.save(country);
             fail();
-        }
-        catch (JpaSystemException e){
+        } catch (JpaSystemException e) {
             // OK
-            assertEquals(PropertyValueException.class,e.getCause().getCause().getClass());
+            assertEquals(PropertyValueException.class, e.getCause().getCause().getClass());
         }
     }
 
