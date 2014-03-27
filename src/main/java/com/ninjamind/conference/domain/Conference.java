@@ -32,6 +32,12 @@ public class Conference {
     private Date dateEnd;
     @Version
     private Long version;
+    private Long nbHourToSellTicket;
+    private Long nbAttendees;
+    private Long nbConferenceSlot;
+    private Long nbConferenceProposals;
+    private Long nbTwitterFollowers;
+
     @ManyToMany
     @JoinTable(
             name="conference_talk",
@@ -126,6 +132,46 @@ public class Conference {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public Long getNbHourToSellTicket() {
+        return nbHourToSellTicket;
+    }
+
+    public void setNbHourToSellTicket(Long nbHourToSellTicket) {
+        this.nbHourToSellTicket = nbHourToSellTicket;
+    }
+
+    public Long getNbAttendees() {
+        return nbAttendees;
+    }
+
+    public void setNbAttendees(Long nbAttendees) {
+        this.nbAttendees = nbAttendees;
+    }
+
+    public Long getNbConferenceSlot() {
+        return nbConferenceSlot;
+    }
+
+    public void setNbConferenceSlot(Long nbConferenceSlot) {
+        this.nbConferenceSlot = nbConferenceSlot;
+    }
+
+    public Long getNbConferenceProposals() {
+        return nbConferenceProposals;
+    }
+
+    public void setNbConferenceProposals(Long nbConferenceProposals) {
+        this.nbConferenceProposals = nbConferenceProposals;
+    }
+
+    public Long getNbTwitterFollowers() {
+        return nbTwitterFollowers;
+    }
+
+    public void setNbTwitterFollowers(Long nbTwitterFollowers) {
+        this.nbTwitterFollowers = nbTwitterFollowers;
     }
 
     @Override

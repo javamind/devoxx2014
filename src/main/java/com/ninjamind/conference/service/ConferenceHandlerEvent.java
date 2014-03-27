@@ -51,6 +51,7 @@ public class ConferenceHandlerEvent implements ConferenceService
         return eventReturned;
     }
 
+
     /**
      * Recuperation d'une conference vi a son ID
      * @param event
@@ -168,6 +169,7 @@ public class ConferenceHandlerEvent implements ConferenceService
         return eventReturned;
     }
 
+
     /**
      * Returns a Sort object which sorts conference in ascending order by using the name.
      * @return
@@ -175,4 +177,6 @@ public class ConferenceHandlerEvent implements ConferenceService
     private Sort sortByNameAsc() {
         return new Sort(Sort.Direction.ASC, "name");
     }
+
+
 }

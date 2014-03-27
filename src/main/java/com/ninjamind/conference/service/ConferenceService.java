@@ -14,7 +14,7 @@ public interface ConferenceService {
      */
     ReadAllConferenceEvent getAllConference(ReadAllConferenceRequestEvent event);
 
-    /**
+     /**
      * Permet de retourner une conference
      * @param event
      * @return
@@ -41,4 +41,6 @@ public interface ConferenceService {
      * @return
      */
     DeletedConferenceEvent deleteConference(DeleteConferenceEvent event);
+
+
 }
