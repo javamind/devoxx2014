@@ -1,6 +1,7 @@
 package com.ninjamind.conference.service;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.ninjamind.conference.domain.Conference;
@@ -51,28 +52,31 @@ public class FavoriteHandlerEvent implements FavoriteService{
         //On calcule les indicateurs que l'on va retourner dans une liste
         Collection<ResultConfCalculator> results = FluentIterable
                 .from(conferences)
+                .filter(new Predicate<Conference>(){
+                    @Override
+                    public boolean apply(Conference conference) {
+                        //Si une des donnees est vide conf est hors concours
+                        if (conference.getNbTwitterFollowers() == null ||
+                                conference.getNbAttendees() == null ||
+                                conference.getNbHourToSellTicket() == null ||
+                                conference.getNbConferenceSlot() == null ||
+                                conference.getNbConferenceProposals() == null) {
+                            LOG.info(String.format("La conference %s n'est pas prise en compte car les donnees ne sont pas toutes renseignees", conference.getName()));
+                            return false;
+                        }
+                        return true;
+                    }
+                })
                 .transform(
                         new Function<Conference, ResultConfCalculator>() {
                             @Override
                             public ResultConfCalculator apply(Conference conference) {
-                                //Si une des donnees est vide conf est hors concours
-                                if (conference.getNbTwitterFollowers() == null ||
-                                        conference.getNbAttendees() == null ||
-                                        conference.getNbHourToSellTicket() == null ||
-                                        conference.getNbConferenceSlot() == null ||
-                                        conference.getNbConferenceProposals() == null) {
-                                    LOG.info(String.format("La conference %s n'est pas prise en compte car les donnees ne sont pas toutes renseignees", conference.getName()));
-                                    return null;
-                                }
                                 //Calcul de l'interet speaker
-                                Double speakerInterest = BigDecimal.valueOf(conference.getNbConferenceSlot())
-                                        .divide(BigDecimal.valueOf(conference.getNbConferenceProposals())).doubleValue();
+                                Double speakerInterest = conference.getNbConferenceSlot().doubleValue() / conference.getNbConferenceProposals();
                                 //Cacul interet social
-                                Double socialInterest = BigDecimal.valueOf(conference.getNbTwitterFollowers())
-                                        .divide(BigDecimal.valueOf(conference.getNbAttendees())).doubleValue();
+                                Double socialInterest = conference.getNbTwitterFollowers().doubleValue() / conference.getNbAttendees();
                                 //Cacul interet participant
-                                Double attendeeInterest = BigDecimal.valueOf(conference.getNbHourToSellTicket()*60)
-                                        .divide(BigDecimal.valueOf(conference.getNbAttendees())).doubleValue();
+                                Double attendeeInterest = conference.getNbHourToSellTicket().doubleValue() * 60 / conference.getNbAttendees();
 
                                 return new ResultConfCalculator(conference, speakerInterest, socialInterest, attendeeInterest);
                             }
@@ -86,22 +90,22 @@ public class FavoriteHandlerEvent implements FavoriteService{
                         int compAttendee = o1.attendeeInterest.compareTo(o2.attendeeInterest);
 
                         //Si le ratio speaker est plus faible c'est que l'interet speaker est plus grand puisqu'il propose plus
-                        int pointConf1 = compSpeaker<=0 ? 1 : 0 ;
-                        int pointConf2 = compSpeaker>=0 ? 1 : 0 ;
+                        int pointConf1 = compSpeaker <= 0 ? 1 : 0;
+                        int pointConf2 = compSpeaker >= 0 ? 1 : 0;
                         //Si le ratio social est plus fort c'est que les participants sont plus intéresses par la conf car il s'abonnent plus
-                        pointConf1 += compSocial>=0 ? 1 : 0 ;
-                        pointConf2 += compSocial<=0 ? 1 : 0 ;
+                        pointConf1 += compSocial >= 0 ? 1 : 0;
+                        pointConf2 += compSocial <= 0 ? 1 : 0;
                         //Si le ratio participant est plus faible c'est que les participants sont plus intéresses par la conf car il reserve plus vite
-                        pointConf1 += compSocial>=0 ? 1 : 0 ;
-                        pointConf2 += compSocial<=0 ? 1 : 0 ;
+                        pointConf1 += compAttendee <= 0 ? 1 : 0;
+                        pointConf2 += compAttendee >= 0 ? 1 : 0;
 
-                        return pointConf1-pointConf2;
+                        return pointConf2 - pointConf1;
                     }
                 });
 
         if(results==null || results.isEmpty()) {
             LOG.info("Aucune conference ne ressort gagnante");
-            return null;
+            return new ReadConferenceEvent(null);
         }
         return new ReadConferenceEvent(results.iterator().next().conference);
     }

@@ -54,6 +54,22 @@ public class Conference {
         this.dateEnd = end;
     }
 
+    /**
+     * Init des stats d'une conference
+     * @param nbHourToSellTicket
+     * @param nbAttendees
+     * @param nbConferenceSlot
+     * @param nbConferenceProposals
+     * @param nbTwitterFollowers
+     */
+    public void initConferenceStat(Long nbHourToSellTicket, Long nbAttendees, Long nbConferenceSlot, Long nbConferenceProposals, Long nbTwitterFollowers) {
+        this.nbHourToSellTicket = nbHourToSellTicket;
+        this.nbAttendees = nbAttendees;
+        this.nbConferenceSlot = nbConferenceSlot;
+        this.nbConferenceProposals = nbConferenceProposals;
+        this.nbTwitterFollowers = nbTwitterFollowers;
+    }
+
     public Long getId() {
         return id;
     }
