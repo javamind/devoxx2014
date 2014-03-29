@@ -12,8 +12,8 @@ import java.util.Set;
 public class Conference {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_conference")
-    @SequenceGenerator(name="seq_conference", sequenceName="seq_conference", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conference")
+    @SequenceGenerator(name = "seq_conference", sequenceName = "seq_conference", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -40,9 +40,9 @@ public class Conference {
 
     @ManyToMany
     @JoinTable(
-            name="conference_talk",
-            joinColumns={@JoinColumn(name="conference_id", referencedColumnName="id")},
-            inverseJoinColumns={@JoinColumn(name="talk_id", referencedColumnName="id")})
+            name = "conference_talk",
+            joinColumns = {@JoinColumn(name = "conference_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "talk_id", referencedColumnName = "id")})
     Set<Talk> talks;
 
     public Conference() {
@@ -56,6 +56,7 @@ public class Conference {
 
     /**
      * Init des stats d'une conference
+     *
      * @param nbHourToSellTicket
      * @param nbAttendees
      * @param nbConferenceSlot
@@ -188,6 +189,13 @@ public class Conference {
 
     public void setNbTwitterFollowers(Long nbTwitterFollowers) {
         this.nbTwitterFollowers = nbTwitterFollowers;
+    }
+
+    public Double getProposalsRatio() {
+        if (getNbConferenceSlot() == null || getNbConferenceProposals() == null) {
+            return null;
+        }
+        return (double) getNbConferenceSlot() / getNbConferenceProposals();
     }
 
     @Override

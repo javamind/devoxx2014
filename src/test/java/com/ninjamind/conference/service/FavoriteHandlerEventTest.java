@@ -24,16 +24,16 @@ import static org.mockito.Mockito.when;
 
 /**
  * Classe de test de la classe {@link com.ninjamind.conference.service.FavoriteHandlerEvent}. Vous pouvez
- * voir le pendant de cette classe {@link com.ninjamind.conference.service2.FavoriteServiceTest) qui
- * comprend plusieurs chose nuisant à une bonne lisibilité de la classe.
+ * voir le pendant de cette classe {@link com.ninjamind.conference.FavoriteServiceTest ) qui
+ * comprend plusieurs chose nuisant ï¿½ une bonne lisibilitï¿½ de la classe.
  * <br/>
  * Le but est de montrer
  * <ul>
- * <li>Localisation des tests : classe de test dans le même package que la classe testée</li>
- * <li>Nommage de la classe de test : nom de la classe testée suffixée par Test</li>
- * <li>Nommage des méthodes de tests qui doivent répondre aux questions quoi et pourquoi</li>
- * <li>Granularité un test ne doit tester qu'une seule chose à la fois</li>
- * <li>S'aider des frameworks de test : exemple de {@link org.junit.runners.Parameterized} souvent méconnu</li>
+ * <li>Localisation des tests : classe de test dans le mï¿½me package que la classe testï¿½e</li>
+ * <li>Nommage de la classe de test : nom de la classe testï¿½e suffixï¿½e par Test</li>
+ * <li>Nommage des mï¿½thodes de tests qui doivent rï¿½pondre aux questions quoi et pourquoi</li>
+ * <li>Granularitï¿½ un test ne doit tester qu'une seule chose ï¿½ la fois</li>
+ * <li>S'aider des frameworks de test : exemple de {@link org.junit.runners.Parameterized} ou JUnitParamsRunner souvent mï¿½connu</li>
  * <li>Des assertions simples</li>
  * <li>try/catch exception</li>
  * </ul>
@@ -57,7 +57,7 @@ public class FavoriteHandlerEventTest {
     }
 
     /**
-     * Paramètres utilisés dans {@link #getCoolestConference_ShouldReturnInstance(String, Long, Long, Long, Long, Long, String, Long, Long, Long, Long, Long, String)}
+     * Paramï¿½tres utilisï¿½s dans {@link #getCoolestConference_ShouldReturnInstance(String, Long, Long, Long, Long, Long, String, Long, Long, Long, Long, Long, String)}
      * @return
      */
     protected Object[] conferenceValues(){
@@ -68,8 +68,15 @@ public class FavoriteHandlerEventTest {
         );
     }
 
+    protected Object[] conferenceLessValues(){
+        return $(
+                $("Devoxx2014", 154L, 658L, "Mix-IT2014", 30L, 200L, "Mix-IT2014"),
+                $("JugSummerCamp2014", 20L, 140L, "Mix-IT2014", 30L, 200L, "JugSummerCamp2014")
+        );
+    }
+
     /**
-     * Test de la méthode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * Test de la mï¿½thode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
      * cas ou une valeur est retournee
      * @param nameConf1
      * @param nbHourToSellTicketConf1
@@ -103,8 +110,8 @@ public class FavoriteHandlerEventTest {
     }
 
     /**
-     * Test de la méthode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
-     * cas ou aucune valeur en base de données
+     * Test de la mï¿½thode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * cas ou aucune valeur en base de donnï¿½es
      */
     @Test
     public void getCoolestConference_ShouldReturnNull_IfNoDataInDatabase() {
@@ -115,13 +122,26 @@ public class FavoriteHandlerEventTest {
     }
 
     /**
-     * Test de la méthode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * Test de la mï¿½thode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
      * cas ou une exception est remontee lors de la recuperation des donnees
      */
     @Test(expected = PersistenceException.class)
     public void getCoolestConference_ShouldThrowException_IfPersistenceProblem() {
         when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
         favoriteHandlerEvent.getCoolestConference(new ReadCoolestConferenceRequestEvent());
+    }
+
+    @Test
+    @Parameters(method = "conferenceLessValues")
+    public void getTheMoreSelectiveConference_shouldReturnInstance(String nameConf1, Long nbConferenceSlotConf1, Long nbConferenceProposalsConf1,
+                                                                   String nameConf2, Long nbConferenceSlotConf2, Long nbConferenceProposalsConf2,
+                                                                   String confExpected){
+        addConference(nameConf1, nbConferenceSlotConf1, nbConferenceProposalsConf1);
+        addConference(nameConf2, nbConferenceSlotConf2, nbConferenceProposalsConf2);
+        when(conferenceRepository.findAll()).thenReturn(conferences);
+        Conference theBestConf = favoriteHandlerEvent.getTheMoreSelectiveConference();
+        Assertions.assertThat(theBestConf.getName()).isEqualTo(confExpected);
+
     }
 
     /**
@@ -136,6 +156,21 @@ public class FavoriteHandlerEventTest {
     private void addConference(String name, Long nbHourToSellTicket, Long nbAttendees, Long nbConferenceSlot, Long nbConferenceProposals, Long nbTwitterFollowers) {
         Conference conferenceCreated = new Conference(name, new DateTime(2014, 4, 29, 9, 0).toDate(), new DateTime(2014, 4, 30, 19, 0).toDate());
         conferenceCreated.initConferenceStat(nbHourToSellTicket, nbAttendees, nbConferenceSlot, nbConferenceProposals, nbTwitterFollowers);
+        conferences.add(conferenceCreated);
+    }
+
+
+    /**
+     * Permet d'ajouter une conference a la notre liste
+     * @param name
+     * @param nbConferenceSlot
+     * @param nbConferenceProposals
+     */
+    private void addConference(String name, Long nbConferenceSlot, Long nbConferenceProposals) {
+        Conference conferenceCreated = new Conference();
+        conferenceCreated.setName(name);
+        conferenceCreated.setNbConferenceSlot(nbConferenceSlot);
+        conferenceCreated.setNbConferenceProposals(nbConferenceProposals);
         conferences.add(conferenceCreated);
     }
 }

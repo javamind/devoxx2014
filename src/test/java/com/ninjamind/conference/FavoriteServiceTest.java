@@ -1,4 +1,4 @@
-package com.ninjamind.conference.service2;
+package com.ninjamind.conference;
 
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.events.conference.ReadConferenceEvent;
@@ -38,7 +38,7 @@ public class FavoriteServiceTest {
     }
 
     /**
-     * Test de la méthode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * Test de la mï¿½thode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
      * cas ou une valeur est retournee
      */
     @Test
@@ -67,7 +67,7 @@ public class FavoriteServiceTest {
         event = favoriteHandlerEvent.getCoolestConference(new ReadCoolestConferenceRequestEvent());
         Assert.assertEquals("Devoxx", event.getConference().getName());
 
-        //Si les deux ont une valeur manquante on devrait rien à voir
+        //Si les deux ont une valeur manquante on devrait rien ï¿½ voir
         conferences.clear();
         addConference("Devoxx", 2L, null, 154L, 658L, 2800L);
         addConference("Mix-IT", 43L, null, 30L, 200L, 850L);
@@ -77,7 +77,7 @@ public class FavoriteServiceTest {
     }
 
     /**
-     * Test de la méthode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * Test de la mï¿½thode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
      * cas ou une exception est remontee lors de la recuperation des donnees
      */
     @Test

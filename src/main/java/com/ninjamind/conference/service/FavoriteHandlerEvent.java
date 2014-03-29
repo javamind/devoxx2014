@@ -21,15 +21,16 @@ import java.util.List;
  * Implementation de {@link com.ninjamind.conference.service.FavoriteService}
  *
  * @author EHRET_G
+ * @author Agnes
  */
-public class FavoriteHandlerEvent implements FavoriteService{
+public class FavoriteHandlerEvent implements FavoriteService {
 
     private static Logger LOG = LoggerFactory.make();
 
     @Autowired
     private ConferenceRepository conferenceRepository;
 
-    protected class ResultConfCalculator{
+    protected class ResultConfCalculator {
         private Conference conference;
         private Double speakerInterest;
         private Double socialInterest;
@@ -46,13 +47,13 @@ public class FavoriteHandlerEvent implements FavoriteService{
     @Override
     public ReadConferenceEvent getCoolestConference(ReadCoolestConferenceRequestEvent event) {
         //Recuperation de la liste des conferences
-        //Pour le moment nous n'avons pas de critère de filtre dans ReadAllConferenceRequestEvent
-        List<Conference> conferences  = conferenceRepository.findAll();
+        //Pour le moment nous n'avons pas de critï¿½re de filtre dans ReadAllConferenceRequestEvent
+        List<Conference> conferences = conferenceRepository.findAll();
 
         //On calcule les indicateurs que l'on va retourner dans une liste
         Collection<ResultConfCalculator> results = FluentIterable
                 .from(conferences)
-                .filter(new Predicate<Conference>(){
+                .filter(new Predicate<Conference>() {
                     @Override
                     public boolean apply(Conference conference) {
                         //Si une des donnees est vide conf est hors concours
@@ -92,10 +93,10 @@ public class FavoriteHandlerEvent implements FavoriteService{
                         //Si le ratio speaker est plus faible c'est que l'interet speaker est plus grand puisqu'il propose plus
                         int pointConf1 = compSpeaker <= 0 ? 1 : 0;
                         int pointConf2 = compSpeaker >= 0 ? 1 : 0;
-                        //Si le ratio social est plus fort c'est que les participants sont plus intéresses par la conf car il s'abonnent plus
+                        //Si le ratio social est plus fort c'est que les participants sont plus intï¿½resses par la conf car il s'abonnent plus
                         pointConf1 += compSocial >= 0 ? 1 : 0;
                         pointConf2 += compSocial <= 0 ? 1 : 0;
-                        //Si le ratio participant est plus faible c'est que les participants sont plus intéresses par la conf car il reserve plus vite
+                        //Si le ratio participant est plus faible c'est que les participants sont plus intï¿½resses par la conf car il reserve plus vite
                         pointConf1 += compAttendee <= 0 ? 1 : 0;
                         pointConf2 += compAttendee >= 0 ? 1 : 0;
 
@@ -103,10 +104,37 @@ public class FavoriteHandlerEvent implements FavoriteService{
                     }
                 });
 
-        if(results==null || results.isEmpty()) {
+        if (results == null || results.isEmpty()) {
             LOG.info("Aucune conference ne ressort gagnante");
             return new ReadConferenceEvent(null);
         }
         return new ReadConferenceEvent(results.iterator().next().conference);
+    }
+
+    @Override
+    public Conference getTheMoreSelectiveConference() {
+        List<Conference> conferences = conferenceRepository.findAll();
+        //On calcule les indicateurs que l'on va retourner dans une liste
+        Collection<Conference> results = FluentIterable
+                .from(conferences)
+                .filter(new Predicate<Conference>() {
+                    @Override
+                    public boolean apply(Conference conference) {
+                        //Si une des donnees est vide conf est hors concours
+                        return (conference.getProposalsRatio() != null);
+                    }
+                })
+                .toSortedList(new Comparator<Conference>() {
+                    @Override
+                    public int compare(Conference c1, Conference c2) {
+                        return Double.compare(c1.getProposalsRatio(),c2.getProposalsRatio());
+                    }
+                });
+
+        if (results == null || results.isEmpty()) {
+            LOG.info("Aucune conference ne ressort gagnante");
+            return null;
+        }
+        return results.iterator().next();
     }
 }

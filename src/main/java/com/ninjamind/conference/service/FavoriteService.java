@@ -1,5 +1,6 @@
 package com.ninjamind.conference.service;
 
+import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.events.conference.*;
 
 /**
@@ -22,5 +23,7 @@ public interface FavoriteService {
      * @return
      */
     ReadConferenceEvent getCoolestConference(ReadCoolestConferenceRequestEvent event);
+
+    Conference getTheMoreSelectiveConference();
 
 }

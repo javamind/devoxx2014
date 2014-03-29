@@ -5,7 +5,7 @@ import com.ninjamind.conference.domain.Conference;
 import java.util.UUID;
 
 /**
- * AbstractEvent retourné lors de la recherche de la liste des conférences
+ * AbstractEvent retournÃ© lors de la recherche de conferences
  *
  * @author EHRET_G
  * @see com.ninjamind.conference.domain.Conference

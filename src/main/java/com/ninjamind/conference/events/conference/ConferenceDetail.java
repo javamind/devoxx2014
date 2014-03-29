@@ -7,7 +7,7 @@ import com.ninjamind.conference.utils.Utils;
 import java.io.Serializable;
 
 /**
- * Objet de transit lie aux évenements sur les conferences
+ * Objet de transit lie aux evenements sur les conferences
  *
  * @author EHRET_G
  * @see com.ninjamind.conference.domain.Conference
