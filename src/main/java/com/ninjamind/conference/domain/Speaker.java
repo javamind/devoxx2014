@@ -36,6 +36,10 @@ public class Speaker {
     public Speaker() {
     }
 
+    public Speaker(Long id) {
+        this.id=id;
+    }
+
     public Speaker(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;

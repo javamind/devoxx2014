@@ -48,6 +48,11 @@ public class Conference {
     public Conference() {
     }
 
+    public Conference(Long id) {
+        this.id = id;
+    }
+
+
     public Conference(String name, Date start, Date end) {
         this.name = name;
         this.dateStart = start;

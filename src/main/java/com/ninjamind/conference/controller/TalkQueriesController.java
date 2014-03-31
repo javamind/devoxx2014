@@ -1,10 +1,11 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.events.talk.ReadAllTalkRequestEvent;
-import com.ninjamind.conference.events.talk.ReadTalkEvent;
-import com.ninjamind.conference.events.talk.ReadTalkRequestEvent;
-import com.ninjamind.conference.events.talk.TalkDetail;
-import com.ninjamind.conference.service.TalkService;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.ninjamind.conference.domain.Talk;
+import com.ninjamind.conference.events.dto.TalkDetail;
+import com.ninjamind.conference.service.talk.TalkService;
+import com.ninjamind.conference.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,12 @@ public class TalkQueriesController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<TalkDetail> getAll() {
-        return talkService.getAllTalk(new ReadAllTalkRequestEvent()).getTalks();
+        return Lists.transform(talkService.getAllTalk(), new Function<Talk, TalkDetail>() {
+            @Override
+            public TalkDetail apply(Talk talk) {
+                return new TalkDetail(talk);
+            }
+        });
     }
 
     /**
@@ -59,12 +65,12 @@ public class TalkQueriesController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
     public ResponseEntity<TalkDetail> getById(@PathVariable String id) {
-        ReadTalkEvent readTalkEvent = talkService.getTalk(new ReadTalkRequestEvent(id));
+        Talk readTalkEvent = talkService.getTalk(new Talk(Utils.stringToLong(id)));
 
-        if(!readTalkEvent.isEntityFound()){
+        if(readTalkEvent==null){
             return new ResponseEntity<TalkDetail>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<TalkDetail>(readTalkEvent.getTalk(), HttpStatus.OK);
+        return new ResponseEntity<TalkDetail>(new TalkDetail(readTalkEvent), HttpStatus.OK);
     }
 
 }

@@ -1,10 +1,11 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.events.speaker.ReadAllSpeakerRequestEvent;
-import com.ninjamind.conference.events.speaker.ReadSpeakerEvent;
-import com.ninjamind.conference.events.speaker.ReadSpeakerRequestEvent;
-import com.ninjamind.conference.events.speaker.SpeakerDetail;
-import com.ninjamind.conference.service.SpeakerService;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.ninjamind.conference.domain.Speaker;
+import com.ninjamind.conference.events.dto.SpeakerDetail;
+import com.ninjamind.conference.service.speaker.SpeakerService;
+import com.ninjamind.conference.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,12 @@ public class SpeakerQueriesController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<SpeakerDetail> getAll() {
-        return speakerService.getAllSpeaker(new ReadAllSpeakerRequestEvent()).getSpeakers();
+        return Lists.transform(speakerService.getAllSpeaker(), new Function<Speaker, SpeakerDetail>() {
+            @Override
+            public SpeakerDetail apply(Speaker speaker) {
+                return new SpeakerDetail(speaker);
+            }
+        });
     }
 
     /**
@@ -59,12 +65,12 @@ public class SpeakerQueriesController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
     public ResponseEntity<SpeakerDetail> getById(@PathVariable String id) {
-        ReadSpeakerEvent readSpeakerEvent = speakerService.getSpeaker(new ReadSpeakerRequestEvent(id));
+        Speaker readSpeakerEvent = speakerService.getSpeaker(new Speaker(Utils.stringToLong(id)));
 
-        if(!readSpeakerEvent.isEntityFound()){
+        if(readSpeakerEvent==null){
             return new ResponseEntity<SpeakerDetail>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<SpeakerDetail>(readSpeakerEvent.getSpeaker(), HttpStatus.OK);
+        return new ResponseEntity<SpeakerDetail>(new SpeakerDetail(readSpeakerEvent), HttpStatus.OK);
     }
 
 }

@@ -1,10 +1,8 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.domain.Level;
-import com.ninjamind.conference.events.speaker.*;
+import com.ninjamind.conference.events.dto.TalkDetail;
 import com.ninjamind.conference.events.talk.*;
-import com.ninjamind.conference.service.SpeakerService;
-import com.ninjamind.conference.service.TalkService;
+import com.ninjamind.conference.service.talk.TalkService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import javax.persistence.Column;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;

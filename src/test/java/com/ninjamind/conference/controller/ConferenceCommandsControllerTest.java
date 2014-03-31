@@ -1,7 +1,8 @@
 package com.ninjamind.conference.controller;
 
 import com.ninjamind.conference.events.conference.*;
-import com.ninjamind.conference.service.ConferenceService;
+import com.ninjamind.conference.events.dto.ConferenceDetail;
+import com.ninjamind.conference.service.conference.ConferenceService;
 import com.ninjamind.conference.utils.Utils;
 import org.junit.Before;
 import org.junit.Test;

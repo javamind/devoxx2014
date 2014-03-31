@@ -1,10 +1,11 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.events.conference.ConferenceDetail;
-import com.ninjamind.conference.events.conference.ReadAllConferenceRequestEvent;
-import com.ninjamind.conference.events.conference.ReadConferenceEvent;
-import com.ninjamind.conference.events.conference.ReadConferenceRequestEvent;
-import com.ninjamind.conference.service.ConferenceService;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.ninjamind.conference.domain.Conference;
+import com.ninjamind.conference.events.dto.ConferenceDetail;
+import com.ninjamind.conference.service.conference.ConferenceService;
+import com.ninjamind.conference.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,12 @@ public class ConferenceQueriesController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<ConferenceDetail> getAll() {
-        return conferenceService.getAllConference(new ReadAllConferenceRequestEvent()).getConferences();
+        return Lists.transform(conferenceService.getAllConference(), new Function<Conference, ConferenceDetail>() {
+            @Override
+            public ConferenceDetail apply(Conference conference) {
+                return new ConferenceDetail(conference);
+            }
+        });
     }
 
     /**
@@ -59,12 +65,12 @@ public class ConferenceQueriesController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
     public ResponseEntity<ConferenceDetail> getById(@PathVariable String id) {
-        ReadConferenceEvent readConferenceEvent = conferenceService.getConference(new ReadConferenceRequestEvent(id));
+        Conference readConferenceEvent = conferenceService.getConference(new Conference(Utils.stringToLong(id)));
 
-        if(!readConferenceEvent.isEntityFound()){
+        if(readConferenceEvent==null){
             return new ResponseEntity<ConferenceDetail>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<ConferenceDetail>(readConferenceEvent.getConference(), HttpStatus.OK);
+        return new ResponseEntity<ConferenceDetail>(new ConferenceDetail(readConferenceEvent), HttpStatus.OK);
     }
 
 }

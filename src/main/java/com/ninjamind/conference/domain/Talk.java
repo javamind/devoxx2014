@@ -27,6 +27,10 @@ public class Talk {
     @Version
     private Long version;
 
+    public Talk(Long id) {
+        this.id=id;
+    }
+
     public Talk() {
     }
 

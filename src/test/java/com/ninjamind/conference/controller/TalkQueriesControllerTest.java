@@ -1,10 +1,9 @@
 package com.ninjamind.conference.controller;
 
 import com.google.common.collect.Lists;
-import com.ninjamind.conference.events.speaker.*;
+import com.ninjamind.conference.events.dto.TalkDetail;
 import com.ninjamind.conference.events.talk.*;
-import com.ninjamind.conference.service.SpeakerService;
-import com.ninjamind.conference.service.TalkService;
+import com.ninjamind.conference.service.talk.TalkService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

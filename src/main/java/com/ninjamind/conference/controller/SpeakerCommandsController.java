@@ -1,7 +1,12 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.events.speaker.*;
-import com.ninjamind.conference.service.SpeakerService;
+import com.ninjamind.conference.domain.Speaker;
+import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
+import com.ninjamind.conference.events.dto.SpeakerDetail;
+import com.ninjamind.conference.service.speaker.SpeakerService;
+import com.ninjamind.conference.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +41,12 @@ public class SpeakerCommandsController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<SpeakerDetail> create(@RequestBody  SpeakerDetail speaker) {
-        CreatedSpeakerEvent createdSpeakerEvent =  speakerService.createSpeaker(new CreateSpeakerEvent(speaker));
+        CreatedEvent<Speaker> createdSpeakerEvent =  speakerService.createSpeaker(speaker.toSpeaker());
 
         if(!createdSpeakerEvent.isValidEntity()){
             return new ResponseEntity<SpeakerDetail>(HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<SpeakerDetail>(createdSpeakerEvent.getSpeaker(), HttpStatus.CREATED);
+        return new ResponseEntity<SpeakerDetail>(new SpeakerDetail((Speaker) createdSpeakerEvent.getValue()), HttpStatus.CREATED);
     }
 
     /**
@@ -60,12 +65,12 @@ public class SpeakerCommandsController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     @ResponseBody
     public ResponseEntity<SpeakerDetail> delete(@PathVariable String id) {
-        DeletedSpeakerEvent deletedSpeakerEvent =  speakerService.deleteSpeaker(new DeleteSpeakerEvent(id));
+        DeletedEvent<Speaker> deletedSpeakerEvent =  speakerService.deleteSpeaker(new Speaker(Utils.stringToLong(id)));
 
         if(!deletedSpeakerEvent.isEntityFound()){
             return new ResponseEntity<SpeakerDetail>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<SpeakerDetail>(deletedSpeakerEvent.getSpeaker(), HttpStatus.OK);
+        return new ResponseEntity<SpeakerDetail>(new SpeakerDetail((Speaker) deletedSpeakerEvent.getValue()), HttpStatus.OK);
     }
 
     /**
@@ -85,7 +90,7 @@ public class SpeakerCommandsController {
     @RequestMapping(method = RequestMethod.PUT, consumes="application/json")
     @ResponseBody
     public ResponseEntity<SpeakerDetail> update(@RequestBody  SpeakerDetail speaker) {
-        UpdatedSpeakerEvent updatedSpeakerEvent =  speakerService.updateSpeaker(new UpdateSpeakerEvent(speaker));
+        UpdatedEvent<Speaker> updatedSpeakerEvent =  speakerService.updateSpeaker(speaker.toSpeaker());
 
         if(!updatedSpeakerEvent.isEntityFound()){
             return new ResponseEntity<SpeakerDetail>(HttpStatus.NOT_FOUND);
@@ -93,7 +98,7 @@ public class SpeakerCommandsController {
         if(!updatedSpeakerEvent.isValidEntity()){
             return new ResponseEntity<SpeakerDetail>(HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<SpeakerDetail>(updatedSpeakerEvent.getSpeaker(), HttpStatus.OK);
+        return new ResponseEntity<SpeakerDetail>(new SpeakerDetail((Speaker) updatedSpeakerEvent.getValue()), HttpStatus.OK);
     }
 
 }

@@ -1,9 +1,12 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.events.speaker.*;
-import com.ninjamind.conference.events.talk.*;
-import com.ninjamind.conference.service.SpeakerService;
-import com.ninjamind.conference.service.TalkService;
+import com.ninjamind.conference.domain.Talk;
+import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
+import com.ninjamind.conference.events.dto.TalkDetail;
+import com.ninjamind.conference.service.talk.TalkService;
+import com.ninjamind.conference.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +41,12 @@ public class TalkCommandsController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<TalkDetail> create(@RequestBody  TalkDetail talk) {
-        CreatedTalkEvent createdTalkEvent =  talkService.createTalk(new CreateTalkEvent(talk));
+        CreatedEvent<Talk> createdTalkEvent =  talkService.createTalk(talk.toTalk());
 
         if(!createdTalkEvent.isValidEntity()){
             return new ResponseEntity<TalkDetail>(HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<TalkDetail>(createdTalkEvent.getTalk(), HttpStatus.CREATED);
+        return new ResponseEntity<TalkDetail>(new TalkDetail((Talk)createdTalkEvent.getValue()), HttpStatus.CREATED);
     }
 
     /**
@@ -62,12 +65,12 @@ public class TalkCommandsController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     @ResponseBody
     public ResponseEntity<TalkDetail> delete(@PathVariable String id) {
-        DeletedTalkEvent deletedTalkEvent =  talkService.deleteTalk(new DeleteTalkEvent(id));
+        DeletedEvent<Talk> deletedTalkEvent =  talkService.deleteTalk(new Talk(Utils.stringToLong(id)));
 
         if(!deletedTalkEvent.isEntityFound()){
             return new ResponseEntity<TalkDetail>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<TalkDetail>(deletedTalkEvent.getTalk(), HttpStatus.OK);
+        return new ResponseEntity<TalkDetail>(new TalkDetail((Talk)deletedTalkEvent.getValue()), HttpStatus.OK);
     }
 
     /**
@@ -87,7 +90,7 @@ public class TalkCommandsController {
     @RequestMapping(method = RequestMethod.PUT, consumes="application/json")
     @ResponseBody
     public ResponseEntity<TalkDetail> update(@RequestBody TalkDetail talk) {
-        UpdatedTalkEvent updatedTalkEvent =  talkService.updateTalk(new UpdateTalkEvent(talk));
+        UpdatedEvent<Talk> updatedTalkEvent =  talkService.updateTalk(talk.toTalk());
 
         if(!updatedTalkEvent.isEntityFound()){
             return new ResponseEntity<TalkDetail>(HttpStatus.NOT_FOUND);
@@ -95,7 +98,7 @@ public class TalkCommandsController {
         if(!updatedTalkEvent.isValidEntity()){
             return new ResponseEntity<TalkDetail>(HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<TalkDetail>(updatedTalkEvent.getTalk(), HttpStatus.OK);
+        return new ResponseEntity<TalkDetail>(new TalkDetail((Talk)updatedTalkEvent.getValue()), HttpStatus.OK);
     }
 
 }
