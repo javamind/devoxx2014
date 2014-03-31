@@ -1,7 +1,7 @@
 package com.ninjamind.conference.events;
 
 /**
- * AbstractEvent retourné lors d'une mise a jour d'entite
+ * AbstractEvent retourne lors d'une mise a jour d'entite
  *
  * @author EHRET_G
  * @see com.ninjamind.conference.domain.Conference

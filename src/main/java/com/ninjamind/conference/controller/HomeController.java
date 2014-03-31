@@ -25,6 +25,6 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> home() {
-        return new ResponseEntity<String>("Page d'accueil présentation Devox2014", HttpStatus.OK);
+        return new ResponseEntity<String>("Page d'accueil presentation Devox2014", HttpStatus.OK);
     }
 }

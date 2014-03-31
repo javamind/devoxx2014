@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/speakers")
 public class SpeakerQueriesController {
     /**
-     * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Speaker}
+     * Service associe permettant de gerer les {@link com.ninjamind.conference.domain.Speaker}
      */
     @Autowired
     private SpeakerService speakerService;

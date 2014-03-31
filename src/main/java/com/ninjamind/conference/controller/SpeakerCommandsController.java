@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/speakers")
 public class SpeakerCommandsController {
     /**
-     * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Speaker}
+     * Service associe permettant de gerer les {@link com.ninjamind.conference.domain.Speaker}
      */
     @Autowired
     private SpeakerService speakerService;

@@ -17,12 +17,12 @@ public class Utils {
      */
     public static final SimpleDateFormat DATE_FORMAT_JSON = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
-     * Logger commun à la publication
+     * Logger commun a la publication
      */
     private static final Logger LOG = LoggerFactory.make();
 
     /**
-     * Permet de convertir une date reçue au format Json en Java
+     * Permet de convertir une date recue au format Json en Java
      * @param date
      * @return
      */

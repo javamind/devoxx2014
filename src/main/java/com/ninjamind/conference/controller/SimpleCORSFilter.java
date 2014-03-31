@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Filter pour les requêtes cross plateforme CORS
+ * Filter pour les requetes cross plateforme CORS
  *
  * @author EHRET_G
  */

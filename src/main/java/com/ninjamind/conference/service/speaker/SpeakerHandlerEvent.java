@@ -2,12 +2,13 @@ package com.ninjamind.conference.service.speaker;
 
 import com.google.common.base.Preconditions;
 import com.ninjamind.conference.domain.Speaker;
+import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
 import com.ninjamind.conference.events.dto.SpeakerDetail;
-import com.ninjamind.conference.events.speaker.*;
 import com.ninjamind.conference.repository.CountryRepository;
 import com.ninjamind.conference.repository.SpeakerRepository;
 import com.ninjamind.conference.utils.LoggerFactory;
-import com.ninjamind.conference.utils.Utils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -34,22 +35,11 @@ public class SpeakerHandlerEvent implements SpeakerService
 
     /**
      * Recuperation de la liste des speakers
-     * @param event
      * @return
      */
     @Override
-    public ReadAllSpeakerEvent getAllSpeaker(ReadAllSpeakerRequestEvent event) {
-        Preconditions.checkNotNull(event);
-
-        //Pour le moment nous n'avons pas de critère de filtre dans ReadAllSpeakerRequestEvent
-        List<Speaker> speakers  = speakerRepository.findAll(sortByNameAsc());
-
-        //Construction du resultat
-        ReadAllSpeakerEvent eventReturned = new ReadAllSpeakerEvent();
-        eventReturned.populateFromSpeakerList(speakers);
-        LOG.debug(String.format("Recuperation de la liste des speakers UUID:%s", eventReturned.getKey().toString()));
-
-        return eventReturned;
+    public List<Speaker> getAllSpeaker() {
+        return speakerRepository.findAll(sortByNameAsc());
     }
 
     /**
@@ -58,17 +48,11 @@ public class SpeakerHandlerEvent implements SpeakerService
      * @return
      */
     @Override
-    public ReadSpeakerEvent getSpeaker(ReadSpeakerRequestEvent event) {
+    public Speaker getSpeaker(Speaker event) {
         Preconditions.checkNotNull(event);
         Preconditions.checkNotNull(event.getId(), "id is required for search speaker");
+        return speakerRepository.findOne(event.getId());
 
-        //Recherche de l'element par l'id
-        Speaker speaker = speakerRepository.findOne(Utils.stringToLong(event.getId()));
-
-        ReadSpeakerEvent eventReturned = new ReadSpeakerEvent(speaker);
-        LOG.debug(String.format("Recuperation du speaker ayant id=[%s] UUID:%s", event.getId(), eventReturned.getKey().toString()));
-
-        return eventReturned;
     }
 
     /**
@@ -77,15 +61,15 @@ public class SpeakerHandlerEvent implements SpeakerService
      * @return
      */
     @Override
-    public CreatedSpeakerEvent createSpeaker(CreateSpeakerEvent event) {
+    public CreatedEvent<Speaker> createSpeaker(Speaker event) {
         Preconditions.checkNotNull(event);
-        Preconditions.checkNotNull(event.getSpeaker(), "speaker is required to create it");
+        Preconditions.checkNotNull(event.getLastname(), "speaker is required to create it");
 
-        CreatedSpeakerEvent eventReturned = new CreatedSpeakerEvent(
+        CreatedEvent<Speaker> eventReturned = new CreatedEvent(
                 new SpeakerDetail(transformAndSaveSpeakerDetailToSpeaker(event, true)));
 
         LOG.debug(String.format("Creation du speaker ayant id=[%d] name=[%s] UUID:%s",
-                eventReturned.getSpeaker().getId(), eventReturned.getSpeaker().getLastname(),
+                ((Speaker) eventReturned.getValue()).getId(), event.getLastname(),
                 eventReturned.getKey().toString()));
 
         return eventReturned;
@@ -93,13 +77,10 @@ public class SpeakerHandlerEvent implements SpeakerService
 
     /**
      * Permet de convertir la donnée reçue
-     * @param event
+     * @param speaker
      * @return
      */
-    private Speaker transformAndSaveSpeakerDetailToSpeaker(CreateSpeakerEvent event, boolean creation) {
-        //On cree notre entite Speaker a partir des donnees envoyées
-        Speaker speaker = event.getSpeaker().toSpeaker();
-
+    private Speaker transformAndSaveSpeakerDetailToSpeaker(Speaker speaker, boolean creation) {
         //Le pays envoye est simplement un code on doit mettre a jour le pays avec les données présentes
         //en base de données
         speaker.setCountry(countryRepository.findCountryByCode(speaker.getCountry().getCode()));
@@ -126,16 +107,16 @@ public class SpeakerHandlerEvent implements SpeakerService
     }
 
     @Override
-    public UpdatedSpeakerEvent updateSpeaker(UpdateSpeakerEvent event) {
+    public UpdatedEvent<Speaker> updateSpeaker(Speaker event) {
         Preconditions.checkNotNull(event);
-        Preconditions.checkNotNull(event.getSpeaker(), "speaker is required to update it");
+        Preconditions.checkNotNull(event.getId(), "speaker is required to update it");
 
-
-        UpdatedSpeakerEvent eventReturned = new UpdatedSpeakerEvent(transformAndSaveSpeakerDetailToSpeaker(event, false));
+        Speaker speakerUpdated = transformAndSaveSpeakerDetailToSpeaker(event, false);
+        UpdatedEvent<Speaker> eventReturned = new UpdatedEvent(speakerUpdated!=null , speakerUpdated);
 
         LOG.debug(String.format("Modification du speaker ayant id=[%d] name=[%s] UUID:%s",
-                eventReturned.getSpeaker() !=null ? eventReturned.getSpeaker().getId() : null,
-                eventReturned.getSpeaker() !=null ? eventReturned.getSpeaker().getLastname() : null,
+                speakerUpdated !=null ? speakerUpdated.getId() : null,
+                speakerUpdated !=null ? speakerUpdated.getLastname() : null,
                 eventReturned.getKey().toString()));
 
         return eventReturned;
@@ -147,21 +128,21 @@ public class SpeakerHandlerEvent implements SpeakerService
      * @return
      */
     @Override
-    public DeletedSpeakerEvent deleteSpeaker(DeleteSpeakerEvent event) {
+    public DeletedEvent<Speaker> deleteSpeaker(Speaker event) {
         Preconditions.checkNotNull(event);
         Preconditions.checkNotNull(event.getId(), "speaker is required to delete speaker");
 
         //Recherche de l'element par l'id
-        Speaker speaker = speakerRepository.findOne(Utils.stringToLong(event.getId()));
-        DeletedSpeakerEvent eventReturned = null;
+        Speaker speaker = speakerRepository.findOne(event.getId());
+        DeletedEvent<Speaker> eventReturned = null;
 
         if(speaker!=null){
             speakerRepository.delete(speaker);
-            eventReturned = new DeletedSpeakerEvent(true, new SpeakerDetail(speaker));
+            eventReturned = new DeletedEvent(true, new SpeakerDetail(speaker));
             LOG.debug(String.format("Suppression de la speaker ayant id=[%s] UUID:%s", event.getId(), eventReturned.getKey().toString()));
         }
         else{
-            eventReturned = new DeletedSpeakerEvent(false, null);
+            eventReturned = new DeletedEvent(false, null);
             LOG.debug(String.format("La speaker ayant id=[%s] n'existe pas UUID:%s", event.getId(), eventReturned.getKey().toString()));
         }
         return eventReturned;

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/talks")
 public class TalkCommandsController {
     /**
-     * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Talk}
+     * Service associe permettant de gerer les {@link com.ninjamind.conference.domain.Talk}
      */
     @Autowired
     private TalkService talkService;

@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/talks")
 public class TalkQueriesController {
     /**
-     * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Talk}
+     * Service associe permettant de gerer les {@link com.ninjamind.conference.domain.Talk}
      */
     @Autowired
     private TalkService talkService;

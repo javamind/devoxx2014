@@ -1,7 +1,7 @@
 package com.ninjamind.conference.events;
 
 /**
- * AbstractEvent retourné lors d'une creation
+ * AbstractEvent retourne lors d'une creation
  *
  * @author EHRET_G
  */

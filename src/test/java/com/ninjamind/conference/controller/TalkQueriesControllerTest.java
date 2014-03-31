@@ -1,8 +1,7 @@
 package com.ninjamind.conference.controller;
 
 import com.google.common.collect.Lists;
-import com.ninjamind.conference.events.dto.TalkDetail;
-import com.ninjamind.conference.events.talk.*;
+import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.service.talk.TalkService;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,18 +47,13 @@ public class TalkQueriesControllerTest {
         String idCherche = "1";
 
         //Le service renvoie une entite
-        when(talkService.getTalk(any(ReadTalkRequestEvent.class))).thenReturn(
-                new ReadTalkEvent(
-                        true,
-                        new TalkDetail(
-                                Long.valueOf(idCherche),
-                                "Le bon testeur il teste...")));
+        when(talkService.getTalk(any(Talk.class))).thenReturn(
+                new Talk("Le bon testeur il teste..."));
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/talks/{id}", idCherche))
                 .andDo(print())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("id").value(1))
                 .andExpect(jsonPath("name").value("Le bon testeur il teste..."))
                 .andExpect(status().isOk());
     }
@@ -72,8 +66,8 @@ public class TalkQueriesControllerTest {
     @Test
     public void shouldReturnNotFoundStatusWhenSearchByIdInvalid() throws Exception {
         //Le service renvoie une entite
-        when(talkService.getTalk(any(ReadTalkRequestEvent.class))).thenReturn(
-                new ReadTalkEvent(false,null));
+        when(talkService.getTalk(any(Talk.class))).thenReturn(
+                null);
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/talks/{id}", "1"))
@@ -88,17 +82,14 @@ public class TalkQueriesControllerTest {
      */
     @Test
     public void shouldReturnListEntityWhenSearchAllTalk() throws Exception {
-        List<TalkDetail> listExpected = Lists.newArrayList (
-                new TalkDetail(
-                        1L,
+        List<Talk> listExpected = Lists.newArrayList (
+                new Talk(
                         "Le bon testeur il teste..."),
-                new TalkDetail(
-                        2L,
-                        "Le mauvais testeur il teste..."));
+                new Talk(
+                       "Le mauvais testeur il teste..."));
 
         //Le service renvoie une entite
-        when(talkService.getAllTalk(any(ReadAllTalkRequestEvent.class))).thenReturn(
-                new ReadAllTalkEvent(listExpected));
+        when(talkService.getAllTalk()).thenReturn(listExpected);
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/talks"))

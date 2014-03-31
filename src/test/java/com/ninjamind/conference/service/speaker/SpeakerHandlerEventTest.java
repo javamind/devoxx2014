@@ -2,15 +2,21 @@ package com.ninjamind.conference.service.speaker;
 
 import com.ninjamind.conference.domain.Country;
 import com.ninjamind.conference.domain.Speaker;
-import com.ninjamind.conference.events.dto.SpeakerDetail;
-import com.ninjamind.conference.events.speaker.*;
+import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
 import com.ninjamind.conference.repository.CountryRepository;
 import com.ninjamind.conference.repository.SpeakerRepository;
+import junitparams.JUnitParamsRunner;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -21,6 +27,7 @@ import static org.mockito.Mockito.*;
  *
  * @author EHRET_G
  */
+@RunWith(JUnitParamsRunner.class)
 public class SpeakerHandlerEventTest {
     @Mock
     SpeakerRepository speakerRepository;
@@ -30,13 +37,15 @@ public class SpeakerHandlerEventTest {
     @InjectMocks
     SpeakerHandlerEvent service;
 
+    private List<Speaker> speakers = new ArrayList<>();
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.events.speaker.CreateSpeakerEvent)
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou argument null
      */
     @Test(expected = NullPointerException.class)
@@ -45,53 +54,54 @@ public class SpeakerHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.events.speaker.CreateSpeakerEvent)
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou pas de speaker passe null
      */
     @Test(expected = NullPointerException.class)
-    public void createSpeakerShouldThrownNullPointerExceptionIfSpeakerSent(){
-        service.createSpeaker(new CreateSpeakerEvent(null));
+    public void shouldNotcreateSpeakerWhenArgNull(){
+        service.createSpeaker(null);
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.events.speaker.CreateSpeakerEvent)
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou on cree sans avoir passé de pays
      */
     @Test
-    public void createSpeakerShouldCreateEntityEvenIfNoCountryAdded(){
+    public void shouldCreateSpeakerEvenIfNoCountryAdded(){
         //La recherche de pays sans code ne donnera rien
         when(countryRepository.findCountryByCode(null)).thenReturn(null);
-        //La sauvegarde de la speaker retournera une instance avec un id
+        //La sauvegarde du speaker retournera une instance avec un id
         Speaker speakerCreated = new Speaker("Martin","Fowler");
         speakerCreated.setId(1L);
         when(speakerRepository.save(any(Speaker.class))).thenReturn(speakerCreated);
 
         //On appelle notre service de creation
-        CreatedSpeakerEvent createdSpeakerEvent =
-                service.createSpeaker(new CreateSpeakerEvent(new SpeakerDetail(null, "Martin","Fowler")));
+        CreatedEvent<Speaker> createdSpeakerEvent =
+                service.createSpeaker(new Speaker("Martin","Fowler"));
 
-        assertThat(createdSpeakerEvent.getSpeaker().getId()).isEqualTo(1L);
-        assertThat(createdSpeakerEvent.getSpeaker().getFirstname()).isEqualTo("Martin");
+        assertThat(((Speaker)createdSpeakerEvent.getValue()).getId()).isEqualTo(1L);
+        assertThat(((Speaker)createdSpeakerEvent.getValue()).getLastname()).isEqualTo("Fowler");
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.events.speaker.CreateSpeakerEvent)
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#createSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas nominal
      */
     @Test
-    public void createSpeakerShouldCreateEntity(){
+    public void shouldCreateSpeakerWithCountry(){
         //La recherche de pays renvoie une occurence
         when(countryRepository.findCountryByCode("FR")).thenReturn(new Country("FR", "France"));
-        //La sauvegarde de la speaker retournera une instance avec un id
+        //La sauvegarde du speaker retournera une instance avec un id
         Speaker speakerCreated = new Speaker("Martin","Fowler");
         speakerCreated.setId(1L);
         when(speakerRepository.save(any(Speaker.class))).thenReturn(speakerCreated);
 
         //On appelle notre service de creation
-        CreatedSpeakerEvent createdSpeakerEvent =
-                service.createSpeaker(new CreateSpeakerEvent(new SpeakerDetail(null, "Martin","Fowler")));
-        assertThat(createdSpeakerEvent.getSpeaker().getId()).isEqualTo(1L);
-        assertThat(createdSpeakerEvent.getSpeaker().getFirstname()).isEqualTo("Martin");
+        Speaker param = new Speaker("Martin","Fowler");
+        param.setCountry(new Country("FR","France"));
+        CreatedEvent<Speaker> createdSpeakerEvent = service.createSpeaker(param);
+        assertThat(((Speaker)createdSpeakerEvent.getValue()).getId()).isEqualTo(1L);
+        assertThat(((Speaker)createdSpeakerEvent.getValue()).getFirstname()).isEqualTo("Martin");
 
         //Le but est de verifier que la sauvegarde est appelee mais pas la recherche d'entite
         verify(speakerRepository, only()).save(any(Speaker.class));
@@ -100,30 +110,30 @@ public class SpeakerHandlerEventTest {
 
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.events.speaker.UpdateSpeakerEvent)}
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou argument null
      */
     @Test(expected = NullPointerException.class)
-    public void updateSpeakerShouldThrownNullPointerExceptionIfArgIsNull(){
+    public void shouldNotUupdateSpeakerWhenArgNull(){
         service.updateSpeaker(null);
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.events.speaker.UpdateSpeakerEvent)}
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou pas de speaker passe null
      */
     @Test(expected = NullPointerException.class)
-    public void updateSpeakerShouldThrownNullPointerExceptionIfSpeakerSent(){
-        service.updateSpeaker(new UpdateSpeakerEvent(null));
+    public void shouldNotUupdateSpeakerWhenIdSpeakerNull(){
+        service.updateSpeaker(new Speaker());
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.events.speaker.UpdateSpeakerEvent)}
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou on cree sans avoir passé de pays
      */
     @Test
-    public void updateSpeakerShouldCreateEntityEvenIfNoCountryAdded(){
-        //La sauvegarde de la speaker retournera une instance avec un id
+    public void shouldUpdateSpeakerEvenIfNoCountryAdded(){
+        //La sauvegarde du speaker retournera une instance avec un id
         Speaker speakerCreated = new Speaker("Martin","Fowler");
         speakerCreated.setId(1L);
 
@@ -135,33 +145,36 @@ public class SpeakerHandlerEventTest {
         when(speakerRepository.save(any(Speaker.class))).thenReturn(speakerCreated);
 
         //On appelle notre service de creation
-        UpdatedSpeakerEvent updatedSpeakerEvent =
-                service.updateSpeaker(new UpdateSpeakerEvent(new SpeakerDetail(1L, "Martin","Fowler")));
+        Speaker param = new Speaker("Martin","Fowler");
+        param.setId(1L);
+        UpdatedEvent<Speaker> updatedSpeakerEvent = service.updateSpeaker(param);
 
-        assertThat(updatedSpeakerEvent.getSpeaker().getId()).isEqualTo(1L);
-        assertThat(updatedSpeakerEvent.getSpeaker().getFirstname()).isEqualTo("Martin");
+        assertThat(((Speaker)updatedSpeakerEvent.getValue()).getId()).isEqualTo(1L);
+        assertThat(((Speaker)updatedSpeakerEvent.getValue()).getFirstname()).isEqualTo("Martin");
 
-        //Le but est de verifier que la sauvegarde et la recherche sont appelees
+        //Le but est de verifier que la recherche est appelee
         verify(speakerRepository, times(1)).findOne(1L);
         verifyNoMoreInteractions(speakerRepository);
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.events.speaker.UpdateSpeakerEvent)}
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#updateSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou on ne modifie pas car la donnée n'a pas été trouvée
      */
     @Test
-    public void updateSpeakerShouldCreateNotEntityIfNotFound(){
+    public void shouldNotUpdateSpeakerWhenConfIsNotFound(){
         //La recherche de pays renvoie une occurence
         when(countryRepository.findCountryByCode("FR")).thenReturn(new Country("FR", "France"));
         //La recherche de l'entite passee renvoie pas de resultat
         when(speakerRepository.findOne(1L)).thenReturn(null);
 
         //On appelle notre service de creation
-        UpdatedSpeakerEvent updatedSpeakerEvent =
-                service.updateSpeaker(new UpdateSpeakerEvent(new SpeakerDetail(1L, "Martin","Fowler")));
+        Speaker param = new Speaker("Martin","Fowler");
+        param.setId(1L);
+        param.setCountry(new Country("FR", "France"));
+        UpdatedEvent<Speaker> updatedSpeakerEvent = service.updateSpeaker(param);
 
-        assertThat(updatedSpeakerEvent.getSpeaker()).isNull();
+        assertThat(updatedSpeakerEvent.getValue()).isNull();
         assertThat(updatedSpeakerEvent.isEntityFound()).isEqualTo(false);
 
         //Le but est de verifier que seule la recherche est appelee et non la sauvegarde
@@ -170,18 +183,18 @@ public class SpeakerHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#deleteSpeaker(com.ninjamind.conference.events.speaker.DeleteSpeakerEvent)}
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#deleteSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas nominal
      */
     @Test
-    public void deleteSpeakerShouldBeOk(){
+    public void shouldDeleteSpeaker(){
         //La recherche de l'entite passee renvoie un resultat
         when(speakerRepository.findOne(1L)).thenReturn(new Speaker("Martin","Fowler"));
 
         //On appelle notre service de creation
-        DeletedSpeakerEvent deletedSpeakerEvent = service.deleteSpeaker(new DeleteSpeakerEvent("1"));
+        DeletedEvent<Speaker> deletedSpeakerEvent = service.deleteSpeaker(new Speaker(1L));
 
-        assertThat(deletedSpeakerEvent.getSpeaker()).isNotNull();
+        assertThat(deletedSpeakerEvent.getValue()).isNotNull();
 
         //Le but est de verifier que la suppression et la recherche sont appelees
         verify(speakerRepository, times(1)).findOne(1L);
@@ -191,57 +204,23 @@ public class SpeakerHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#deleteSpeaker(com.ninjamind.conference.events.speaker.DeleteSpeakerEvent)}
+     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#deleteSpeaker(com.ninjamind.conference.domain.Speaker)}
      * cas ou id passé ne correspond a aucun enregsitrement
      */
     @Test
-    public void deleteSpeakerShouldCreateNotEntityIfNotFound(){
+    public void shouldNotDeleteSpeakerWhenEntityIsNotFound(){
         //La recherche de l'entite passee renvoie pas de resultat
         when(speakerRepository.findOne(1L)).thenReturn(null);
 
         //On appelle notre service de creation
-        DeletedSpeakerEvent deletedSpeakerEvent =
-                service.deleteSpeaker(new DeleteSpeakerEvent("1"));
+        DeletedEvent<Speaker> deletedSpeakerEvent = service.deleteSpeaker(new Speaker(1L));
 
-        assertThat(deletedSpeakerEvent.getSpeaker()).isNull();
+        assertThat(deletedSpeakerEvent.getValue()).isNull();
         assertThat(deletedSpeakerEvent.isEntityFound()).isEqualTo(false);
 
         //Le but est de verifier que seule la recherche est appelee et non la suppression
         verify(speakerRepository, only()).findOne(1L);
         verifyNoMoreInteractions(speakerRepository);
-    }
-
-    /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#getSpeaker(com.ninjamind.conference.events.speaker.ReadSpeakerRequestEvent)}
-     * cas nominal
-     */
-    @Test
-    public void getSpeakerShouldReturnEntity(){
-        //La recherche de l'entite passee renvoie un resultat
-        when(speakerRepository.findOne(1L)).thenReturn(new Speaker("Martin","Fowler"));
-
-        //On appelle notre service de creation
-        ReadSpeakerEvent readSpeakerEvent = service.getSpeaker(new ReadSpeakerRequestEvent("1"));
-
-        assertThat(readSpeakerEvent.getSpeaker()).isNotNull();
-        assertThat(readSpeakerEvent.getSpeaker().getFirstname()).isEqualTo("Martin");
-
-    }
-
-    /**
-     * Test de {@link com.ninjamind.conference.service.speaker.SpeakerService#getSpeaker(com.ninjamind.conference.events.speaker.ReadSpeakerRequestEvent)}
-     * cas ou id passé ne correspond a aucun enregsitrement
-     */
-    @Test
-    public void getSpeakerShouldNotReturnEntityIfNoEnreg(){
-        //La recherche de l'entite passee renvoie pas de resultat
-        when(speakerRepository.findOne(1L)).thenReturn(null);
-
-        //On appelle notre service de creation
-        ReadSpeakerEvent readSpeakerEvent = service.getSpeaker(new ReadSpeakerRequestEvent("1"));
-
-        assertThat(readSpeakerEvent.getSpeaker()).isNull();
-        assertThat(readSpeakerEvent.isEntityFound()).isEqualTo(false);
     }
 
 }

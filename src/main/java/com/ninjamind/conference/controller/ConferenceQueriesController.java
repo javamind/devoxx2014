@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/conferences")
 public class ConferenceQueriesController {
     /**
-     * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Conference}
+     * Service associe permettant de gerer les {@link com.ninjamind.conference.domain.Conference}
      */
     @Autowired
     private ConferenceService conferenceService;

@@ -2,11 +2,12 @@ package com.ninjamind.conference.service.talk;
 
 import com.google.common.base.Preconditions;
 import com.ninjamind.conference.domain.Talk;
+import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
 import com.ninjamind.conference.events.dto.TalkDetail;
-import com.ninjamind.conference.events.talk.*;
 import com.ninjamind.conference.repository.TalkRepository;
 import com.ninjamind.conference.utils.LoggerFactory;
-import com.ninjamind.conference.utils.Utils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -30,22 +31,11 @@ public class TalkHandlerEvent implements TalkService
 
     /**
      * Recuperation de la liste des talks
-     * @param event
      * @return
      */
     @Override
-    public ReadAllTalkEvent getAllTalk(ReadAllTalkRequestEvent event) {
-        Preconditions.checkNotNull(event);
-
-        //Pour le moment nous n'avons pas de critère de filtre dans ReadAllTalkRequestEvent
-        List<Talk> talks  = talkRepository.findAll(sortByNameAsc());
-
-        //Construction du resultat
-        ReadAllTalkEvent eventReturned = new ReadAllTalkEvent();
-        eventReturned.populateFromTalkList(talks);
-        LOG.debug(String.format("Recuperation de la liste des talks UUID:%s", eventReturned.getKey().toString()));
-
-        return eventReturned;
+    public List<Talk> getAllTalk() {
+       return talkRepository.findAll(sortByNameAsc());
     }
 
     /**
@@ -54,17 +44,12 @@ public class TalkHandlerEvent implements TalkService
      * @return
      */
     @Override
-    public ReadTalkEvent getTalk(ReadTalkRequestEvent event) {
+    public Talk getTalk(Talk event) {
         Preconditions.checkNotNull(event);
         Preconditions.checkNotNull(event.getId(), "id is required for search talk");
 
         //Recherche de l'element par l'id
-        Talk talk = talkRepository.findOne(Utils.stringToLong(event.getId()));
-
-        ReadTalkEvent eventReturned = new ReadTalkEvent(talk);
-        LOG.debug(String.format("Recuperation du talk ayant id=[%s] UUID:%s", event.getId(), eventReturned.getKey().toString()));
-
-        return eventReturned;
+        return talkRepository.findOne(event.getId());
     }
 
     /**
@@ -73,15 +58,15 @@ public class TalkHandlerEvent implements TalkService
      * @return
      */
     @Override
-    public CreatedTalkEvent createTalk(CreateTalkEvent event) {
+    public CreatedEvent<Talk> createTalk(Talk event) {
         Preconditions.checkNotNull(event);
-        Preconditions.checkNotNull(event.getTalk(), "talk is required to create it");
+        Preconditions.checkNotNull(event.getName(), "talk is required to create it");
 
-        CreatedTalkEvent eventReturned = new CreatedTalkEvent(
+        CreatedEvent<Talk> eventReturned = new CreatedEvent(
                 new TalkDetail(transformAndSaveTalkDetailToTalk(event, true)));
 
         LOG.debug(String.format("Creation du talk ayant id=[%d] name=[%s] UUID:%s",
-                eventReturned.getTalk().getId(), eventReturned.getTalk().getName(),
+                ((Talk)eventReturned.getValue()).getId(), event.getName(),
                 eventReturned.getKey().toString()));
 
         return eventReturned;
@@ -89,13 +74,10 @@ public class TalkHandlerEvent implements TalkService
 
     /**
      * Permet de convertir la donnée reçue
-     * @param event
+     * @param talk
      * @return
      */
-    private Talk transformAndSaveTalkDetailToTalk(CreateTalkEvent event, boolean creation) {
-        //On cree notre entite Talk a partir des donnees envoyées
-        Talk talk = event.getTalk().toTalk();
-
+    private Talk transformAndSaveTalkDetailToTalk(Talk talk, boolean creation) {
         //Si pas en creation on regarde si enreg existe
         if(!creation){
             Talk talkToPersist = talkRepository.findOne(talk.getId());
@@ -116,16 +98,16 @@ public class TalkHandlerEvent implements TalkService
     }
 
     @Override
-    public UpdatedTalkEvent updateTalk(UpdateTalkEvent event) {
+    public UpdatedEvent<Talk> updateTalk(Talk event) {
         Preconditions.checkNotNull(event);
-        Preconditions.checkNotNull(event.getTalk(), "talk is required to update it");
+        Preconditions.checkNotNull(event.getId(), "talk is required to update it");
 
-
-        UpdatedTalkEvent eventReturned = new UpdatedTalkEvent(transformAndSaveTalkDetailToTalk(event, false));
+        Talk talkUpdated = transformAndSaveTalkDetailToTalk(event, false);
+        UpdatedEvent<Talk> eventReturned = new UpdatedEvent(talkUpdated!=null, talkUpdated);
 
         LOG.debug(String.format("Modification du talk ayant id=[%d] name=[%s] UUID:%s",
-                eventReturned.getTalk() !=null ? eventReturned.getTalk().getId() : null,
-                eventReturned.getTalk() !=null ? eventReturned.getTalk().getName() : null,
+                talkUpdated !=null ? talkUpdated.getId() : null,
+                talkUpdated !=null ? talkUpdated.getName() : null,
                 eventReturned.getKey().toString()));
 
         return eventReturned;
@@ -137,21 +119,21 @@ public class TalkHandlerEvent implements TalkService
      * @return
      */
     @Override
-    public DeletedTalkEvent deleteTalk(DeleteTalkEvent event) {
+    public DeletedEvent<Talk> deleteTalk(Talk event) {
         Preconditions.checkNotNull(event);
         Preconditions.checkNotNull(event.getId(), "talk is required to delete talk");
 
         //Recherche de l'element par l'id
-        Talk talk = talkRepository.findOne(Utils.stringToLong(event.getId()));
-        DeletedTalkEvent eventReturned = null;
+        Talk talk = talkRepository.findOne(event.getId());
+        DeletedEvent<Talk> eventReturned = null;
 
         if(talk!=null){
             talkRepository.delete(talk);
-            eventReturned = new DeletedTalkEvent(true, new TalkDetail(talk));
+            eventReturned = new DeletedEvent(true, new TalkDetail(talk));
             LOG.debug(String.format("Suppression du talk ayant id=[%s] UUID:%s", event.getId(), eventReturned.getKey().toString()));
         }
         else{
-            eventReturned = new DeletedTalkEvent(false, null);
+            eventReturned = new DeletedEvent(false, null);
             LOG.debug(String.format("Le talk ayant id=[%s] n'existe pas UUID:%s", event.getId(), eventReturned.getKey().toString()));
         }
         return eventReturned;

@@ -141,7 +141,7 @@ public class ConferenceHandlerEvent implements ConferenceService
     @Override
     public DeletedEvent<Conference> deleteConference(Conference event) {
         Preconditions.checkNotNull(event);
-        Preconditions.checkNotNull(event.getId()), "conference is required to delete conference");
+        Preconditions.checkNotNull(event.getId(), "conference is required to delete conference");
 
         //Recherche de l'element par l'id
         Conference conference = conferenceRepository.findOne(event.getId());

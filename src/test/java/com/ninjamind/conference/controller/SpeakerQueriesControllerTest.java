@@ -1,8 +1,7 @@
 package com.ninjamind.conference.controller;
 
 import com.google.common.collect.Lists;
-import com.ninjamind.conference.events.dto.SpeakerDetail;
-import com.ninjamind.conference.events.speaker.*;
+import com.ninjamind.conference.domain.Speaker;
 import com.ninjamind.conference.service.speaker.SpeakerService;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,19 +47,14 @@ public class SpeakerQueriesControllerTest {
         String idCherche = "1";
 
         //Le service renvoie une entite
-        when(speakerService.getSpeaker(any(ReadSpeakerRequestEvent.class))).thenReturn(
-                new ReadSpeakerEvent(
-                        true,
-                        new SpeakerDetail(
-                                Long.valueOf(idCherche),
-                                "Martin",
-                                "Fowler")));
+        when(speakerService.getSpeaker(any(Speaker.class))).thenReturn(
+                new Speaker(    "Martin",
+                                "Fowler"));
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/speakers/{id}", idCherche))
                 .andDo(print())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("id").value(1))
                 .andExpect(jsonPath("firstname").value("Martin"))
                 .andExpect(status().isOk());
     }
@@ -73,8 +67,7 @@ public class SpeakerQueriesControllerTest {
     @Test
     public void shouldReturnNotFoundStatusWhenSearchByIdInvalid() throws Exception {
         //Le service renvoie une entite
-        when(speakerService.getSpeaker(any(ReadSpeakerRequestEvent.class))).thenReturn(
-                new ReadSpeakerEvent(false,null));
+        when(speakerService.getSpeaker(any(Speaker.class))).thenReturn(null);
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/speakers/{id}", "1"))
@@ -89,19 +82,17 @@ public class SpeakerQueriesControllerTest {
      */
     @Test
     public void shouldReturnListEntityWhenSearchAllSpeaker() throws Exception {
-        List<SpeakerDetail> listExpected = Lists.newArrayList (
-                new SpeakerDetail(
-                        1L,
+        List<Speaker> listExpected = Lists.newArrayList (
+                new Speaker(
                         "Agnes",
                         "Crepet"),
-                new SpeakerDetail(
-                        2L,
+                new Speaker(
                         "Guillaume",
                         "Ehret"));
 
         //Le service renvoie une entite
-        when(speakerService.getAllSpeaker(any(ReadAllSpeakerRequestEvent.class))).thenReturn(
-                new ReadAllSpeakerEvent(listExpected));
+        when(speakerService.getAllSpeaker()).thenReturn(
+                listExpected);
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/speakers"))

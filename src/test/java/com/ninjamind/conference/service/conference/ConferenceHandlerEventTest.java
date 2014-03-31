@@ -2,8 +2,9 @@ package com.ninjamind.conference.service.conference;
 
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.domain.Country;
-import com.ninjamind.conference.events.conference.*;
-import com.ninjamind.conference.events.dto.ConferenceDetail;
+import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import com.ninjamind.conference.repository.CountryRepository;
 import junitparams.JUnitParamsRunner;
@@ -49,7 +50,7 @@ public class ConferenceHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.events.conference.CreateConferenceEvent)
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.domain.Conference)}
      * cas ou argument null
      */
     @Test(expected = NullPointerException.class)
@@ -58,20 +59,20 @@ public class ConferenceHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.events.conference.CreateConferenceEvent)
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.domain.Conference)}
      * cas ou pas de conference passe null
      */
     @Test(expected = NullPointerException.class)
-    public void createConferenceShouldThrownNullPointerExceptionIfConferenceSent(){
-        service.createConference(new CreateConferenceEvent(null));
+    public void shouldNotcreateConferenceWhenArgNull(){
+        service.createConference(null);
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.events.conference.CreateConferenceEvent)
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.domain.Conference)}
      * cas ou on cree sans avoir passé de pays
      */
     @Test
-    public void createConferenceShouldCreateEntityEvenIfNoCountryAdded(){
+    public void shouldCreateConferenceEvenIfNoCountryAdded(){
         //La recherche de pays sans code ne donnera rien
         when(countryRepository.findCountryByCode(null)).thenReturn(null);
         //La sauvegarde de la conference retournera une instance avec un id
@@ -80,19 +81,19 @@ public class ConferenceHandlerEventTest {
         when(conferenceRepository.save(any(Conference.class))).thenReturn(conferenceCreated);
 
         //On appelle notre service de creation
-        CreatedConferenceEvent createdConferenceEvent =
-                service.createConference(new CreateConferenceEvent(new ConferenceDetail(null, "Mix-IT", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
+        CreatedEvent<Conference> createdConferenceEvent =
+                service.createConference(new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate()));
 
-        assertThat(createdConferenceEvent.getConference().getId()).isEqualTo(1L);
-        assertThat(createdConferenceEvent.getConference().getDateStart()).isEqualTo("2014-04-29 09:00:00");
+        assertThat(((Conference)createdConferenceEvent.getValue()).getId()).isEqualTo(1L);
+        assertThat(((Conference)createdConferenceEvent.getValue()).getDateStart()).isEqualTo("2014-04-29 09:00:00");
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.events.conference.CreateConferenceEvent)
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#createConference(com.ninjamind.conference.domain.Conference)}
      * cas nominal
      */
     @Test
-    public void createConferenceShouldCreateEntity(){
+    public void shouldCreateConferenceWithCountry(){
         //La recherche de pays renvoie une occurence
         when(countryRepository.findCountryByCode("FR")).thenReturn(new Country("FR", "France"));
         //La sauvegarde de la conference retournera une instance avec un id
@@ -101,11 +102,11 @@ public class ConferenceHandlerEventTest {
         when(conferenceRepository.save(any(Conference.class))).thenReturn(conferenceCreated);
 
         //On appelle notre service de creation
-        CreatedConferenceEvent createdConferenceEvent =
-                service.createConference(new CreateConferenceEvent(new ConferenceDetail(null, "Mix-IT", null,
-                        null,null,"FR", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
-        assertThat(createdConferenceEvent.getConference().getId()).isEqualTo(1L);
-        assertThat(createdConferenceEvent.getConference().getDateStart()).isEqualTo("2014-04-29 09:00:00");
+        Conference param = new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate());
+        param.setCountry(new Country("FR","France"));
+        CreatedEvent<Conference> createdConferenceEvent = service.createConference(param);
+        assertThat(((Conference)createdConferenceEvent.getValue()).getId()).isEqualTo(1L);
+        assertThat(((Conference)createdConferenceEvent.getValue()).getDateStart()).isEqualTo("2014-04-29 09:00:00");
 
         //Le but est de verifier que la sauvegarde est appelee mais pas la recherche d'entite
         verify(conferenceRepository, only()).save(any(Conference.class));
@@ -114,29 +115,29 @@ public class ConferenceHandlerEventTest {
 
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.events.conference.UpdateConferenceEvent)}
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.domain.Conference)}
      * cas ou argument null
      */
     @Test(expected = NullPointerException.class)
-    public void updateConferenceShouldThrownNullPointerExceptionIfArgIsNull(){
+    public void shouldNotUupdateConferenceWhenArgNull(){
         service.updateConference(null);
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.events.conference.UpdateConferenceEvent)}
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.domain.Conference)}
      * cas ou pas de conference passe null
      */
     @Test(expected = NullPointerException.class)
-    public void updateConferenceShouldThrownNullPointerExceptionIfConferenceSent(){
-        service.updateConference(new UpdateConferenceEvent(null));
+    public void shouldNotUupdateConferenceWhenIdConferenceNull(){
+        service.updateConference(new Conference());
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.events.conference.UpdateConferenceEvent)}
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.domain.Conference)}
      * cas ou on cree sans avoir passé de pays
      */
     @Test
-    public void updateConferenceShouldCreateEntityEvenIfNoCountryAdded(){
+    public void shouldUpdateConferenceEvenIfNoCountryAdded(){
         //La sauvegarde de la conference retournera une instance avec un id
         Conference conferenceCreated = new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate());
         conferenceCreated.setId(1L);
@@ -149,11 +150,12 @@ public class ConferenceHandlerEventTest {
         when(conferenceRepository.save(any(Conference.class))).thenReturn(conferenceCreated);
 
         //On appelle notre service de creation
-        UpdatedConferenceEvent updatedConferenceEvent =
-                service.updateConference(new UpdateConferenceEvent(new ConferenceDetail(1L, "Mix-IT", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
+        Conference param = new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate());
+        param.setId(1L);
+        UpdatedEvent<Conference> updatedConferenceEvent = service.updateConference(param);
 
-        assertThat(updatedConferenceEvent.getConference().getId()).isEqualTo(1L);
-        assertThat(updatedConferenceEvent.getConference().getDateStart()).isEqualTo("2014-04-29 09:00:00");
+        assertThat(((Conference)updatedConferenceEvent.getValue()).getId()).isEqualTo(1L);
+        assertThat(((Conference)updatedConferenceEvent.getValue()).getDateStart()).isEqualTo("2014-04-29 09:00:00");
 
         //Le but est de verifier que la recherche est appelee
         verify(conferenceRepository, times(1)).findOne(1L);
@@ -161,22 +163,23 @@ public class ConferenceHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.events.conference.UpdateConferenceEvent)}
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#updateConference(com.ninjamind.conference.domain.Conference)}
      * cas ou on ne modifie pas car la donnée n'a pas été trouvée
      */
     @Test
-    public void updateConferenceShouldCreateNotEntityIfNotFound(){
+    public void shouldNotUpdateConferenceWhenConfIsNotFound(){
         //La recherche de pays renvoie une occurence
         when(countryRepository.findCountryByCode("FR")).thenReturn(new Country("FR", "France"));
         //La recherche de l'entite passee renvoie pas de resultat
         when(conferenceRepository.findOne(1L)).thenReturn(null);
 
         //On appelle notre service de creation
-        UpdatedConferenceEvent updatedConferenceEvent =
-                service.updateConference(new UpdateConferenceEvent(new ConferenceDetail(1L, "Mix-IT", null,
-                        null, null, "FR", "2014-04-29 09:00:00", "2014-04-30 19:00:00")));
+        Conference param = new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate());
+        param.setId(1L);
+        param.setCountry(new Country("FR", "France"));
+        UpdatedEvent<Conference> updatedConferenceEvent = service.updateConference(param);
 
-        assertThat(updatedConferenceEvent.getConference()).isNull();
+        assertThat(updatedConferenceEvent.getValue()).isNull();
         assertThat(updatedConferenceEvent.isEntityFound()).isEqualTo(false);
 
         //Le but est de verifier que seule la recherche est appelee et non la sauvegarde
@@ -185,18 +188,18 @@ public class ConferenceHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#deleteConference(com.ninjamind.conference.events.conference.DeleteConferenceEvent)}
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#deleteConference(com.ninjamind.conference.domain.Conference)}
      * cas nominal
      */
     @Test
-    public void deleteConferenceShouldBeOk(){
+    public void shouldDeleteConference(){
         //La recherche de l'entite passee renvoie un resultat
         when(conferenceRepository.findOne(1L)).thenReturn(new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate()));
 
         //On appelle notre service de creation
-        DeletedConferenceEvent deletedConferenceEvent = service.deleteConference(new DeleteConferenceEvent("1"));
+        DeletedEvent<Conference> deletedConferenceEvent = service.deleteConference(new Conference(1L));
 
-        assertThat(deletedConferenceEvent.getConference()).isNotNull();
+        assertThat(deletedConferenceEvent.getValue()).isNotNull();
 
         //Le but est de verifier que la suppression et la recherche sont appelees
         verify(conferenceRepository, times(1)).findOne(1L);
@@ -206,19 +209,18 @@ public class ConferenceHandlerEventTest {
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#deleteConference(com.ninjamind.conference.events.conference.DeleteConferenceEvent)}
+     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#deleteConference(com.ninjamind.conference.domain.Conference)}
      * cas ou id passé ne correspond a aucun enregsitrement
      */
     @Test
-    public void deleteConferenceShouldCreateNotEntityIfNotFound(){
+    public void shouldNotDeleteConferenceWhenEntityIsNotFound(){
         //La recherche de l'entite passee renvoie pas de resultat
         when(conferenceRepository.findOne(1L)).thenReturn(null);
 
         //On appelle notre service de creation
-        DeletedConferenceEvent deletedConferenceEvent =
-                service.deleteConference(new DeleteConferenceEvent("1"));
+        DeletedEvent<Conference> deletedConferenceEvent = service.deleteConference(new Conference(1L));
 
-        assertThat(deletedConferenceEvent.getConference()).isNull();
+        assertThat(deletedConferenceEvent.getValue()).isNull();
         assertThat(deletedConferenceEvent.isEntityFound()).isEqualTo(false);
 
         //Le but est de verifier que seule la recherche est appelee et non la suppression
@@ -226,42 +228,9 @@ public class ConferenceHandlerEventTest {
         verifyNoMoreInteractions(conferenceRepository);
     }
 
-    /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#getConference(com.ninjamind.conference.events.conference.ReadConferenceRequestEvent)}
-     * cas nominal
-     */
-    @Test
-    public void getConferenceShouldReturnEntity(){
-        //La recherche de l'entite passee renvoie un resultat
-        when(conferenceRepository.findOne(1L)).thenReturn(new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate()));
-
-        //On appelle notre service de creation
-        ReadConferenceEvent readConferenceEvent = service.getConference(new ReadConferenceRequestEvent("1"));
-
-        assertThat(readConferenceEvent.getConference()).isNotNull();
-        assertThat(readConferenceEvent.getConference().getDateStart()).isEqualTo("2014-04-29 09:00:00");
-
-    }
 
     /**
-     * Test de {@link com.ninjamind.conference.service.conference.ConferenceService#getConference(com.ninjamind.conference.events.conference.ReadConferenceRequestEvent)}
-     * cas ou id passé ne correspond a aucun enregsitrement
-     */
-    @Test
-    public void getConferenceShouldNotReturnEntityIfNoEnreg(){
-        //La recherche de l'entite passee renvoie pas de resultat
-        when(conferenceRepository.findOne(1L)).thenReturn(null);
-
-        //On appelle notre service de creation
-        ReadConferenceEvent readConferenceEvent = service.getConference(new ReadConferenceRequestEvent("1"));
-
-        assertThat(readConferenceEvent.getConference()).isNull();
-        assertThat(readConferenceEvent.isEntityFound()).isEqualTo(false);
-    }
-
-
-    /**
-     * Parametres utilises dans {@link #getCoolestConference_ShouldReturnInstance(String, Long, Long, Long, Long, Long, String, Long, Long, Long, Long, Long, String)}
+     * Parametres utilises dans {@link #shouldFindTheCoolestConference(String, Long, Long, Long, Long, Long, String, Long, Long, Long, Long, Long, String)}
      * @return
      */
     protected Object[] conferenceValues(){
@@ -273,7 +242,7 @@ public class ConferenceHandlerEventTest {
     }
 
     /**
-     * Test de la m�thode {@link com.ninjamind.conference.service.conference.ConferenceService#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * Test de la methode {@link ConferenceService#getCoolestConference()}
      * cas ou une valeur est retournee
      * @param nameConf1
      * @param nbHourToSellTicketConf1
@@ -291,7 +260,7 @@ public class ConferenceHandlerEventTest {
      */
     @Test
     @Parameters(method = "conferenceValues")
-    public void getCoolestConference_ShouldReturnInstance(
+    public void shouldFindTheCoolestConference(
             String nameConf1,  Long nbHourToSellTicketConf1, Long nbAttendeesConf1,
             Long nbConferenceSlotConf1, Long nbConferenceProposalsConf1, Long nbTwitterFollowersConf1,
             String nameConf2,  Long nbHourToSellTicketConf2, Long nbAttendeesConf2,
@@ -302,30 +271,28 @@ public class ConferenceHandlerEventTest {
         addConference(nameConf2, nbHourToSellTicketConf2, nbAttendeesConf2, nbConferenceSlotConf2, nbConferenceProposalsConf2, nbTwitterFollowersConf2);
         when(conferenceRepository.findAll()).thenReturn(conferences);
 
-        ReadConferenceEvent event = service.getCoolestConference(new ReadCoolestConferenceRequestEvent());
-        Assertions.assertThat(event.getConference().getName()).isEqualTo(confExpected);
+        Assertions.assertThat(service.getCoolestConference().getName()).isEqualTo(confExpected);
     }
 
     /**
-     * Test de la methode {@link com.ninjamind.conference.service.conference.ConferenceService#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * Test de la methode {@link ConferenceService#getCoolestConference()}
      * cas ou aucune valeur en base de donnees
      */
     @Test
-    public void getCoolestConference_ShouldReturnNull_IfNoDataInDatabase() {
+    public void shouldNotFindTheCoolestConferenceWhenNoData() {
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        ReadConferenceEvent event = service.getCoolestConference(new ReadCoolestConferenceRequestEvent());
-        Assertions.assertThat(event.getConference()).isNull();
-        Assertions.assertThat(event.isEntityFound()).isEqualTo(false);
+        Conference event = service.getCoolestConference();
+        Assertions.assertThat(event).isNull();
     }
 
     /**
-     * Test de la methode {@link com.ninjamind.conference.service.conference.ConferenceService#getCoolestConference(com.ninjamind.conference.events.conference.ReadCoolestConferenceRequestEvent)}
+     * Test de la methode {@link ConferenceService#getCoolestConference()}
      * cas ou une exception est remontee lors de la recuperation des donnees
      */
     @Test(expected = PersistenceException.class)
-    public void getCoolestConference_ShouldThrowException_IfPersistenceProblem() {
+    public void shouldNotFindTheCoolestConferenceWhenPersistenceProblem() {
         when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
-        service.getCoolestConference(new ReadCoolestConferenceRequestEvent());
+        service.getCoolestConference();
     }
 
 

@@ -3,7 +3,7 @@ package com.ninjamind.conference.events;
 import java.util.UUID;
 
 /**
- * Tous les evenements sont au moins identifiés par un identifiant unique
+ * Tous les evenements sont au moins identifies par un identifiant unique
  * @author ehret_g
  */
 public abstract class AbstractEvent<Dto> {

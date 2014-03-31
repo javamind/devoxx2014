@@ -1,7 +1,6 @@
 package com.ninjamind.conference.service;
 
 import com.ninjamind.conference.domain.Conference;
-import com.ninjamind.conference.events.conference.*;
 
 /**
  * Service permettant de détermine les favoris des utilisateurs

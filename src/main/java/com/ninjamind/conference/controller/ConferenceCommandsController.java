@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/conferences")
 public class ConferenceCommandsController {
     /**
-     * Service associe permettant de gérer les {@link com.ninjamind.conference.domain.Conference}
+     * Service associe permettant de gerer les {@link com.ninjamind.conference.domain.Conference}
      */
     @Autowired
     private ConferenceService conferenceService;

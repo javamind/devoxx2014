@@ -1,7 +1,9 @@
 package com.ninjamind.conference.controller;
 
-import com.ninjamind.conference.events.dto.TalkDetail;
-import com.ninjamind.conference.events.talk.*;
+import com.ninjamind.conference.domain.Talk;
+import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
 import com.ninjamind.conference.service.talk.TalkService;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +40,7 @@ public class TalkCommandsControllerTest {
     }
 
     /**
-     * Genere un flux Json contenant les donnees liées à une talk
+     * Genere un flux Json contenant les donnees liï¿½es ï¿½ une talk
      * @param id
      * @param name
      * @return
@@ -54,8 +56,8 @@ public class TalkCommandsControllerTest {
     @Test
     public void shouldCreateEntity() throws Exception {
         //Le service renvoie une entite
-        when(talkService.createTalk(any(CreateTalkEvent.class))).thenReturn(
-                new CreatedTalkEvent(true, new TalkDetail(null,"Le bon testeur il teste..."))
+        when(talkService.createTalk(any(Talk.class))).thenReturn(
+                new CreatedEvent<Talk>(true, new Talk("Le bon testeur il teste..."))
         );
 
         //L'appel de l'URL doit retourner un status 201
@@ -76,10 +78,10 @@ public class TalkCommandsControllerTest {
     @Test
     public void shouldNotCreateEntityIfValidationError() throws Exception {
         //Le service renvoie une entite
-        when(talkService.createTalk(any(CreateTalkEvent.class))).thenReturn(
-                new CreatedTalkEvent(false, null));
+        when(talkService.createTalk(any(Talk.class))).thenReturn(
+                new CreatedEvent<Talk>(false, null));
 
-        //L'appel de l'URL doit retourner un status 406 si données inavlide
+        //L'appel de l'URL doit retourner un status 406 si donnï¿½es inavlide
         mockMvc.perform(
                 post("/talks")
                         .content(generateTalkJson(null, "Le bon testeur il teste..."))
@@ -96,8 +98,8 @@ public class TalkCommandsControllerTest {
     @Test
     public void shouldUpdateEntity() throws Exception {
         //Le service renvoie une entite
-        when(talkService.updateTalk(any(UpdateTalkEvent.class))).thenReturn(
-                new UpdatedTalkEvent(true, new TalkDetail(null,"Le bon testeur il teste..."))
+        when(talkService.updateTalk(any(Talk.class))).thenReturn(
+                new UpdatedEvent<Talk>(true, new Talk("Le bon testeur il teste..."))
         );
 
         //L'appel de l'URL doit retourner un status 201
@@ -111,16 +113,16 @@ public class TalkCommandsControllerTest {
     }
 
     /**
-     * Test de la mise a jour d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donnée n'existe pas
+     * Test de la mise a jour d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donnï¿½e n'existe pas
      * @throws Exception
      */
     @Test
     public void shouldNotUpdateEntityIfEntityNotFound() throws Exception {
         //Le service renvoie une entite
-        when(talkService.updateTalk(any(UpdateTalkEvent.class))).thenReturn(
-                new UpdatedTalkEvent(false, null));
+        when(talkService.updateTalk(any(Talk.class))).thenReturn(
+                new UpdatedEvent<Talk>(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si données non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnï¿½es non trouvee
         mockMvc.perform(
                 put("/talks")
                         .content(generateTalkJson("1", "Le bon testeur il teste..."))
@@ -138,10 +140,10 @@ public class TalkCommandsControllerTest {
     @Test
     public void shouldNotUpdateEntityIfValidationError() throws Exception {
         //Le service renvoie une entite
-        when(talkService.updateTalk(any(UpdateTalkEvent.class))).thenReturn(
-                new UpdatedTalkEvent(false, true, null));
+        when(talkService.updateTalk(any(Talk.class))).thenReturn(
+                new UpdatedEvent<Talk>(false, true, null));
 
-        //L'appel de l'URL doit retourner un status 406 si données invalide
+        //L'appel de l'URL doit retourner un status 406 si donnï¿½es invalide
         mockMvc.perform(
                 put("/talks")
                         .content(generateTalkJson("1", "Le bon testeur il teste..."))
@@ -158,8 +160,8 @@ public class TalkCommandsControllerTest {
     @Test
     public void shouldDeleteEntity() throws Exception {
         //Le service renvoie une entite
-        when(talkService.deleteTalk(any(DeleteTalkEvent.class))).thenReturn(
-                new DeletedTalkEvent(true, new TalkDetail(null,"Le bon testeur il teste..."))
+        when(talkService.deleteTalk(any(Talk.class))).thenReturn(
+                new DeletedEvent(true, new Talk(1L))
         );
 
         //L'appel de l'URL doit retourner un status 201
@@ -173,16 +175,16 @@ public class TalkCommandsControllerTest {
     }
 
     /**
-     * Test de la suppression d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donnée n'existe pas
+     * Test de la suppression d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donnï¿½e n'existe pas
      * @throws Exception
      */
     @Test
     public void shouldNotDeleteEntityIfEntityNotFound() throws Exception {
         //Le service renvoie une entite
-        when(talkService.deleteTalk(any(DeleteTalkEvent.class))).thenReturn(
-                new DeletedTalkEvent(false, null));
+        when(talkService.deleteTalk(any(Talk.class))).thenReturn(
+                new DeletedEvent(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si données non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnï¿½es non trouvee
         mockMvc.perform(
                 delete("/talks/{id}", "1")
                         .content(generateTalkJson("1", "Le bon testeur il teste..."))

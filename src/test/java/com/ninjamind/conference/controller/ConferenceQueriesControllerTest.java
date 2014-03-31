@@ -1,10 +1,8 @@
 package com.ninjamind.conference.controller;
 
 import com.google.common.collect.Lists;
-import com.ninjamind.conference.events.conference.*;
-import com.ninjamind.conference.events.dto.ConferenceDetail;
+import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.service.conference.ConferenceService;
-import com.ninjamind.conference.utils.Utils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -50,20 +48,16 @@ public class ConferenceQueriesControllerTest {
         String idCherche = "1";
 
         //Le service renvoie une entite
-        when(conferenceService.getConference(any(ReadConferenceRequestEvent.class))).thenReturn(
-                new ReadConferenceEvent(
-                        true,
-                        new ConferenceDetail(
-                                Long.valueOf(idCherche),
+        when(conferenceService.getConference(any(Conference.class))).thenReturn(
+                new Conference(
                                 "Mix-IT",
-                                Utils.dateJavaToJson(new Date(0)),
-                                Utils.dateJavaToJson(new Date(0)))));
+                                new Date(0),
+                                new Date(0)));
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/conferences/{id}", idCherche))
                 .andDo(print())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("id").value(1))
                 .andExpect(jsonPath("name").value("Mix-IT"))
                 .andExpect(status().isOk());
     }
@@ -76,8 +70,8 @@ public class ConferenceQueriesControllerTest {
     @Test
     public void shouldReturnNotFoundStatusWhenSearchByIdInvalid() throws Exception {
         //Le service renvoie une entite
-        when(conferenceService.getConference(any(ReadConferenceRequestEvent.class))).thenReturn(
-                new ReadConferenceEvent(false,null));
+        when(conferenceService.getConference(any(Conference.class))).thenReturn(
+               null);
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/conferences/{id}", "1"))
@@ -92,21 +86,18 @@ public class ConferenceQueriesControllerTest {
      */
     @Test
     public void shouldReturnListEntityWhenSearchAllConference() throws Exception {
-        List<ConferenceDetail> listExpected = Lists.newArrayList (
-                new ConferenceDetail(
-                    Long.valueOf("1"),
+        List<Conference> listExpected = Lists.newArrayList (
+                new Conference(
                     "Mix-IT",
-                    Utils.dateJavaToJson(new Date(0)),
-                    Utils.dateJavaToJson(new Date(0))),
-                new ConferenceDetail(
-                        Long.valueOf("2"),
+                    new Date(0),
+                    new Date(0)),
+                new Conference(
                         "Devoxx",
-                        Utils.dateJavaToJson(new Date(0)),
-                        Utils.dateJavaToJson(new Date(0))));
+                        new Date(0),
+                        new Date(0)));
 
         //Le service renvoie une entite
-        when(conferenceService.getAllConference(any(ReadAllConferenceRequestEvent.class))).thenReturn(
-                new ReadAllConferenceEvent(listExpected));
+        when(conferenceService.getAllConference()).thenReturn(listExpected);
 
         //L'appel de l'URL doit retourner un status 200
         mockMvc.perform(get("/conferences"))
