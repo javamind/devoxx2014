@@ -75,7 +75,7 @@ public class ConferenceHandlerEvent implements ConferenceService
         Preconditions.checkNotNull(event.getName(), "conference is required to create it");
 
         CreatedEvent<Conference> eventReturned = new CreatedEvent(
-                new ConferenceDetail(transformAndSaveConferenceDetailToConference(event, true)));
+                transformAndSaveConferenceDetailToConference(event, true));
 
         LOG.debug(String.format("Creation de la conference ayant id=[%d] name=[%s] UUID:%s",
                 ((Conference) eventReturned.getValue()).getId(), event.getName(),

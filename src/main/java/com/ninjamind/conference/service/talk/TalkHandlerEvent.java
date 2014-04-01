@@ -62,8 +62,7 @@ public class TalkHandlerEvent implements TalkService
         Preconditions.checkNotNull(event);
         Preconditions.checkNotNull(event.getName(), "talk is required to create it");
 
-        CreatedEvent<Talk> eventReturned = new CreatedEvent(
-                new TalkDetail(transformAndSaveTalkDetailToTalk(event, true)));
+        CreatedEvent<Talk> eventReturned = new CreatedEvent(transformAndSaveTalkDetailToTalk(event, true));
 
         LOG.debug(String.format("Creation du talk ayant id=[%d] name=[%s] UUID:%s",
                 ((Talk)eventReturned.getValue()).getId(), event.getName(),

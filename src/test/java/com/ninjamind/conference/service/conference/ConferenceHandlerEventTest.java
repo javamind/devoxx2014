@@ -7,6 +7,7 @@ import com.ninjamind.conference.events.DeletedEvent;
 import com.ninjamind.conference.events.UpdatedEvent;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import com.ninjamind.conference.repository.CountryRepository;
+import com.ninjamind.conference.utils.Utils;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.fest.assertions.api.Assertions;
@@ -85,7 +86,7 @@ public class ConferenceHandlerEventTest {
                 service.createConference(new Conference("Mix-IT", new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,19,0).toDate()));
 
         assertThat(((Conference)createdConferenceEvent.getValue()).getId()).isEqualTo(1L);
-        assertThat(((Conference)createdConferenceEvent.getValue()).getDateStart()).isEqualTo("2014-04-29 09:00:00");
+        assertThat(Utils.dateJavaToJson(((Conference) createdConferenceEvent.getValue()).getDateStart())).isEqualTo("2014-04-29 09:00:00");
     }
 
     /**
@@ -106,7 +107,7 @@ public class ConferenceHandlerEventTest {
         param.setCountry(new Country("FR","France"));
         CreatedEvent<Conference> createdConferenceEvent = service.createConference(param);
         assertThat(((Conference)createdConferenceEvent.getValue()).getId()).isEqualTo(1L);
-        assertThat(((Conference)createdConferenceEvent.getValue()).getDateStart()).isEqualTo("2014-04-29 09:00:00");
+        assertThat(Utils.dateJavaToJson(((Conference) createdConferenceEvent.getValue()).getDateStart())).isEqualTo("2014-04-29 09:00:00");
 
         //Le but est de verifier que la sauvegarde est appelee mais pas la recherche d'entite
         verify(conferenceRepository, only()).save(any(Conference.class));
@@ -155,7 +156,7 @@ public class ConferenceHandlerEventTest {
         UpdatedEvent<Conference> updatedConferenceEvent = service.updateConference(param);
 
         assertThat(((Conference)updatedConferenceEvent.getValue()).getId()).isEqualTo(1L);
-        assertThat(((Conference)updatedConferenceEvent.getValue()).getDateStart()).isEqualTo("2014-04-29 09:00:00");
+        assertThat(Utils.dateJavaToJson(((Conference) updatedConferenceEvent.getValue()).getDateStart())).isEqualTo("2014-04-29 09:00:00");
 
         //Le but est de verifier que la recherche est appelee
         verify(conferenceRepository, times(1)).findOne(1L);

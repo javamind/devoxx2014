@@ -65,8 +65,7 @@ public class SpeakerHandlerEvent implements SpeakerService
         Preconditions.checkNotNull(event);
         Preconditions.checkNotNull(event.getLastname(), "speaker is required to create it");
 
-        CreatedEvent<Speaker> eventReturned = new CreatedEvent(
-                new SpeakerDetail(transformAndSaveSpeakerDetailToSpeaker(event, true)));
+        CreatedEvent<Speaker> eventReturned = new CreatedEvent(transformAndSaveSpeakerDetailToSpeaker(event, true));
 
         LOG.debug(String.format("Creation du speaker ayant id=[%d] name=[%s] UUID:%s",
                 ((Speaker) eventReturned.getValue()).getId(), event.getLastname(),
@@ -83,7 +82,9 @@ public class SpeakerHandlerEvent implements SpeakerService
     private Speaker transformAndSaveSpeakerDetailToSpeaker(Speaker speaker, boolean creation) {
         //Le pays envoye est simplement un code on doit mettre a jour le pays avec les données présentes
         //en base de données
-        speaker.setCountry(countryRepository.findCountryByCode(speaker.getCountry().getCode()));
+        if(speaker.getCountry()!=null) {
+            speaker.setCountry(countryRepository.findCountryByCode(speaker.getCountry().getCode()));
+        }
 
         //Si pas en creation on regarde si enreg existe
         if(!creation){
