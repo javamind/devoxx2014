@@ -8,6 +8,7 @@ CREATE TABLE talk
   datestart date,
     dateend date,
   level character varying(40),
+  status character varying(40),
   version integer,
   majuser character varying(40),
   majdate date,

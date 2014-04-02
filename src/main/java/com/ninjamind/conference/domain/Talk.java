@@ -19,6 +19,7 @@ public class Talk {
     private String description;
     private String place;
     private Integer nbpeoplemax;
+    private Status status;
     private Level level;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateStart;
@@ -141,6 +142,14 @@ public class Talk {
 
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

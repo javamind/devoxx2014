@@ -1,6 +1,7 @@
 package com.ninjamind.conference.events.dto;
 
 import com.ninjamind.conference.domain.Level;
+import com.ninjamind.conference.domain.Status;
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.utils.Utils;
 
@@ -25,6 +26,7 @@ public class TalkDetail implements Serializable {
     protected String level;
     protected String dateStart;
     protected String dateEnd;
+    protected String status;
 
     /**
      *
@@ -62,6 +64,7 @@ public class TalkDetail implements Serializable {
         );
         this.setDateStart(Utils.dateJavaToJson(talk.getDateStart()));
         this.setDateEnd(Utils.dateJavaToJson(talk.getDateEnd()));
+        this.setStatus(talk.getStatus()!=null ? talk.getStatus().toString() : null);
     }
 
     public Talk toTalk() {
@@ -73,7 +76,16 @@ public class TalkDetail implements Serializable {
         talk.setLevel(level!=null ? Level.valueOf(level) : null);
         talk.setDateStart(Utils.dateJsonToJava(getDateStart()));
         talk.setDateEnd(Utils.dateJsonToJava(getDateEnd()));
+        talk.setStatus(status!=null ? Status.valueOf(status) : null);
         return talk;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getId() {
