@@ -53,7 +53,7 @@ public class FavoriteHandlerEventCibleTest {
 
 
 
-    protected Object[] conferenceLessValues(){
+    protected Object[] conferenceValues(){
         return $(
                 //Avec les vraies valeurs Mix-IT est la plus sélective
                 $("Devoxx2014", 154L, 658L, "Mix-IT2014", 30L, 200L, "Mix-IT2014"),
@@ -63,7 +63,7 @@ public class FavoriteHandlerEventCibleTest {
     }
 
     @Test
-    @Parameters(method = "conferenceLessValues")
+    @Parameters(method = "conferenceValues")
     public void shouldFindTheMoreSelectiveConference(String nameConf1, Long nbConferenceSlotConf1, Long nbConferenceProposalsConf1,
                                                                    String nameConf2, Long nbConferenceSlotConf2, Long nbConferenceProposalsConf2,
                                                                    String confExpected){

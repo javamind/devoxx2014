@@ -9,11 +9,15 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+=======
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+>>>>>>> a16928666add1adaffafb150b16199703434c9f7
 
 import java.io.File;
 import java.util.List;
@@ -57,6 +61,11 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
 
     }
 
+    @Test
+    public void shouldArchiveOneConfWhenYearIs2013(){
+        int nb = talkArchiverRepository.archiveTalks(2013);
+        assertThat(nb).isEqualTo(1);
+    }
 
     /**
      * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand rien n'est trouve car la date
