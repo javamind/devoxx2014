@@ -13,6 +13,7 @@ import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junitparams.JUnitParamsRunner.$;
 import static org.mockito.Mockito.when;
 
 /**
@@ -31,6 +32,15 @@ public class FavoriteHandlerEventTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    protected Object[] conferenceValues(){
+        return $(
+                //Avec les vraies valeurs Mix-IT est la plus sélective
+                $("Devoxx2014", 154L, 658L, "Mix-IT2014", 30L, 200L, "Mix-IT2014"),
+                //Une conf avec des donnees incomplètes ne compte pas
+                $("JugSummerCamp2014", 20L, null, "Mix-IT2014", 30L, 200L, "Mix-IT2014")
+        );
     }
 
     /**

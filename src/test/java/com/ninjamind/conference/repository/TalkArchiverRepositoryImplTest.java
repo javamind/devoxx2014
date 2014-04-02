@@ -6,6 +6,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import java.io.File;
 import java.util.List;
@@ -34,7 +35,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
         talkArchiverRepository.findTalkToArchive(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldFindOneConfToArchiveWhenYearIs2014(){
         List<Talk> talks =  talkArchiverRepository.findTalkToArchive(2014);
         assertThat(talks).hasSize(1);
@@ -44,5 +45,10 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
 
     }
 
+    @Test
+    public void shouldArchiveOneConfWhenYearIs2013(){
+        int nb = talkArchiverRepository.archiveTalks(2013);
+        assertThat(nb).isEqualTo(1);
+    }
 
 }
