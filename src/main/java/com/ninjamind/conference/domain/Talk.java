@@ -43,6 +43,18 @@ public class Talk {
         this.name = name;
     }
 
+    public Talk(Long id, String name) {
+        this(id);
+        this.name = name;
+    }
+
+    public Talk(Long id, String name, Date dateStart, Date dateEnd) {
+        this(id);
+        this.name = name;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+    }
+
     public Long getId() {
         return id;
     }

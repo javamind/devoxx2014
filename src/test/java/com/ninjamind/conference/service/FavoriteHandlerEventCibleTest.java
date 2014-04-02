@@ -20,9 +20,7 @@ import static junitparams.JUnitParamsRunner.$;
 import static org.mockito.Mockito.when;
 
 /**
- * Classe de test de la classe {@link com.ninjamind.conference.service.FavoriteHandlerEvent}. Vous pouvez
- * voir le pendant de cette classe {@link com.ninjamind.conference.FavoriteHandlerEventTest ) qui
- * comprend plusieurs chose nuisant a une bonne lisibilite de la classe.
+ * Classe de test de la classe {@link com.ninjamind.conference.service.FavoriteHandlerEvent}.
  * <br/>
  * Le but est de montrer
  * <ul>
@@ -60,9 +58,7 @@ public class FavoriteHandlerEventCibleTest {
                 //Avec les vraies valeurs Mix-IT est la plus sélective
                 $("Devoxx2014", 154L, 658L, "Mix-IT2014", 30L, 200L, "Mix-IT2014"),
                 //Une conf avec des donnees incomplètes ne compte pas
-                $("JugSummerCamp2014", 20L, null, "Mix-IT2014", 30L, 200L, "Mix-IT2014"),
-                //Si aucune donnée complete doit retourner null
-                $("JugSummerCamp2014", 20L, null, "Mix-IT2014", 30L, null, null)
+                $("JugSummerCamp2014", 20L, null, "Mix-IT2014", 30L, 200L, "Mix-IT2014")
         );
     }
 
@@ -76,7 +72,6 @@ public class FavoriteHandlerEventCibleTest {
         when(conferenceRepository.findAll()).thenReturn(conferences);
         Conference theBestConf = favoriteHandlerEvent.getTheMoreSelectiveConference();
         Assertions.assertThat(theBestConf.getName()).isEqualTo(confExpected);
-
     }
 
     @Test
@@ -91,6 +86,7 @@ public class FavoriteHandlerEventCibleTest {
     @Test(expected = PersistenceException.class)
     public void shouldThrowExceptonWhenProblemOnDatabase(){
         when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
+        favoriteHandlerEvent.getTheMoreSelectiveConference();
         Assertions.failBecauseExceptionWasNotThrown(PersistenceException.class);
 
     }
