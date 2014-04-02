@@ -1,6 +1,7 @@
 package com.ninjamind.conference.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -19,6 +20,10 @@ public class Talk {
     private String place;
     private Integer nbpeoplemax;
     private Level level;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateEnd;
     @ManyToMany(mappedBy="talks")
     Set<Speaker> speakers;
     @ManyToMany(mappedBy="talks")
@@ -108,6 +113,22 @@ public class Talk {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
     @Override

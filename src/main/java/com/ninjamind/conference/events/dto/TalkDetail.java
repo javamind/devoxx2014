@@ -2,8 +2,13 @@ package com.ninjamind.conference.events.dto;
 
 import com.ninjamind.conference.domain.Level;
 import com.ninjamind.conference.domain.Talk;
+import com.ninjamind.conference.utils.Utils;
 
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Objet de transit lie
@@ -18,6 +23,8 @@ public class TalkDetail implements Serializable {
     protected String place;
     protected Integer nbpeoplemax;
     protected String level;
+    protected String dateStart;
+    protected String dateEnd;
 
     /**
      *
@@ -41,6 +48,7 @@ public class TalkDetail implements Serializable {
         this.place = place;
         this.nbpeoplemax = nbpeoplemax;
         this.level = level;
+
     }
 
     public TalkDetail(Talk talk) {
@@ -52,6 +60,8 @@ public class TalkDetail implements Serializable {
                 talk.getNbpeoplemax(),
                 talk.getLevel() != null ? talk.getLevel().toString() : null
         );
+        this.setDateStart(Utils.dateJavaToJson(talk.getDateStart()));
+        this.setDateEnd(Utils.dateJavaToJson(talk.getDateEnd()));
     }
 
     public Talk toTalk() {
@@ -61,11 +71,18 @@ public class TalkDetail implements Serializable {
         talk.setPlace(place);
         talk.setNbpeoplemax(nbpeoplemax);
         talk.setLevel(level!=null ? Level.valueOf(level) : null);
+        talk.setDateStart(Utils.dateJsonToJava(getDateStart()));
+        talk.setDateEnd(Utils.dateJsonToJava(getDateEnd()));
         return talk;
     }
 
     public Long getId() {
         return id;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -86,5 +103,41 @@ public class TalkDetail implements Serializable {
 
     public String getLevel() {
         return level;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setNbpeoplemax(Integer nbpeoplemax) {
+        this.nbpeoplemax = nbpeoplemax;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
     }
 }
