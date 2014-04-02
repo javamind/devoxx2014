@@ -10,8 +10,8 @@ import java.io.File;
 
 /**
  * Classe de test du Repo {@link com.ninjamind.conference.repository.TalkRepository}. Le principe
- * est de montré un exemple avec Dbunit. Lors de la conférence ce test sera transformé pour utilisé
- * DbSetup à la place
+ * est de montre un exemple avec Dbunit. Lors de la conference ce test sera transforme pour utilise
+ * DbSetup a la place
  *
  * @author EHRET_G
  */
@@ -19,7 +19,7 @@ public class TalkRepositoryTest {
 
 
     /**
-     * Repository à tester
+     * Repository a tester
      */
     @Autowired
     private TalkRepository talkRepository;
