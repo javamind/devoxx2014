@@ -6,7 +6,7 @@ CREATE TABLE talk
   place character varying(50),
   nbpeoplemax integer,
   datestart date,
-    dateend date,
+  dateend date,
   level character varying(40),
   status character varying(40),
   version integer,

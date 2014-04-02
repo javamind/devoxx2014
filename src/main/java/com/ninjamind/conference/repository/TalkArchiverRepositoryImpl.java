@@ -11,15 +11,11 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * {@link }
+ *
  *
  * @author EHRET_G
  */
 @Repository
-@NamedQueries(value = {
-        @NamedQuery(name = "findTalkToArchive", query = "SELECT t FROM Talk t WHERE year(t.dateStart) < :year"),
-        @NamedQuery(name = "archiveTalks", query = "UPDATE Talk t SET t.status='Archived' WHERE year(t.dateStart) < :year")
-})
 public class TalkArchiverRepositoryImpl implements TalkArchiverRepository {
 
     @PersistenceContext

@@ -9,6 +9,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "talk")
+@NamedQueries(value = {
+        @NamedQuery(name = "findTalkToArchive", query = "SELECT t FROM Talk t WHERE year(t.dateStart) < :year"),
+        @NamedQuery(name = "archiveTalks", query = "UPDATE Talk t SET t.status='Archived' WHERE year(t.dateStart) < :year")
+})
 public class Talk {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_talk")
@@ -19,7 +23,9 @@ public class Talk {
     private String description;
     private String place;
     private Integer nbpeoplemax;
+    @Enumerated(EnumType.STRING)
     private Status status;
+    @Enumerated(EnumType.STRING)
     private Level level;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateStart;

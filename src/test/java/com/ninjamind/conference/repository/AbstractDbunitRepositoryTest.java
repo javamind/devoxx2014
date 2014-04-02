@@ -35,13 +35,13 @@ public abstract class AbstractDbunitRepositoryTest extends AbstractTransactional
     /**
      * DataBase DBUnit
      */
-    IDatabaseTester databaseTester;
+    protected IDatabaseTester databaseTester;
 
     @Autowired
     protected PlatformTransactionManager transactionManager;
 
     /**
-     * Avant chaque test un jeu de données est injecté
+     * Avant chaque test un jeu de donnï¿½es est injectï¿½
      *
      * @throws Exception
      */
@@ -59,7 +59,7 @@ public abstract class AbstractDbunitRepositoryTest extends AbstractTransactional
     protected abstract IDataSet readDataSet() throws Exception;
 
     /**
-     * Connectionn à la base et preparation du jeu de donnée
+     * Connectionn ï¿½ la base et preparation du jeu de donnï¿½e
      * @param dataSet
      * @throws Exception
      */
