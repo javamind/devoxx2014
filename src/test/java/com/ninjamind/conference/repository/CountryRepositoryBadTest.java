@@ -23,8 +23,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.io.File;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -33,47 +33,16 @@ import static org.junit.Assert.fail;
  *
  * @author agnes
  */
-public class CountryRepositoryBadTest extends AbstractJpaRepositoryTest {
-
-    private static final String JDBC_DRIVER = org.postgresql.Driver.class.getName();
-    private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/devoxx2014";
-    private static final String USER = "devoxx2014";
-    private static final String PASSWORD = "devoxx2014";
-
-    /**
-     * DataBase DBUnit
-     */
-    IDatabaseTester databaseTester;
-
+public class CountryRepositoryBadTest extends AbstractDbunitRepositoryTest {
     /**
      * Repository à tester
      */
     @Autowired
     private CountryRepository countryRepository;
 
-    @Autowired
-    private PlatformTransactionManager transactionManager;
 
-    /**
-     * Avant chaque test un jeu de données est injecté
-     *
-     * @throws Exception
-     */
-    @Before
-    public void importDataSet() throws Exception {
-        IDataSet dataSet = readDataSet();
-        cleanlyInsert(dataSet);
-    }
-
-    private IDataSet readDataSet() throws Exception {
+    protected IDataSet readDataSet() throws Exception {
         return new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/init_country.xml"));
-    }
-
-    private void cleanlyInsert(IDataSet dataSet) throws Exception {
-        databaseTester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, USER, PASSWORD);
-        databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
-        databaseTester.setDataSet(dataSet);
-        databaseTester.onSetup();
     }
 
     /**

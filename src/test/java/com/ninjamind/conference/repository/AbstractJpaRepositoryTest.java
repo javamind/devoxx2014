@@ -1,5 +1,6 @@
 package com.ninjamind.conference.repository;
 
+import com.ninjamind.conference.config.DataBaseConfigTest;
 import com.ninjamind.conference.config.PersistenceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,9 +13,8 @@ import javax.sql.DataSource;
  * au repository
  * @author ehret_g
  */
-@ContextConfiguration(classes = PersistenceConfig.class)
+@ContextConfiguration(classes = {PersistenceConfig.class})
 public abstract class AbstractJpaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
-
     /**
      * Datasource utilisee dans les tests
      */

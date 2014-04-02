@@ -37,8 +37,8 @@ public class InitializeOperations {
 
     public static final Operation INSERT_TALK_DATA =
             insertInto("talk")
-                    .columns("id", "name")
-                    .values(1, "Le bon testeur il teste... le mauvais testeur il teste...")
+                    .columns("id", "name", "dateStart", "dateEnd")
+                    .values(1, "Le bon testeur il teste... le mauvais testeur il teste...", new DateTime(2014,4,18,13,30).toDate(), new DateTime(2014,4,18,14,20).toDate())
                     .build();
 
     public static final Operation INSERT_SPEAKER_TALK_DATA =
