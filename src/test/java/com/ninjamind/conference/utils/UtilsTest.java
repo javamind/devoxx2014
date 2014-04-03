@@ -1,6 +1,6 @@
 package com.ninjamind.conference.utils;
 
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.util.Date;

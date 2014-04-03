@@ -10,7 +10,7 @@ import com.ninjamind.conference.repository.CountryRepository;
 import com.ninjamind.conference.utils.Utils;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junitparams.JUnitParamsRunner.$;
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 

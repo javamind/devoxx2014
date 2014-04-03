@@ -4,14 +4,14 @@ import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.fest.assertions.api.Assertions;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
+import org.assertj.core.api.Assertions;
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,7 @@ package com.ninjamind.conference.service;
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import com.ninjamind.conference.service.FavoriteHandlerEvent;
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

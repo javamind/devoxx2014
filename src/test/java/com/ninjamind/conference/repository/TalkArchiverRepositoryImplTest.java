@@ -16,7 +16,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.io.File;
 import java.util.List;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
@@ -49,7 +49,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
     public void shouldFindOneConfToArchiveWhenYearIs2014(){
         List<Talk> talks =  talkArchiverRepository.findTalkToArchive(2014);
         assertThat(talks).hasSize(1);
-        assertThat(talks.get(0)).isLenientEqualsToByAcceptingFields(
+        assertThat(talks.get(0)).isEqualToComparingOnlyGivenFields(
                 new Talk(2L, "La conf passee"), "id", "name");
 
     }

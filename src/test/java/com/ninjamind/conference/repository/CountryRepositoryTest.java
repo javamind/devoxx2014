@@ -5,7 +5,7 @@ import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import com.ninjamind.conference.database.InitializeOperations;
 import com.ninjamind.conference.domain.Country;
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.hibernate.PropertyValueException;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +16,9 @@ import java.util.List;
 
 import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.extractProperty;
-import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.extractProperty;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
 /**
  * Classe de test du repository {@link com.ninjamind.conference.repository.CountryRepository}

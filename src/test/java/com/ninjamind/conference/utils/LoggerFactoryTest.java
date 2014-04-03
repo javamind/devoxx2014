@@ -2,7 +2,7 @@ package com.ninjamind.conference.utils;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
