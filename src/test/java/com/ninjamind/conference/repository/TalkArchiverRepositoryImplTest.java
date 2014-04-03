@@ -1,7 +1,10 @@
 package com.ninjamind.conference.repository;
 
 import com.ninjamind.conference.domain.Talk;
+import org.dbunit.Assertion;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +50,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
         List<Talk> talks =  talkArchiverRepository.findTalkToArchive(2014);
         assertThat(talks).hasSize(1);
         assertThat(talks.get(0)).isLenientEqualsToByAcceptingFields(
-              new Talk(2L, "La conf passee"), "id", "name");
+                new Talk(2L, "La conf passee"), "id", "name");
 
     }
 
@@ -93,12 +96,12 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
             }
         });
 
-        //TODO
-//        IDataSet databaseDataSet = databaseTester.getConnection().createDataSet();
-//        ITable actualTable = databaseDataSet.getTable("TALK");
-//        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/talk_archived.xml"));
-//        ITable expectedTable = expectedDataSet.getTable("TALK");
-//        ITable filteredActualTable = DefaultColumnFilter.excludedColumnsTable(actualTable, new String[]{"version", "maj*", "date*", "description", "level", "nbpeoplemax", "place"});
-//        Assertion.assertEquals(expectedTable, filteredActualTable);
+
+        IDataSet databaseDataSet = databaseTester.getConnection().createDataSet();
+        ITable actualTable = databaseDataSet.getTable("TALK");
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/talk_archived.xml"));
+        ITable expectedTable = expectedDataSet.getTable("TALK");
+        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable, new String[]{"id", "name","dateStart", "dateEnd", "status"});
+        Assertion.assertEquals(expectedTable, filteredActualTable);
     }
 }
