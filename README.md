@@ -24,7 +24,6 @@ Au niveau de la stack technique nous utilisons
 <li>spring core, test et webmvc : 4.0.2.RELEASE</li>
 <li>spring data jpa : 1.5.0.RELEASE</li>
 <li>hibernate 4.3.1.Final</li>
-<li>dbsetup 1.2.0 (en parallèle de dbunit 2.4.9)</li>
-<li>fest-assert 1.4</li>
 <li>javax.servlet-api : 3.0.1</li>
 </ul>
+

@@ -48,6 +48,7 @@ public class ConferenceHandlerEventTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        conferences.clear();
     }
 
     /**
