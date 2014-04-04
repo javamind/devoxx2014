@@ -58,14 +58,7 @@ public class FavoriteHandlerEventTest {
         conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
         Assert.assertEquals("Devoxx", conf.getName());
 
-        //Si toutes les confs ont des elements manquants, aucune conf n'est donnée en sortie
-        conferences.clear();
-        addConference("Devoxx", null, 658L);
-        addConference("Mix-IT", 30L, null);
-        conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assert.assertNull(conf);
-
-        //L JUG SummerCamp devrait passer devant
+        //Le JUG SummerCamp devrait passer devant
         conferences.clear();
         addConference("Devoxx", 154L, 658L);
         addConference("Mix-IT", 30L, 200L);
