@@ -26,7 +26,7 @@ public class FavoriteHandlerEvent implements FavoriteService {
     private ConferenceRepository conferenceRepository;
 
     @Override
-    public Conference getTheMoreSelectiveConference() {
+    public Conference getTheMoreSelectiveConference() throws Exception {
         List<Conference> conferences = conferenceRepository.findAll();
         //On calcule les indicateurs que l'on va retourner dans une liste
         Collection<Conference> results = FluentIterable
@@ -46,8 +46,7 @@ public class FavoriteHandlerEvent implements FavoriteService {
                 });
 
         if (results == null || results.isEmpty()) {
-            LOG.info("Aucune conference ne ressort gagnante");
-            return null;
+            throw new Exception("Aucune conference evaluée");
         }
         return results.iterator().next();
     }

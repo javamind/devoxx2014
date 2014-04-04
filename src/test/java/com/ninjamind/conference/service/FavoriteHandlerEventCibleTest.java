@@ -4,19 +4,20 @@ import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.assertj.core.api.Assertions;
+
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static junitparams.JUnitParamsRunner.$;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 /**
@@ -51,9 +52,7 @@ public class FavoriteHandlerEventCibleTest {
         conferences.clear();
     }
 
-
-
-    protected Object[] conferenceValues(){
+    protected Object[] conferenceValues() {
         return $(
                 //Avec les vraies valeurs Mix-IT est la plus sélective
                 $("Devoxx2014", 154L, 658L, "Mix-IT2014", 30L, 200L, "Mix-IT2014"),
@@ -65,34 +64,51 @@ public class FavoriteHandlerEventCibleTest {
     @Test
     @Parameters(method = "conferenceValues")
     public void shouldFindTheMoreSelectiveConference(String nameConf1, Long nbConferenceSlotConf1, Long nbConferenceProposalsConf1,
-                                                                   String nameConf2, Long nbConferenceSlotConf2, Long nbConferenceProposalsConf2,
-                                                                   String confExpected){
+                                                     String nameConf2, Long nbConferenceSlotConf2, Long nbConferenceProposalsConf2,
+                                                     String confExpected) throws Exception {
         addConference(nameConf1, nbConferenceSlotConf1, nbConferenceProposalsConf1);
         addConference(nameConf2, nbConferenceSlotConf2, nbConferenceProposalsConf2);
         when(conferenceRepository.findAll()).thenReturn(conferences);
         Conference theBestConf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assertions.assertThat(theBestConf.getName()).isEqualTo(confExpected);
+        assertThat(theBestConf.getName()).isEqualTo(confExpected);
     }
 
     @Test
-    public void shouldNotFindTheMoreSelectiveConferenceIfParamNotCompleted(){
-        addConference("Devoxx2014", null, null);
-        addConference("Mix-IT2014", null, null);
+    public void shouldIgnoreTheConfIfOneParamIsMissing() throws Exception {
+        addConference("Devoxx2014", 154L, 658L);
+        addConference("Mix-IT2014", null, 200L);
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        Assertions.assertThat(favoriteHandlerEvent.getTheMoreSelectiveConference()).isNull();
+        assertThat(favoriteHandlerEvent.getTheMoreSelectiveConference().getName()).isEqualTo("Devoxx2014");
 
     }
 
-    @Test(expected = PersistenceException.class)
-    public void shouldThrowExceptonWhenProblemOnDatabase(){
+    @Test()
+    public void shouldThrowExceptonWhenProblemOnDatabase() throws Exception {
         when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
-        favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assertions.failBecauseExceptionWasNotThrown(PersistenceException.class);
+        try {
+            favoriteHandlerEvent.getTheMoreSelectiveConference();
+            Assertions.failBecauseExceptionWasNotThrown(PersistenceException.class);
+        } catch (PersistenceException e) {
+            assertThat(e).isInstanceOf(PersistenceException.class).hasNoCause();
+        }
 
+    }
+
+
+    @Test()
+    public void shouldThrowExceptionWhenNoConf() {
+        when(conferenceRepository.findAll()).thenReturn(conferences);
+        try {
+            favoriteHandlerEvent.getTheMoreSelectiveConference();
+            Assertions.failBecauseExceptionWasNotThrown(Exception.class);
+        } catch (Exception e) {
+            assertThat(e).isInstanceOf(Exception.class).hasMessage("Aucune conference evaluée").hasNoCause();
+        }
     }
 
     /**
      * Permet d'ajouter une conference a la notre liste
+     *
      * @param name
      * @param nbConferenceSlot
      * @param nbConferenceProposals
@@ -104,7 +120,6 @@ public class FavoriteHandlerEventCibleTest {
         conferenceCreated.setNbConferenceProposals(nbConferenceProposals);
         conferences.add(conferenceCreated);
     }
-
 
 
 }

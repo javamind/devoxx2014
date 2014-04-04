@@ -40,7 +40,7 @@ public class FavoriteHandlerEventTest {
      * cas ou une valeur est retournee
      */
     @Test
-    public void testTheMoreSelectiveConfOK() {
+    public void testTheMoreSelectiveConfOK() throws Exception {
         //Mock
         when(conferenceRepository.findAll()).thenReturn(conferences);
 
@@ -89,6 +89,8 @@ public class FavoriteHandlerEventTest {
         }
         catch (PersistenceException e){
             //OK
+        } catch (Exception e) {
+            Assert.fail();
         }
     }
 

@@ -13,6 +13,6 @@ public interface FavoriteService {
      * au nombre retenu)
      * @return
      */
-    Conference getTheMoreSelectiveConference();
+    Conference getTheMoreSelectiveConference() throws Exception;
 
 }

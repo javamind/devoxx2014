@@ -77,7 +77,7 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
      * cas ou une valeur est retournee
      */
     @Test
-    public void shouldFindTheMoreSelectiveConference(){
+    public void shouldFindTheMoreSelectiveConference() throws Exception {
         addConference(nameConf1, nbConferenceSlotConf1, nbConferenceProposalsConf1);
         addConference(nameConf2, nbConferenceSlotConf2, nbConferenceProposalsConf2);
         when(conferenceRepository.findAll()).thenReturn(conferences);
@@ -99,6 +99,8 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
         }
         catch (PersistenceException e){
             //OK
+        } catch (Exception e) {
+            Assert.fail();
         }
     }
 
