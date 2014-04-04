@@ -1,19 +1,21 @@
 package com.ninjamind.conference.repository;
 
 import com.ninjamind.conference.domain.Talk;
-import org.dbunit.Assertion;
+import com.ninjamind.conference.junit.rule.DbUnitTestRule;
+import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.ITable;
-import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,22 +25,40 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author EHRET_G
  */
-public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTest{
+public class TalkArchiverRepositoryImplTest extends AbstractJpaRepositoryTest {
+
+    @Rule
+    public DbUnitTestRule dbUnitTestRule = new DbUnitTestRule(readDataSet());
+
     /**
      * Repository a tester
      */
     @Autowired
     private TalkArchiverRepository talkArchiverRepository;
 
-    protected IDataSet readDataSet() throws Exception {
-        return new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/init_talk.xml"));
+    @Autowired
+    protected PlatformTransactionManager transactionManager;
+
+
+    /**
+     * Fichier de données
+     *
+     * @return
+     */
+    protected IDataSet readDataSet() {
+        try {
+            return new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/talk_init.xml"));
+        } catch (MalformedURLException | DataSetException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
      * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand arg invalide
      */
     @Test(expected = NullPointerException.class)
-    public void shouldThrowExceptionWhenArgIsNull(){
+    public void shouldThrowExceptionWhenArgIsNull() {
         talkArchiverRepository.findTalkToArchive(null);
     }
 
@@ -46,8 +66,8 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
      * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
      */
     @Test
-    public void shouldFindOneConfToArchiveWhenYearIs2014(){
-        List<Talk> talks =  talkArchiverRepository.findTalkToArchive(2014);
+    public void shouldFindOneConfToArchiveWhenYearIs2014() {
+        List<Talk> talks = talkArchiverRepository.findTalkToArchive(2014);
         assertThat(talks).hasSize(1);
         assertThat(talks.get(0)).isEqualToComparingOnlyGivenFields(
                 new Talk(2L, "La conf passee"), "id", "name");
@@ -55,7 +75,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
     }
 
     @Test
-    public void shouldArchiveOneConfWhenYearIs2013(){
+    public void shouldArchiveOneConfWhenYearIs2013() {
         int nb = talkArchiverRepository.archiveTalks(2013);
         assertThat(nb).isEqualTo(1);
     }
@@ -65,7 +85,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
      * passee est trop vieille
      */
     @Test
-    public void shouldNotFindOneConfToArchiveWhenYearIsTooOld(){
+    public void shouldNotFindOneConfToArchiveWhenYearIsTooOld() {
         assertThat(talkArchiverRepository.findTalkToArchive(2000)).isEmpty();
 
     }
@@ -76,7 +96,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
      * passee est trop vieille
      */
     @Test
-    public void shouldNotArchiveTalkWhenNoEntityFound(){
+    public void shouldNotArchiveTalkWhenNoEntityFound() {
         assertThat(talkArchiverRepository.archiveTalks(2000)).isEqualTo(0);
     }
 
@@ -85,7 +105,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
      * passee est trop vieille
      */
     @Test
-    public void shouldArchiveTalkWhenOneIsFound() throws Exception{
+    public void shouldArchiveTalkWhenOneIsFound() throws Exception {
 
         TransactionTemplate tp = new TransactionTemplate(transactionManager);
         tp.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
@@ -96,12 +116,7 @@ public class TalkArchiverRepositoryImplTest  extends AbstractDbunitRepositoryTes
             }
         });
 
+        dbUnitTestRule.assertTableInDatabaseIsEqualToXmlDataset("TALK", "src/test/resources/datasets/talk_archived.xml", "id", "name", "dateStart", "dateEnd", "status");
 
-        IDataSet databaseDataSet = databaseTester.getConnection().createDataSet();
-        ITable actualTable = databaseDataSet.getTable("TALK");
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/talk_archived.xml"));
-        ITable expectedTable = expectedDataSet.getTable("TALK");
-        ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable, new String[]{"id", "name","dateStart", "dateEnd", "status"});
-        Assertion.assertEquals(expectedTable, filteredActualTable);
     }
 }

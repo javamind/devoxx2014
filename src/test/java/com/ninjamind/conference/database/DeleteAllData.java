@@ -32,7 +32,7 @@ public class DeleteAllData extends AbstractJpaRepositoryTest {
     }
 
     @Test
-    public void launch(){
+    public void shouldDeleteAllDataInDatabase(){
         //Vide car le but est de juste lancer la mise a jour de la base de données
     }
 }

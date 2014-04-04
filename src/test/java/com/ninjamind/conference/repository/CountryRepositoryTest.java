@@ -50,7 +50,7 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      * Test de la classe {@link com.ninjamind.conference.repository.CountryRepository#findCountryByCode(String)}
      */
     @Test
-    public void findCountryByCodeNull_should_returnNull() {
+    public void shouldNotFindCountryWhenCodeIsNull() {
         Country persistantCountry = countryRepository.findCountryByCode(null);
         assertThat(persistantCountry).isNull();
     }
@@ -59,7 +59,7 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      * Test de la classe {@link com.ninjamind.conference.repository.CountryRepository#findCountryByCode(String)}
      */
     @Test
-    public void findCountryByCodeValid_should_returnCountry() {
+    public void shouldFindCountryWhenCodeIsKnown() {
         Country persistantCountry = countryRepository.findCountryByCode("FRA");
         assertThat(persistantCountry.getName()).isEqualTo("France");
     }
@@ -68,7 +68,7 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      * Test de la classe {@link com.ninjamind.conference.repository.CountryRepository#findCountryByCode(String)}
      */
     @Test
-    public void findCountryByCodeInvalid_should_returnCountry() {
+    public void shouldNotFindCountryWhenCodeIsUnknown() {
         Country persistantCountry = countryRepository.findCountryByCode("ZZZ");
         assertThat(persistantCountry).isNull();
     }
@@ -78,17 +78,17 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      * Test de la classe {@link com.ninjamind.conference.repository.CountryRepository#findCountryByNamePart(String)}
      */
     @Test
-    public void findCountryByNamePart_should_returnCountry() {
+    public void shouldFindCountryWhenNameIsKnown() {
         List<Country> countriesStartByFra = countryRepository.findCountryByNamePart("Fra%");
         assertThat(countriesStartByFra).isNotEmpty().hasSize(1);
-       assertThat(extractProperty("code").from(countriesStartByFra)).contains("FRA");
+        assertThat(extractProperty("code").from(countriesStartByFra)).contains("FRA");
     }
 
     /**
      * Test permettant de vérifier la création d'une nouvelle entité
      */
     @Test
-    public void createCountry_should_returnInstanceWithId() {
+    public void shouldCreateCountry() {
         Country country = new Country("CODE", "Libelle");
         Country persistantCountry = countryRepository.save(country);
 
@@ -100,7 +100,7 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
      * le code
      */
     @Test
-    public void createCountryWithoutRequiredField_should_returnException() {
+    public void shouldNotCreateCountryWhenRequiredFieldIsEmpty() {
         Country country = new Country();
         country.setName("Libelle");
         try {
