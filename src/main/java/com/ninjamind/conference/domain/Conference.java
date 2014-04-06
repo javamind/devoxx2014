@@ -59,6 +59,12 @@ public class Conference {
         this.dateEnd = end;
     }
 
+    public Conference(String name, Long nbConferenceSlot, Long nbConferenceProposals) {
+        this.name = name;
+        this.nbConferenceSlot = nbConferenceSlot;
+        this.nbConferenceProposals = nbConferenceProposals;
+    }
+
     /**
      * Init des stats d'une conference
      *

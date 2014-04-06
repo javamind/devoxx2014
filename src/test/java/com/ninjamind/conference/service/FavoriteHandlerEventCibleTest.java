@@ -29,12 +29,13 @@ import static org.mockito.Mockito.when;
  * <li>Nommage de la classe de test : nom de la classe testee suffixee par Test</li>
  * <li>Nommage des methodes de tests qui doivent repondre aux questions quoi et pourquoi</li>
  * <li>Granularite un test ne doit tester qu'une seule chose a la fois</li>
- * <li>S'aider des frameworks de test : exemple de {@link org.junit.runners.Parameterized} ou JUnitParamsRunner souvent m�connu</li>
+ * <li>S'aider des frameworks de test : exemple de JUnitParamsRunner souvent meconnu</li>
  * <li>Des assertions simples</li>
  * <li>try/catch exception</li>
  * </ul>
  *
  * @author EHRET_G
+ * @author Agnès
  */
 @RunWith(JUnitParamsRunner.class)
 public class FavoriteHandlerEventCibleTest {
@@ -52,27 +53,45 @@ public class FavoriteHandlerEventCibleTest {
         conferences.clear();
     }
 
+    /**
+     * Methode JUnitParams permettant d'injecter les valeurs de tests dans une méthode de tests
+     * @return les paramètres des tests
+     */
     protected Object[] conferenceValues() {
+        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
+        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L);
+        Conference jugsummercamp2014 = new Conference("Mix-IT2014", 10L, 130L);
+        Conference mixit2014_withoutNbSlot = new Conference("Mix-IT2014", null, 130L);
         return $(
                 //Avec les vraies valeurs Mix-IT est la plus sélective
-                $("Devoxx2014", 154L, 658L, "Mix-IT2014", 30L, 200L, "Mix-IT2014"),
+                $(devoxx2014, mixit2014, mixit2014),
+                //Avec les vraies valeurs jugsummercamp est la plus sélective
+                $(jugsummercamp2014, mixit2014, jugsummercamp2014),
                 //Une conf avec des donnees incomplètes ne compte pas
-                $("JugSummerCamp2014", 20L, null, "Mix-IT2014", 30L, 200L, "Mix-IT2014")
+                $(mixit2014_withoutNbSlot, devoxx2014, devoxx2014)
+
         );
     }
 
+    /**
+     * Test de la recuperation de la conference dans des cas OK
+     * Test paramétré : les données de la methode conferenceValues lui sont injectés.
+     * A l'execution : autant d'execution que
+     */
     @Test
     @Parameters(method = "conferenceValues")
-    public void shouldFindTheMoreSelectiveConference(String nameConf1, Long nbConferenceSlotConf1, Long nbConferenceProposalsConf1,
-                                                     String nameConf2, Long nbConferenceSlotConf2, Long nbConferenceProposalsConf2,
-                                                     String confExpected) throws Exception {
-        addConference(nameConf1, nbConferenceSlotConf1, nbConferenceProposalsConf1);
-        addConference(nameConf2, nbConferenceSlotConf2, nbConferenceProposalsConf2);
+    public void shouldFindTheMoreSelectiveConference(Conference conf1, Conference conf2, Conference confExpected) throws Exception {
+        conferences.add(conf1);
+        conferences.add(conf2);
         when(conferenceRepository.findAll()).thenReturn(conferences);
         Conference theBestConf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        assertThat(theBestConf.getName()).isEqualTo(confExpected);
+        assertThat(theBestConf.getName()).isEqualTo(confExpected.getName());
     }
 
+    /**
+     * Test de la recuperation de la conference la plus selective dans le cas où un paramètre d'une conference n'est pas donné
+     * Dans ce cas-là cette conférence n'est pas prise en compte
+     */
     @Test
     public void shouldIgnoreTheConfIfOneParamIsMissing() throws Exception {
         addConference("Devoxx2014", 154L, 658L);
@@ -82,19 +101,24 @@ public class FavoriteHandlerEventCibleTest {
 
     }
 
-    @Test()
-    public void shouldThrowExceptonWhenProblemOnDatabase() throws Exception {
+    /**
+     * Test de la recuperation de la conference la plus selective dans le cas où on a une pb avec le repository:
+     * le repository lève une exception unchecked de type PersistenceException
+     * Dans ce cas là pas de message d'exception à vérifier : autant utiliser simplement 'expected' dans l'annotaiton
+     */
+    @Test(expected = PersistenceException.class)
+    public void shouldThrowExceptionWhenProblemOnDatabase() throws Exception {
         when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
-        try {
-            favoriteHandlerEvent.getTheMoreSelectiveConference();
-            Assertions.failBecauseExceptionWasNotThrown(PersistenceException.class);
-        } catch (PersistenceException e) {
-            assertThat(e).isInstanceOf(PersistenceException.class).hasNoCause();
-        }
+        favoriteHandlerEvent.getTheMoreSelectiveConference();
+        Assertions.failBecauseExceptionWasNotThrown(PersistenceException.class);
 
     }
 
-
+    /**
+     * Test de la recuperation de la conference la plus selective dans le cas où aucune conference n'est à evaluer
+     * Doit retourner une exception avec un message "Aucune conference evaluée"
+     * Dans ce cas là si le message de l'exception est à vérifier : mieux faire un try-catch et un assert sur le message
+     */
     @Test()
     public void shouldThrowExceptionWhenNoConf() {
         when(conferenceRepository.findAll()).thenReturn(conferences);
@@ -102,7 +126,7 @@ public class FavoriteHandlerEventCibleTest {
             favoriteHandlerEvent.getTheMoreSelectiveConference();
             Assertions.failBecauseExceptionWasNotThrown(Exception.class);
         } catch (Exception e) {
-            assertThat(e).isInstanceOf(Exception.class).hasMessage("Aucune conference evaluée").hasNoCause();
+            assertThat(e).hasMessage("Aucune conference evaluée").hasNoCause();
         }
     }
 
