@@ -11,9 +11,9 @@ CREATE TABLE conference
   version integer,
   majuser character varying(40),
   majdate date,
-  nbHourToSellTicket integer,
+  nbHoursToSellTicket integer,
   nbAttendees integer,
-  nbConferenceSlot integer,
+  nbConferenceSlots integer,
   nbConferenceProposals integer,
   nbTwitterFollowers integer,
   CONSTRAINT conference_name_key UNIQUE (name)

@@ -2,7 +2,6 @@ package com.ninjamind.conference.service;
 
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
-import com.ninjamind.conference.service.FavoriteHandlerEvent;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -114,7 +113,7 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
     private void addConference(String name, Long nbConferenceSlot, Long nbConferenceProposals) {
         Conference conferenceCreated = new Conference();
         conferenceCreated.setName(name);
-        conferenceCreated.setNbConferenceSlot(nbConferenceSlot);
+        conferenceCreated.setNbConferenceSlots(nbConferenceSlot);
         conferenceCreated.setNbConferenceProposals(nbConferenceProposals);
         conferences.add(conferenceCreated);
     }

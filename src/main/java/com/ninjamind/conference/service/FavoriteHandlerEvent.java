@@ -41,7 +41,7 @@ public class FavoriteHandlerEvent implements FavoriteService {
                 .toSortedList(new Comparator<Conference>() {
                     @Override
                     public int compare(Conference c1, Conference c2) {
-                        return Double.compare(c1.getProposalsRatio(),c2.getProposalsRatio());
+                        return Double.compare(c1.getProposalsRatio(), c2.getProposalsRatio());
                     }
                 });
 
@@ -49,5 +49,37 @@ public class FavoriteHandlerEvent implements FavoriteService {
             throw new Exception("Aucune conference evaluée");
         }
         return results.iterator().next();
+    }
+
+    @Override
+    public List<Conference> getTheHypestConfs() throws Exception {
+        List<Conference> conferences = conferenceRepository.findAll();
+        //On calcule les indicateurs que l'on va retourner dans une liste
+
+        List<Conference> results = FluentIterable
+                .from(conferences)
+                .filter(new Predicate<Conference>() {
+                    @Override
+                    public boolean apply(Conference conference) {
+                        //Si une des donnees est vide conf est hors concours
+                        // Nb de Followers Twitter doit etre >800
+                        // et le Nb d'heures pour etre sold-out doit etre < 48 heures
+                        return (conference.getNbTwitterFollowers() != null)
+                                && (conference.getNbTwitterFollowers() > 800)
+                                && (conference.getNbHoursToSellTicket() < 48);
+                    }
+                })
+                .toSortedList(new Comparator<Conference>() {
+                    @Override
+                    // les conferences sont classees par ordre decroissant du nb de followers Twitter
+                    public int compare(Conference c1, Conference c2) {
+                        return Double.compare(c1.getNbTwitterFollowers(), c2.getNbTwitterFollowers());
+                    }
+                }).reverse();
+
+        if (results == null || results.isEmpty()) {
+            throw new Exception("Aucune conference evaluée");
+        }
+        return results;
     }
 }

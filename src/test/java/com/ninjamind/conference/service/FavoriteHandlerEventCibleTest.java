@@ -60,7 +60,7 @@ public class FavoriteHandlerEventCibleTest {
     protected Object[] conferenceValues() {
         Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
         Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L);
-        Conference jugsummercamp2014 = new Conference("Mix-IT2014", 10L, 130L);
+        Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 10L, 130L);
         Conference mixit2014_withoutNbSlot = new Conference("Mix-IT2014", null, 130L);
         return $(
                 //Avec les vraies valeurs Mix-IT est la plus sélective
@@ -94,8 +94,10 @@ public class FavoriteHandlerEventCibleTest {
      */
     @Test
     public void shouldIgnoreTheConfIfOneParamIsMissing() throws Exception {
-        addConference("Devoxx2014", 154L, 658L);
-        addConference("Mix-IT2014", null, 200L);
+        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
+        Conference mixit2014 = new Conference("Mix-IT2014", null, 200L);
+        conferences.add(devoxx2014);
+        conferences.add(mixit2014);
         when(conferenceRepository.findAll()).thenReturn(conferences);
         assertThat(favoriteHandlerEvent.getTheMoreSelectiveConference().getName()).isEqualTo("Devoxx2014");
 
@@ -130,20 +132,23 @@ public class FavoriteHandlerEventCibleTest {
         }
     }
 
-    /**
-     * Permet d'ajouter une conference a la notre liste
-     *
-     * @param name
-     * @param nbConferenceSlot
-     * @param nbConferenceProposals
-     */
-    private void addConference(String name, Long nbConferenceSlot, Long nbConferenceProposals) {
-        Conference conferenceCreated = new Conference();
-        conferenceCreated.setName(name);
-        conferenceCreated.setNbConferenceSlot(nbConferenceSlot);
-        conferenceCreated.setNbConferenceProposals(nbConferenceProposals);
-        conferences.add(conferenceCreated);
+    @Test
+    public void shouldFindTheHypestConf() throws Exception {
+        Conference devoxx2014 = new Conference("Devoxx2014");
+        devoxx2014.initConferenceStat(1704L, 1500L, 154L, 658L, 2800L);
+        conferences.add(devoxx2014);
+        Conference mixit2014 = new Conference("Mix-IT2014");
+        mixit2014.initConferenceStat(43L, 500L, 30L, 200L, 850L);
+        conferences.add(mixit2014);
+
+        when(conferenceRepository.findAll()).thenReturn(conferences);
+
+        assertThat(favoriteHandlerEvent.getTheHypestConfs()).extracting("name")
+                .contains("Mix-IT2014")
+                .doesNotContain("Devoxx2014");
+
     }
+
 
 
 }

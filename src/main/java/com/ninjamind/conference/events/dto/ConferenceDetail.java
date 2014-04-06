@@ -108,8 +108,8 @@ public class ConferenceDetail implements Serializable {
         conference.setCountry(new Country(codeCountry, null));
         conference.setNbTwitterFollowers(nbTwitterFollowers);
         conference.setNbAttendees(nbAttendees);
-        conference.setNbHourToSellTicket(nbHourToSellTicket);
-        conference.setNbConferenceSlot(nbConferenceSlot);
+        conference.setNbHoursToSellTicket(nbHourToSellTicket);
+        conference.setNbConferenceSlots(nbConferenceSlot);
         conference.setNbConferenceProposals(nbConferenceProposals);
         return conference;
     }

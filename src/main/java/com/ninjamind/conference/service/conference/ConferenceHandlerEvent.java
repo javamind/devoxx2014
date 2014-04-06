@@ -12,7 +12,6 @@ import com.ninjamind.conference.events.dto.ConferenceDetail;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import com.ninjamind.conference.repository.CountryRepository;
 import com.ninjamind.conference.utils.LoggerFactory;
-import com.ninjamind.conference.utils.Utils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -185,7 +184,7 @@ public class ConferenceHandlerEvent implements ConferenceService
     @Override
     public Conference getCoolestConference() {
         //Recuperation de la liste des conferences
-        //Pour le moment nous n'avons pas de critï¿½re de filtre dans ReadAllConferenceRequestEvent
+        //Pour le moment nous n'avons pas de critere de filtre dans ReadAllConferenceRequestEvent
         List<Conference> conferences = conferenceRepository.findAll();
 
         //On calcule les indicateurs que l'on va retourner dans une liste
@@ -197,8 +196,8 @@ public class ConferenceHandlerEvent implements ConferenceService
                         //Si une des donnees est vide conf est hors concours
                         if (conference.getNbTwitterFollowers() == null ||
                                 conference.getNbAttendees() == null ||
-                                conference.getNbHourToSellTicket() == null ||
-                                conference.getNbConferenceSlot() == null ||
+                                conference.getNbHoursToSellTicket() == null ||
+                                conference.getNbConferenceSlots() == null ||
                                 conference.getNbConferenceProposals() == null) {
                             LOG.info(String.format("La conference %s n'est pas prise en compte car les donnees ne sont pas toutes renseignees", conference.getName()));
                             return false;
@@ -211,11 +210,11 @@ public class ConferenceHandlerEvent implements ConferenceService
                             @Override
                             public ResultConfCalculator apply(Conference conference) {
                                 //Calcul de l'interet speaker
-                                Double speakerInterest = conference.getNbConferenceSlot().doubleValue() / conference.getNbConferenceProposals();
+                                Double speakerInterest = conference.getNbConferenceSlots().doubleValue() / conference.getNbConferenceProposals();
                                 //Cacul interet social
                                 Double socialInterest = conference.getNbTwitterFollowers().doubleValue() / conference.getNbAttendees();
                                 //Cacul interet participant
-                                Double attendeeInterest = conference.getNbHourToSellTicket().doubleValue() * 60 / conference.getNbAttendees();
+                                Double attendeeInterest = conference.getNbHoursToSellTicket().doubleValue() * 60 / conference.getNbAttendees();
 
                                 return new ResultConfCalculator(conference, speakerInterest, socialInterest, attendeeInterest);
                             }

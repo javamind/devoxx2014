@@ -13,7 +13,6 @@ import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junitparams.JUnitParamsRunner.$;
 import static org.mockito.Mockito.when;
 
 /**
@@ -97,7 +96,7 @@ public class FavoriteHandlerEventTest {
     private void addConference(String name, Long nbConferenceSlot, Long nbConferenceProposals) {
         Conference conferenceCreated = new Conference();
         conferenceCreated.setName(name);
-        conferenceCreated.setNbConferenceSlot(nbConferenceSlot);
+        conferenceCreated.setNbConferenceSlots(nbConferenceSlot);
         conferenceCreated.setNbConferenceProposals(nbConferenceProposals);
         conferences.add(conferenceCreated);
     }

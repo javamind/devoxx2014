@@ -32,9 +32,9 @@ public class Conference {
     private Date dateEnd;
     @Version
     private Long version;
-    private Long nbHourToSellTicket;
+    private Long nbHoursToSellTicket;
     private Long nbAttendees;
-    private Long nbConferenceSlot;
+    private Long nbConferenceSlots;
     private Long nbConferenceProposals;
     private Long nbTwitterFollowers;
 
@@ -52,6 +52,9 @@ public class Conference {
         this.id = id;
     }
 
+    public Conference(String name) {
+        this.name = name;
+    }
 
     public Conference(String name, Date start, Date end) {
         this.name = name;
@@ -59,9 +62,9 @@ public class Conference {
         this.dateEnd = end;
     }
 
-    public Conference(String name, Long nbConferenceSlot, Long nbConferenceProposals) {
+    public Conference(String name, Long nbConferenceSlots, Long nbConferenceProposals) {
         this.name = name;
-        this.nbConferenceSlot = nbConferenceSlot;
+        this.nbConferenceSlots = nbConferenceSlots;
         this.nbConferenceProposals = nbConferenceProposals;
     }
 
@@ -75,9 +78,9 @@ public class Conference {
      * @param nbTwitterFollowers
      */
     public void initConferenceStat(Long nbHourToSellTicket, Long nbAttendees, Long nbConferenceSlot, Long nbConferenceProposals, Long nbTwitterFollowers) {
-        this.nbHourToSellTicket = nbHourToSellTicket;
+        this.nbHoursToSellTicket = nbHourToSellTicket;
         this.nbAttendees = nbAttendees;
-        this.nbConferenceSlot = nbConferenceSlot;
+        this.nbConferenceSlots = nbConferenceSlot;
         this.nbConferenceProposals = nbConferenceProposals;
         this.nbTwitterFollowers = nbTwitterFollowers;
     }
@@ -162,12 +165,12 @@ public class Conference {
         this.version = version;
     }
 
-    public Long getNbHourToSellTicket() {
-        return nbHourToSellTicket;
+    public Long getNbHoursToSellTicket() {
+        return nbHoursToSellTicket;
     }
 
-    public void setNbHourToSellTicket(Long nbHourToSellTicket) {
-        this.nbHourToSellTicket = nbHourToSellTicket;
+    public void setNbHoursToSellTicket(Long nbHoursToSellTicket) {
+        this.nbHoursToSellTicket = nbHoursToSellTicket;
     }
 
     public Long getNbAttendees() {
@@ -178,12 +181,12 @@ public class Conference {
         this.nbAttendees = nbAttendees;
     }
 
-    public Long getNbConferenceSlot() {
-        return nbConferenceSlot;
+    public Long getNbConferenceSlots() {
+        return nbConferenceSlots;
     }
 
-    public void setNbConferenceSlot(Long nbConferenceSlot) {
-        this.nbConferenceSlot = nbConferenceSlot;
+    public void setNbConferenceSlots(Long nbConferenceSlots) {
+        this.nbConferenceSlots = nbConferenceSlots;
     }
 
     public Long getNbConferenceProposals() {
@@ -203,10 +206,10 @@ public class Conference {
     }
 
     public Double getProposalsRatio() {
-        if (getNbConferenceSlot() == null || getNbConferenceProposals() == null) {
+        if (getNbConferenceSlots() == null || getNbConferenceProposals() == null) {
             return null;
         }
-        return (double) getNbConferenceSlot() / getNbConferenceProposals();
+        return (double) getNbConferenceSlots() / getNbConferenceProposals();
     }
 
     @Override

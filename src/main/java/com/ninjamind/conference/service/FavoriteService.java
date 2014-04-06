@@ -2,6 +2,8 @@ package com.ninjamind.conference.service;
 
 import com.ninjamind.conference.domain.Conference;
 
+import java.util.List;
+
 /**
  * Service permettant de détermine les favoris des utilisateurs
  */
@@ -14,5 +16,12 @@ public interface FavoriteService {
      * @return
      */
     Conference getTheMoreSelectiveConference() throws Exception;
+
+    /**
+     * Recupération des conference les plus hypes parmis toutes les conférences
+     * Basé sur le Nb de Followers Twitter (>800) et le Nb d'heures pour etre sold-out (<48 heures)
+     * @return les conferences classees par ordre decroissant du nb de followers Twitter
+     */
+    List<Conference> getTheHypestConfs() throws Exception;
 
 }
