@@ -81,7 +81,7 @@ public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
     public void shouldFindCountryWhenNameIsKnown() {
         List<Country> countriesStartByFra = countryRepository.findCountryByNamePart("Fra%");
         assertThat(countriesStartByFra).isNotEmpty().hasSize(1);
-        assertThat(extractProperty("code").from(countriesStartByFra)).contains("FRA");
+        assertThat(countriesStartByFra).extracting("code").containsExactly("FRA");
     }
 
     /**
