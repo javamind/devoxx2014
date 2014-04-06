@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
- * Mauvaises pratiques.... Pourquoi ??
- * Pour la bonne implementation voir {@link FavoriteHandlerEventCibleTest}
+ * Test de la class {@link FavoriteHandlerEvent}
  */
 public class FavoriteHandlerEventTest {
     @Mock
@@ -46,24 +45,23 @@ public class FavoriteHandlerEventTest {
         when(conferenceRepository.findAll()).thenReturn(conferences);
 
         //Premier cas avec les vraies valeurs
-        conferences.clear();
-        addConference("Devoxx", 154L, 658L);
-        addConference("Mix-IT", 30L, 200L);
+        conferences.add(new Conference("Devoxx2014", 154L, 658L));
+        conferences.add(new Conference("Mix-IT2014", 30L, 200L));
         Conference conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
         Assert.assertEquals("Mix-IT", conf.getName());
 
         //Si une valeur est nulle la conf n'est pas prise en compte
         conferences.clear();
-        addConference("Devoxx", 154L, 658L);
-        addConference("Mix-IT", 30L, null);
+        conferences.add(new Conference("Devoxx2014", 154L, 658L));
+        conferences.add(new Conference("Mix-IT2014", null, 200L));
         conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
         Assert.assertEquals("Devoxx", conf.getName());
 
         //Le JUG SummerCamp devrait passer devant
         conferences.clear();
-        addConference("Devoxx", 154L, 658L);
-        addConference("Mix-IT", 30L, 200L);
-        addConference("JUGSummerCamp", 12L, 135L);
+        conferences.add(new Conference("Devoxx2014", 154L, 658L));
+        conferences.add(new Conference("Mix-IT2014", 30L, 200L));
+        conferences.add(new Conference("JUGSummerCamp", 12L, 135L));
         conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
         Assert.assertEquals("JUGSummerCamp", conf.getName());
 
@@ -131,19 +129,6 @@ public class FavoriteHandlerEventTest {
         }
         List<String> expected = Arrays.asList("Devoxx2014","Mix-IT2014");
         assertEquals(expected,confNames);
-    }
-    /**
-     * Permet d'ajouter une conference a la notre liste
-     * @param name
-     * @param nbConferenceSlot
-     * @param nbConferenceProposals
-     */
-    private void addConference(String name, Long nbConferenceSlot, Long nbConferenceProposals) {
-        Conference conferenceCreated = new Conference();
-        conferenceCreated.setName(name);
-        conferenceCreated.setNbConferenceSlots(nbConferenceSlot);
-        conferenceCreated.setNbConferenceProposals(nbConferenceProposals);
-        conferences.add(conferenceCreated);
     }
 
 }
