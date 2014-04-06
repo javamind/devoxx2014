@@ -48,22 +48,22 @@ public class FavoriteHandlerEventTest {
         conferences.add(new Conference("Devoxx2014", 154L, 658L));
         conferences.add(new Conference("Mix-IT2014", 30L, 200L));
         Conference conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assert.assertEquals("Mix-IT", conf.getName());
+        Assert.assertEquals("Mix-IT2014", conf.getName());
 
         //Si une valeur est nulle la conf n'est pas prise en compte
         conferences.clear();
-        conferences.add(new Conference("Devoxx2014", 154L, 658L));
+        conferences.add(new Conference("Mix-IT2014", 154L, 658L));
         conferences.add(new Conference("Mix-IT2014", null, 200L));
         conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assert.assertEquals("Devoxx", conf.getName());
+        Assert.assertEquals("Mix-IT2014", conf.getName());
 
         //Le JUG SummerCamp devrait passer devant
         conferences.clear();
         conferences.add(new Conference("Devoxx2014", 154L, 658L));
         conferences.add(new Conference("Mix-IT2014", 30L, 200L));
-        conferences.add(new Conference("JUGSummerCamp", 12L, 135L));
+        conferences.add(new Conference("JUGSummerCamp2014", 12L, 135L));
         conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assert.assertEquals("JUGSummerCamp", conf.getName());
+        Assert.assertEquals("JUGSummerCamp2014", conf.getName());
 
     }
 
