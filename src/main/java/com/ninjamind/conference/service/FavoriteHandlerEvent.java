@@ -61,12 +61,9 @@ public class FavoriteHandlerEvent implements FavoriteService {
                 .filter(new Predicate<Conference>() {
                     @Override
                     public boolean apply(Conference conference) {
-                        //Si une des donnees est vide conf est hors concours
                         // Nb de Followers Twitter doit etre >800
-                        // et le Nb d'heures pour etre sold-out doit etre < 48 heures
                         return (conference.getNbTwitterFollowers() != null)
-                                && (conference.getNbTwitterFollowers() > 800)
-                                && (conference.getNbHoursToSellTicket() < 48);
+                                && (conference.getNbTwitterFollowers() > 800);
                     }
                 })
                 .toSortedList(new Comparator<Conference>() {

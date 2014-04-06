@@ -19,7 +19,7 @@ public interface FavoriteService {
 
     /**
      * Recupération des conference les plus hypes parmis toutes les conférences
-     * Basé sur le Nb de Followers Twitter (>800) et le Nb d'heures pour etre sold-out (<48 heures)
+     * Basé sur le Nb de Followers Twitter (>800)
      * @return les conferences classees par ordre decroissant du nb de followers Twitter
      */
     List<Conference> getTheHypestConfs() throws Exception;

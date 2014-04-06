@@ -55,6 +55,7 @@ public class FavoriteHandlerEventCibleTest {
 
     /**
      * Methode JUnitParams permettant d'injecter les valeurs de tests dans une méthode de tests
+     *
      * @return les paramètres des tests
      */
     protected Object[] conferenceValues() {
@@ -134,21 +135,21 @@ public class FavoriteHandlerEventCibleTest {
 
     @Test
     public void shouldFindTheHypestConf() throws Exception {
-        Conference devoxx2014 = new Conference("Devoxx2014");
-        devoxx2014.initConferenceStat(1704L, 1500L, 154L, 658L, 2800L);
+        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
+        devoxx2014.setNbTwitterFollowers(2820L);
+
+        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L);
+        mixit2014.setNbTwitterFollowers(845L);
+
         conferences.add(devoxx2014);
-        Conference mixit2014 = new Conference("Mix-IT2014");
-        mixit2014.initConferenceStat(43L, 500L, 30L, 200L, 850L);
         conferences.add(mixit2014);
 
+        //Mock
         when(conferenceRepository.findAll()).thenReturn(conferences);
 
-        assertThat(favoriteHandlerEvent.getTheHypestConfs()).extracting("name")
-                .contains("Mix-IT2014")
-                .doesNotContain("Devoxx2014");
+        assertThat(favoriteHandlerEvent.getTheHypestConfs()).extracting("name").contains("Mix-IT2014", "Devoxx2014");
 
     }
-
 
 
 }
