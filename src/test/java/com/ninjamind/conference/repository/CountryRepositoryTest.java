@@ -3,6 +3,7 @@ package com.ninjamind.conference.repository;
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
+import com.ninjamind.conference.config.PersistenceConfig;
 import com.ninjamind.conference.database.InitializeOperations;
 import com.ninjamind.conference.domain.Country;
 import org.assertj.core.api.Assertions;
@@ -11,7 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
@@ -24,7 +28,13 @@ import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
  * Classe de test du repository {@link com.ninjamind.conference.repository.CountryRepository}
  * @author ehret_g
  */
-public class CountryRepositoryTest extends AbstractJpaRepositoryTest {
+@ContextConfiguration(classes = {PersistenceConfig.class})
+public class CountryRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
+    /**
+     * Datasource utilisee dans les tests
+     */
+    @Autowired
+    protected DataSource dataSource;
 
     /**
      * Repository à tester

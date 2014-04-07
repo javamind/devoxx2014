@@ -24,12 +24,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
+ * Test de a classe {@link TalkArchiverRepository}
  *
  * @author EHRET_G
  */
 @ContextConfiguration(classes = {PersistenceConfig.class})
-public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class TalkArchiverRepositoryImplDbUnitInheritanceTest extends AbstractDbunitRepositoryTest {
 
     @Rule
     public DbUnitTestRule dbUnitTestRule = new DbUnitTestRule(readDataSet());
@@ -59,7 +59,7 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand arg invalide
+     * Test de {@link TalkArchiverRepository#findTalkToArchive(Integer)} quand arg invalide
      */
     @Test(expected = NullPointerException.class)
     public void shouldThrowExceptionWhenArgIsNull() {
@@ -67,7 +67,7 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
+     * Test de {@link TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
      */
     @Test
     public void shouldFindOneConfToArchiveWhenYearIs2014() {
@@ -85,7 +85,7 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand rien n'est trouve car la date
+     * Test de {@link TalkArchiverRepository#findTalkToArchive(Integer)} quand rien n'est trouve car la date
      * passee est trop vieille
      */
     @Test
@@ -96,7 +96,7 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
 
 
     /**
-     * Test de la fonction d'archivage {@link com.ninjamind.conference.repository.TalkArchiverRepository#archiveTalks(Integer)}  quand rien n'est trouve car la date
+     * Test de la fonction d'archivage {@link TalkArchiverRepository#archiveTalks(Integer)}  quand rien n'est trouve car la date
      * passee est trop vieille
      */
     @Test
@@ -105,7 +105,7 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
     }
 
     /**
-     * Test de la fonction d'archivage {@link com.ninjamind.conference.repository.TalkArchiverRepository#archiveTalks(Integer)} quand rien n'est trouve car la date
+     * Test de la fonction d'archivage {@link TalkArchiverRepository#archiveTalks(Integer)} quand rien n'est trouve car la date
      * passee est trop vieille
      */
     @Test

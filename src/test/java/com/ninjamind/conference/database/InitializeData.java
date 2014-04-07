@@ -4,10 +4,15 @@ import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import com.ninjamind.conference.category.InitializeTest;
-import com.ninjamind.conference.repository.AbstractJpaRepositoryTest;
+import com.ninjamind.conference.config.PersistenceConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+
+import javax.sql.DataSource;
 
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 
@@ -17,8 +22,14 @@ import static com.ninja_squad.dbsetup.Operations.sequenceOf;
  *
  * @author EHRET_G
  */
+@ContextConfiguration(classes = {PersistenceConfig.class})
 @Category(InitializeTest.class)
-public class InitializeData extends AbstractJpaRepositoryTest {
+public class InitializeData extends AbstractTransactionalJUnit4SpringContextTests {
+    /**
+     * Datasource utilisee dans les tests
+     */
+    @Autowired
+    protected DataSource dataSource;
 
     /**
      * Avant chaque test un jeu de données est injecté

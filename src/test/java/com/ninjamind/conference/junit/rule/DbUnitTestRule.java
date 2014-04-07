@@ -54,6 +54,11 @@ public class DbUnitTestRule extends ExternalResource{
      */
     protected String databasePassword;
 
+
+    /**
+     *
+     * @param dataSet
+     */
     public DbUnitTestRule(IDataSet dataSet) {
         this.dataSet = dataSet;
     }
@@ -68,6 +73,11 @@ public class DbUnitTestRule extends ExternalResource{
         //On recupère
         initProperties();
         cleanlyInsert(dataSet);
+    }
+
+    @Override
+    protected void after() {
+
     }
 
     /**
@@ -96,10 +106,7 @@ public class DbUnitTestRule extends ExternalResource{
         databaseTester.onSetup();
     }
 
-    @Override
-    protected void after() {
 
-    }
 
     /**
      *
