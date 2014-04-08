@@ -1,4 +1,4 @@
-package com.ninjamind.conference.repository.testng;
+package com.ninjamind.conference.repository.performance;
 
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
@@ -22,7 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
+ * en utilisant testNg et DbSetup. Le but est de voir que Dbsetup est beaucoup plus rapide
  *
+ * @see com.ninjamind.conference.repository.performance.TalkArchiverRepositoryImplDbUnitTest
  * @author EHRET_G
  */
 @ContextConfiguration(classes = {PersistenceConfig.class})
@@ -52,17 +54,9 @@ public class TalkArchiverRepositoryDbSetupTest extends AbstractTransactionalTest
     }
 
     /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand arg invalide
-     */
-    @Test(expectedExceptions = NullPointerException.class)
-    public void shouldThrowExceptionWhenArgIsNull() {
-        talkArchiverRepository.findTalkToArchive(null);
-    }
-
-    /**
      * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
      */
-    @Test(invocationCount = 100)
+    @Test(invocationCount = 200)
     public void shouldFindOneConfToArchiveWhenYearIs2014() {
         List<Talk> talks = talkArchiverRepository.findTalkToArchive(2014);
         assertThat(talks).hasSize(1);
@@ -70,41 +64,5 @@ public class TalkArchiverRepositoryDbSetupTest extends AbstractTransactionalTest
                 new Talk(2L, "La conf passee"), "id", "name");
 
     }
-
-    @Test
-    public void shouldArchiveOneConfWhenYearIs2013() {
-        int nb = talkArchiverRepository.archiveTalks(2013);
-        assertThat(nb).isEqualTo(1);
-    }
-
-    /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand rien n'est trouve car la date
-     * passee est trop vieille
-     */
-    @Test
-    public void shouldNotFindOneConfToArchiveWhenYearIsTooOld() {
-        assertThat(talkArchiverRepository.findTalkToArchive(2000)).isEmpty();
-
-    }
-
-
-    /**
-     * Test de la fonction d'archivage {@link com.ninjamind.conference.repository.TalkArchiverRepository#archiveTalks(Integer)}  quand rien n'est trouve car la date
-     * passee est trop vieille
-     */
-    @Test
-    public void shouldNotArchiveTalkWhenNoEntityFound() {
-        assertThat(talkArchiverRepository.archiveTalks(2000)).isEqualTo(0);
-    }
-
-    /**
-     * Test de la fonction d'archivage {@link com.ninjamind.conference.repository.TalkArchiverRepository#archiveTalks(Integer)} quand rien n'est trouve car la date
-     * passee est trop vieille
-     */
-    @Test
-    public void shouldArchiveTalkWhenOneIsFound() throws Exception {
-        assertThat(talkArchiverRepository.archiveTalks(2014)).isEqualTo(1);
-    }
-
 
 }

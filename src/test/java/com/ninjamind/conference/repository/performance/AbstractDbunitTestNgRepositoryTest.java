@@ -1,4 +1,4 @@
-package com.ninjamind.conference.repository.testng;
+package com.ninjamind.conference.repository.performance;
 
 import com.ninjamind.conference.config.PersistenceConfig;
 import org.dbunit.Assertion;
