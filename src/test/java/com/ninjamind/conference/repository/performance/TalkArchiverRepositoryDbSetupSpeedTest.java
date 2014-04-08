@@ -35,14 +35,12 @@ public class TalkArchiverRepositoryDbSetupSpeedTest extends AbstractTransactiona
     @Autowired
     protected DataSource dataSource;
 
-    // the tracker is static because JUnit uses a separate Test instance for every test method.
-    private static DbSetupTracker dbSetupTracker = new DbSetupTracker();
-
-    /**
-     * Repository a tester
-     */
     @Autowired
     private TalkArchiverRepository talkArchiverRepository;
+
+    private static DbSetupTracker dbSetupTracker = new DbSetupTracker();
+
+
 
     @BeforeMethod
     public void prepare(){
@@ -58,9 +56,9 @@ public class TalkArchiverRepositoryDbSetupSpeedTest extends AbstractTransactiona
         dbSetupTracker.launchIfNecessary(dbSetup);
     }
 
-    /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
-     */
+
+
+
     @Test(invocationCount = 200)
     public void shouldFindOneConfToArchiveWhenYearIs2014() {
         dbSetupTracker.skipNextLaunch();

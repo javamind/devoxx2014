@@ -114,7 +114,7 @@ public abstract class AbstractDbunitTestNgRepositoryTest extends AbstractTransac
             Assertion.assertEquals(expectedTable, filteredActualTable);
         }
         catch (Exception e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

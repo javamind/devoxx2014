@@ -32,29 +32,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {PersistenceConfig.class})
 public class TalkArchiverRepositoryImplDbUnitTest extends AbstractDbunitTestNgRepositoryTest {
 
-    /**
-     * Repository a tester
-     */
+
     @Autowired
     private TalkArchiverRepository talkArchiverRepository;
 
-    /**
-     * Fichier de données
-     *
-     * @return
-     */
+
+
     protected IDataSet readDataSet() {
         try {
             return new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/talk_init.xml"));
         } catch (MalformedURLException | DataSetException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
-    /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
-     */
+
+
     @Test(invocationCount = 200)
     public void shouldFindOneConfToArchiveWhenYearIs2014() {
         List<Talk> talks = talkArchiverRepository.findTalkToArchive(2014);

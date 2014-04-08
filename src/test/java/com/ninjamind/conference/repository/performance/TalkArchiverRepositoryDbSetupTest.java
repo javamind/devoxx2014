@@ -33,11 +33,9 @@ public class TalkArchiverRepositoryDbSetupTest extends AbstractTransactionalTest
     @Autowired
     protected DataSource dataSource;
 
-    /**
-     * Repository a tester
-     */
     @Autowired
     private TalkArchiverRepository talkArchiverRepository;
+
 
     @BeforeMethod
     public void prepare(){
@@ -53,9 +51,9 @@ public class TalkArchiverRepositoryDbSetupTest extends AbstractTransactionalTest
         dbSetup.launch();
     }
 
-    /**
-     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
-     */
+
+
+
     @Test(invocationCount = 200)
     public void shouldFindOneConfToArchiveWhenYearIs2014() {
         List<Talk> talks = talkArchiverRepository.findTalkToArchive(2014);

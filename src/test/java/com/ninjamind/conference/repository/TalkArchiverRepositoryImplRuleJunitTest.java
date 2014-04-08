@@ -24,12 +24,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test de a classe {@link TalkArchiverRepository}
+ * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
  *
  * @author EHRET_G
  */
 @ContextConfiguration(classes = {PersistenceConfig.class})
-public class TalkArchiverRepositoryImplDbUnitInheritanceTest extends AbstractDbunitRepositoryTest {
+public class TalkArchiverRepositoryImplRuleJunitTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Rule
     public DbUnitTestRule dbUnitTestRule = new DbUnitTestRule(readDataSet());
@@ -53,13 +53,12 @@ public class TalkArchiverRepositoryImplDbUnitInheritanceTest extends AbstractDbu
         try {
             return new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/talk_init.xml"));
         } catch (MalformedURLException | DataSetException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+           throw new RuntimeException(e);
         }
     }
 
     /**
-     * Test de {@link TalkArchiverRepository#findTalkToArchive(Integer)} quand arg invalide
+     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand arg invalide
      */
     @Test(expected = NullPointerException.class)
     public void shouldThrowExceptionWhenArgIsNull() {
@@ -67,7 +66,7 @@ public class TalkArchiverRepositoryImplDbUnitInheritanceTest extends AbstractDbu
     }
 
     /**
-     * Test de {@link TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
+     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand tout est OK
      */
     @Test
     public void shouldFindOneConfToArchiveWhenYearIs2014() {
@@ -85,7 +84,7 @@ public class TalkArchiverRepositoryImplDbUnitInheritanceTest extends AbstractDbu
     }
 
     /**
-     * Test de {@link TalkArchiverRepository#findTalkToArchive(Integer)} quand rien n'est trouve car la date
+     * Test de {@link com.ninjamind.conference.repository.TalkArchiverRepository#findTalkToArchive(Integer)} quand rien n'est trouve car la date
      * passee est trop vieille
      */
     @Test
@@ -96,7 +95,7 @@ public class TalkArchiverRepositoryImplDbUnitInheritanceTest extends AbstractDbu
 
 
     /**
-     * Test de la fonction d'archivage {@link TalkArchiverRepository#archiveTalks(Integer)}  quand rien n'est trouve car la date
+     * Test de la fonction d'archivage {@link com.ninjamind.conference.repository.TalkArchiverRepository#archiveTalks(Integer)}  quand rien n'est trouve car la date
      * passee est trop vieille
      */
     @Test
@@ -105,7 +104,7 @@ public class TalkArchiverRepositoryImplDbUnitInheritanceTest extends AbstractDbu
     }
 
     /**
-     * Test de la fonction d'archivage {@link TalkArchiverRepository#archiveTalks(Integer)} quand rien n'est trouve car la date
+     * Test de la fonction d'archivage {@link com.ninjamind.conference.repository.TalkArchiverRepository#archiveTalks(Integer)} quand rien n'est trouve car la date
      * passee est trop vieille
      */
     @Test

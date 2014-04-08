@@ -124,7 +124,7 @@ public class DbUnitTestRule extends ExternalResource{
             Assertion.assertEquals(expectedTable, filteredActualTable);
         }
         catch (Exception e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
