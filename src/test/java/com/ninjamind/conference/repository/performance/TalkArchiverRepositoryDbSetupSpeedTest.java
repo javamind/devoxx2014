@@ -40,8 +40,6 @@ public class TalkArchiverRepositoryDbSetupSpeedTest extends AbstractTransactiona
 
     private static DbSetupTracker dbSetupTracker = new DbSetupTracker();
 
-
-
     @BeforeMethod
     public void prepare(){
         Operation init_data = sequenceOf(
