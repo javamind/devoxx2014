@@ -33,107 +33,76 @@ public class FavoriteHandlerEventTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
-
-
-    /**
-     * Test de la methode {@link FavoriteHandlerEvent#getTheMoreSelectiveConference}
-     * cas ou une valeur est retournee
-     */
-    @Test
-    public void testTheMoreSelectiveConfOK() throws Exception {
-        //Mock
-        when(conferenceRepository.findAll()).thenReturn(conferences);
-
-        //Premier cas avec les vraies valeurs
-        conferences.add(new Conference("Devoxx2014", 154L, 658L));
-        conferences.add(new Conference("Mix-IT2014", 30L, 200L));
-        Conference conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assert.assertEquals("Mix-IT2014", conf.getName());
-        Assert.assertEquals(Long.valueOf(30L), conf.getNbConferenceSlots());
-        Assert.assertEquals(Long.valueOf(200L), conf.getNbConferenceProposals());
-
-        //Si une valeur est nulle la conf n'est pas prise en compte
-        conferences.clear();
-        conferences.add(new Conference("Devoxx2014", 154L, 658L));
-        conferences.add(new Conference("Mix-IT2014", null, 200L));
-        conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assert.assertEquals("Devoxx2014", conf.getName());
-        Assert.assertEquals(Long.valueOf(154L), conf.getNbConferenceSlots());
-        Assert.assertEquals(Long.valueOf(658L), conf.getNbConferenceProposals());
-
-        //Le JUG SummerCamp devrait passer devant
-        conferences.clear();
-        conferences.add(new Conference("Mix-IT2014", 30L, 200L));
-        conferences.add(new Conference("JUGSummerCamp2014", 12L, 135L));
-        conf = favoriteHandlerEvent.getTheMoreSelectiveConference();
-        Assert.assertEquals("JUGSummerCamp2014", conf.getName());
-        Assert.assertEquals(Long.valueOf(12L), conf.getNbConferenceSlots());
-        Assert.assertEquals(Long.valueOf(135L), conf.getNbConferenceProposals());
-
-    }
-
-    /**
-     * Test de la methode {@link FavoriteHandlerEvent#getTheMoreSelectiveConference}
-     * cas ou une exception est remontee lors de la recuperation des donnees
-     */
-    @Test
-    public void testTheMoreSelectiveConfKO() {
-        when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
-
-        try {
-            favoriteHandlerEvent.getTheMoreSelectiveConference();
-            Assert.fail();
-        }
-        catch (PersistenceException e){
-            //OK
-        } catch (Exception e) {
-            Assert.fail();
-        }
-    }
-
-    /**
-     * Test de la methode {@link FavoriteHandlerEvent#getTheMoreSelectiveConference}
-     * cas ou aucune conference n'existe
-     */
-    @Test
-    public void testTheMoreSelectiveConfKO2() {
-        when(conferenceRepository.findAll()).thenReturn(conferences);
-
-        try {
-            favoriteHandlerEvent.getTheMoreSelectiveConference();
-            Assert.fail();
-        }
-        catch (Exception e) {
-            //OK
-        }
-    }
-
     /**
      * Test de la methode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getTheHypestConfs()}
      * cas ou une valeur est retournee
      */
     @Test
-    public void testTheHypestConfConfOK() throws Exception {
-        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
-        devoxx2014.setNbTwitterFollowers(2820L);
+    public void testTheHypestConfOK() throws Exception {
 
-        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L);
-        mixit2014.setNbTwitterFollowers(845L);
-
+        ///////////////  premier cas de test : Devoxx2014 + Mix-IT2014
+        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L, 2820L);
+        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L, 845L);
         conferences.add(devoxx2014);
         conferences.add(mixit2014);
 
-        //Mock
         when(conferenceRepository.findAll()).thenReturn(conferences);
-
-        // extract the names ...
         List<Conference> theHypestConfs = favoriteHandlerEvent.getTheHypestConfs();
         List<String> confNames = new ArrayList<String>();
         for (Conference conf : theHypestConfs) {
             confNames.add(conf.getName());
         }
-        List<String> expected = Arrays.asList("Devoxx2014","Mix-IT2014");
-        assertEquals(expected,confNames);
+        List<String> expected = Arrays.asList("Devoxx2014", "Mix-IT2014");
+        assertEquals(expected, confNames);
+
+        /////////////// deuxième cas de test : Devoxx2014 + Mix-IT2014 + JugSummerCamp2014
+        conferences.clear();
+        conferences.add(devoxx2014);
+        conferences.add(mixit2014);
+        Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 12L, 97L, 349L);
+        conferences.add(jugsummercamp2014);
+
+        when(conferenceRepository.findAll()).thenReturn(conferences);
+        List<Conference> theHypestConfs2 = favoriteHandlerEvent.getTheHypestConfs();
+        List<String> confNames2 = new ArrayList<String>();
+        for (Conference conf : theHypestConfs2) {
+            confNames2.add(conf.getName());
+        }
+        List<String> expected2 = Arrays.asList("Devoxx2014", "Mix-IT2014");
+        assertEquals(expected2, confNames2);
+
+        /////////////// troisième cas de test : Devoxx2014 + Mix-IT2014 sans un parametre
+        conferences.clear();
+        conferences.add(devoxx2014);
+        Conference mixit2014WithoutParam = new Conference("Mix-IT2014", null, 200L, null);
+        conferences.add(mixit2014WithoutParam);
+
+        when(conferenceRepository.findAll()).thenReturn(conferences);
+        List<Conference> theHypestConfs3 = favoriteHandlerEvent.getTheHypestConfs();
+        List<String> confNames3 = new ArrayList<String>();
+        for (Conference conf : theHypestConfs3) {
+            confNames3.add(conf.getName());
+        }
+        List<String> expected3 = Arrays.asList("Devoxx2014");
+        assertEquals(expected3, confNames3);
+    }
+
+
+
+    /**
+     * Test de la methode {@link FavoriteHandlerEvent#getTheHypestConfs}
+     * cas ou aucune conference n'existe
+     */
+    @Test
+    public void testTheHypestConfKO() {
+        when(conferenceRepository.findAll()).thenReturn(conferences);
+
+        try {
+            favoriteHandlerEvent.getTheHypestConfs();
+            Assert.fail();
+        } catch (Exception e) {
+            assertEquals("Aucune conference evaluée", e.getMessage());
+        }
     }
 
 }

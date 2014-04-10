@@ -67,6 +67,12 @@ public class Conference {
         this.nbConferenceSlots = nbConferenceSlots;
         this.nbConferenceProposals = nbConferenceProposals;
     }
+    public Conference(String name, Long nbConferenceSlots, Long nbConferenceProposals, Long nbTwitterFollowers) {
+        this.name = name;
+        this.nbConferenceSlots = nbConferenceSlots;
+        this.nbConferenceProposals = nbConferenceProposals;
+        this.nbTwitterFollowers = nbTwitterFollowers;
+    }
 
     /**
      * Init des stats d'une conference
