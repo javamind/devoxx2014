@@ -110,9 +110,6 @@ public class ConferenceHandlerEventTest {
         assertThat(((Conference)createdConferenceEvent.getValue()).getId()).isEqualTo(1L);
         assertThat(Utils.dateJavaToJson(((Conference) createdConferenceEvent.getValue()).getDateStart())).isEqualTo("2014-04-29 09:00:00");
 
-        //Le but est de verifier que la sauvegarde est appelee mais pas la recherche d'entite
-        verify(conferenceRepository, only()).save(any(Conference.class));
-        verifyNoMoreInteractions(conferenceRepository);
     }
 
 
@@ -159,9 +156,6 @@ public class ConferenceHandlerEventTest {
         assertThat(((Conference)updatedConferenceEvent.getValue()).getId()).isEqualTo(1L);
         assertThat(Utils.dateJavaToJson(((Conference) updatedConferenceEvent.getValue()).getDateStart())).isEqualTo("2014-04-29 09:00:00");
 
-        //Le but est de verifier que la recherche est appelee
-        verify(conferenceRepository, times(1)).findOne(1L);
-        verifyNoMoreInteractions(conferenceRepository);
     }
 
     /**
@@ -184,9 +178,6 @@ public class ConferenceHandlerEventTest {
         assertThat(updatedConferenceEvent.getValue()).isNull();
         assertThat(updatedConferenceEvent.isEntityFound()).isEqualTo(false);
 
-        //Le but est de verifier que seule la recherche est appelee et non la sauvegarde
-        verify(conferenceRepository, only()).findOne(1L);
-        verifyNoMoreInteractions(conferenceRepository);
     }
 
     /**
@@ -203,11 +194,6 @@ public class ConferenceHandlerEventTest {
 
         assertThat(deletedConferenceEvent.getValue()).isNotNull();
 
-        //Le but est de verifier que la suppression et la recherche sont appelees
-        verify(conferenceRepository, times(1)).findOne(1L);
-        verify(conferenceRepository, times(1)).delete(any(Conference.class));
-
-        verifyNoMoreInteractions(conferenceRepository);
     }
 
     /**
@@ -225,9 +211,6 @@ public class ConferenceHandlerEventTest {
         assertThat(deletedConferenceEvent.getValue()).isNull();
         assertThat(deletedConferenceEvent.isEntityFound()).isEqualTo(false);
 
-        //Le but est de verifier que seule la recherche est appelee et non la suppression
-        verify(conferenceRepository, only()).findOne(1L);
-        verifyNoMoreInteractions(conferenceRepository);
     }
 
 

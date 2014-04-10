@@ -103,9 +103,6 @@ public class SpeakerHandlerEventTest {
         assertThat(((Speaker)createdSpeakerEvent.getValue()).getId()).isEqualTo(1L);
         assertThat(((Speaker)createdSpeakerEvent.getValue()).getFirstname()).isEqualTo("Martin");
 
-        //Le but est de verifier que la sauvegarde est appelee mais pas la recherche d'entite
-        verify(speakerRepository, only()).save(any(Speaker.class));
-        verifyNoMoreInteractions(speakerRepository);
     }
 
 
@@ -152,9 +149,6 @@ public class SpeakerHandlerEventTest {
         assertThat(((Speaker)updatedSpeakerEvent.getValue()).getId()).isEqualTo(1L);
         assertThat(((Speaker)updatedSpeakerEvent.getValue()).getFirstname()).isEqualTo("Martin");
 
-        //Le but est de verifier que la recherche est appelee
-        verify(speakerRepository, times(1)).findOne(1L);
-        verifyNoMoreInteractions(speakerRepository);
     }
 
     /**
@@ -177,9 +171,6 @@ public class SpeakerHandlerEventTest {
         assertThat(updatedSpeakerEvent.getValue()).isNull();
         assertThat(updatedSpeakerEvent.isEntityFound()).isEqualTo(false);
 
-        //Le but est de verifier que seule la recherche est appelee et non la sauvegarde
-        verify(speakerRepository, only()).findOne(1L);
-        verifyNoMoreInteractions(speakerRepository);
     }
 
     /**
@@ -196,11 +187,6 @@ public class SpeakerHandlerEventTest {
 
         assertThat(deletedSpeakerEvent.getValue()).isNotNull();
 
-        //Le but est de verifier que la suppression et la recherche sont appelees
-        verify(speakerRepository, times(1)).findOne(1L);
-        verify(speakerRepository, times(1)).delete(any(Speaker.class));
-
-        verifyNoMoreInteractions(speakerRepository);
     }
 
     /**
@@ -218,9 +204,6 @@ public class SpeakerHandlerEventTest {
         assertThat(deletedSpeakerEvent.getValue()).isNull();
         assertThat(deletedSpeakerEvent.isEntityFound()).isEqualTo(false);
 
-        //Le but est de verifier que seule la recherche est appelee et non la suppression
-        verify(speakerRepository, only()).findOne(1L);
-        verifyNoMoreInteractions(speakerRepository);
     }
 
 }
