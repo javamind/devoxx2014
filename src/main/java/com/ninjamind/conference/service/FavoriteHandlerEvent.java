@@ -43,9 +43,9 @@ public class FavoriteHandlerEvent implements FavoriteService {
                     @Override
                     // les conferences sont classees par rapport au ratio conf sumise conf retenue
                     public int compare(Conference c1, Conference c2) {
-                        return Double.compare(c1.getProposalsRatio(), c2.getProposalsRatio()) * -1;
+                        return Double.compare(c1.getProposalsRatio(), c2.getProposalsRatio()) ;
                     }
-                }).reverse();
+                });
 
         if (results == null || results.isEmpty()) {
             throw new Exception("Aucune conference evaluée");
