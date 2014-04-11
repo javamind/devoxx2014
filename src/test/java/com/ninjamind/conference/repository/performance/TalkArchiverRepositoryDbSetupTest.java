@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author EHRET_G
  */
 @ContextConfiguration(classes = {PersistenceConfig.class})
+@Test(groups = {"perf"})
 public class TalkArchiverRepositoryDbSetupTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired

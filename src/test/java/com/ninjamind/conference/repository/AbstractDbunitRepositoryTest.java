@@ -68,9 +68,10 @@ public abstract class AbstractDbunitRepositoryTest extends AbstractTransactional
             ITable expectedTable = expectedDataSet.getTable(tableName);
             ITable filteredActualTable = DefaultColumnFilter.includedColumnsTable(actualTable, includedColumns);
             Assertion.assertEquals(expectedTable, filteredActualTable);
+
         }
         catch (Exception e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

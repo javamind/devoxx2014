@@ -24,12 +24,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
  * en utilisant testNg et DbUnit. Le but est de voir le temps mis par les tests quand
- * on accède en boucle à la base de données
+ * on accï¿½de en boucle ï¿½ la base de donnï¿½es
  *
  * @see com.ninjamind.conference.repository.performance.TalkArchiverRepositoryDbSetupTest
  * @author EHRET_G
  */
 @ContextConfiguration(classes = {PersistenceConfig.class})
+@Test(groups = {"perf"})
 public class TalkArchiverRepositoryImplDbUnitTest extends AbstractDbunitTestNgRepositoryTest {
 
 
