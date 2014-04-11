@@ -1,5 +1,6 @@
 package com.ninjamind.conference.service;
 
+import com.google.common.collect.Lists;
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import junitparams.JUnitParamsRunner;
@@ -62,18 +63,18 @@ public class FavoriteHandlerEventCibleTest {
      * @return les paramètres des tests
      */
     protected Object[] conferenceValues() {
-        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L, 2820L);
-        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L, 845L);
-        Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 10L, 130L, 349L);
-        Conference devoxx2014_withoutParam = new Conference("Devoxx2014", 154L, 658L, null);
+        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
+        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L);
+        Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 10L, 130L);
+        Conference mixit2014WithoutParam = new Conference("Mix-IT2014", null, 200L);
 
         return $(
-                //Avec les vraies valeurs : devoxx2014 est la plus hype
-                $(devoxx2014, mixit2014, devoxx2014),
-                //Avec les vraies valeurs mixit2014 est la plus hype
-                $(mixit2014, jugsummercamp2014, mixit2014),
+                //Avec les vraies valeurs : mixit2014 est la plus hype
+                $(devoxx2014, mixit2014, Lists.newArrayList("Mix-IT2014", "Devoxx2014")),
+                //Avec les vraies valeurs jugsummercamp2014 est la plus hype
+                $(mixit2014, jugsummercamp2014, Lists.newArrayList("JugSummerCamp2014", "Mix-IT2014")),
                 //Une conf avec des donnees incomplètes ne compte pas
-                $(devoxx2014_withoutParam, mixit2014, mixit2014)
+                $(devoxx2014, mixit2014WithoutParam, Lists.newArrayList("Devoxx2014"))
 
         );
     }
@@ -85,11 +86,11 @@ public class FavoriteHandlerEventCibleTest {
      */
     @Test
     @Parameters(method = "conferenceValues")
-    public void shouldFindTheHypestConference(Conference conf1, Conference conf2, Conference confExpected) throws Exception {
+    public void shouldFindTheHypestConference(Conference conf1, Conference conf2, List<Conference> confsExpected) throws Exception {
         conferences.add(conf1);
         conferences.add(conf2);
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        assertThat(favoriteHandlerEvent.getTheHypestConfs()).contains(confExpected, atIndex(0));
+        assertThat(favoriteHandlerEvent.getTheHypestConfs()).extracting("name").containsExactlyElementsOf(confsExpected);
     }
 
 

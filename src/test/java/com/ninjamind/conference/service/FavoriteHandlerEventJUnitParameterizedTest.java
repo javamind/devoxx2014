@@ -34,7 +34,6 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
 
     private List<Conference> conferences = new ArrayList<>();
 
-
     /**
      * Variables d'instance nécessaires pour JUnit Parameterized
      * Le runner Parameterized injecte les valeurs fournies par la méthode conferenceValues
@@ -72,9 +71,9 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
     public static Collection<Object[]> conferenceValues() {
         return Arrays.asList(
                 //Avec les vraies valeurs Mix-IT est la plus sélective
-                new Object[]{"Devoxx2014", 154L, 658L, 2820L, "Mix-IT2014", 30L, 200L, 845L, "Devoxx2014"},
+                new Object[]{"Devoxx2014", 154L, 658L, 2820L, "Mix-IT2014", 30L, 200L, 845L, "Mix-IT2014"},
                 //Une conf avec des donnees incomplètes ne compte pas
-                new Object[]{"Devoxx2014", 154L, null, null, "Mix-IT2014", 30L, 200L, 845L, "Mix-IT2014"}
+                new Object[]{"Devoxx2014", 154L, 658L, 2820L, "Mix-IT2014", null, 200L, 845L, "Devoxx2014"}
         );
     }
 

@@ -1,5 +1,19 @@
+protected Object[] conferenceValues() {
+        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
+        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L);
+        Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 10L, 130L);
+        Conference mixit2014WithoutParam = new Conference("Mix-IT2014", null, 200L);
 
+        return $(
+                //Avec les vraies valeurs : mixit2014 est la plus hype
+                $(devoxx2014, mixit2014, Lists.newArrayList("Mix-IT2014", "Devoxx2014")),
+                //Avec les vraies valeurs jugsummercamp2014 est la plus hype
+                $(mixit2014, jugsummercamp2014, Lists.newArrayList("JugSummerCamp2014", "Mix-IT2014")),
+                //Une conf avec des donnees incomplètes ne compte pas
+                $(devoxx2014, mixit2014WithoutParam, Lists.newArrayList("Devoxx2014"))
 
+        );
+    }
 
 
 Au niveau de la mise en place de DBSetup
