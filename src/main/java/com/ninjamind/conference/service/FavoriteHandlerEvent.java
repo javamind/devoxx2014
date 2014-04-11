@@ -36,15 +36,14 @@ public class FavoriteHandlerEvent implements FavoriteService {
                 .filter(new Predicate<Conference>() {
                     @Override
                     public boolean apply(Conference conference) {
-                        return (conference.getNbTwitterFollowers() != null)
-                                && (conference.getNbTwitterFollowers() > 800);
+                        return (conference.getProposalsRatio() != null);
                     }
                 })
                 .toSortedList(new Comparator<Conference>() {
                     @Override
-                    // les conferences sont classees par ordre decroissant du nb de followers Twitter
+                    // les conferences sont classees par rapport au ratio conf sumise conf retenue
                     public int compare(Conference c1, Conference c2) {
-                        return Double.compare(c1.getNbTwitterFollowers(), c2.getNbTwitterFollowers());
+                        return Double.compare(c1.getProposalsRatio(), c2.getProposalsRatio()) * -1;
                     }
                 }).reverse();
 
