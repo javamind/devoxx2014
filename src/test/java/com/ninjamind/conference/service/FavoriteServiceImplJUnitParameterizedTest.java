@@ -22,15 +22,15 @@ import static org.mockito.Mockito.when;
 
 /**
  * Implementation de JUnit Parameterized
- * Pour la bonne implementation voir {@link com.ninjamind.conference.service.FavoriteHandlerEventCibleTest}
+ * Pour la bonne implementation voir {@link FavoriteServiceImplCibleTest}
  */
 @RunWith(Parameterized.class)
-public class FavoriteHandlerEventJUnitParameterizedTest {
+public class FavoriteServiceImplJUnitParameterizedTest {
     @Mock
     private ConferenceRepository conferenceRepository;
 
     @InjectMocks
-    private FavoriteHandlerEvent favoriteHandlerEvent;
+    private FavoriteServiceImpl favoriteService;
 
     private List<Conference> conferences = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
     private String confExpected;
 
 
-    public FavoriteHandlerEventJUnitParameterizedTest(String nameConf1, Long nbConferenceSlotConf1, Long nbConferenceProposalsConf1, Long nbTwitterFollowers1, String nameConf2, Long nbConferenceSlotConf2, Long nbConferenceProposalsConf2, Long nbTwitterFollowers2, String confExpected) {
+    public FavoriteServiceImplJUnitParameterizedTest(String nameConf1, Long nbConferenceSlotConf1, Long nbConferenceProposalsConf1, Long nbTwitterFollowers1, String nameConf2, Long nbConferenceSlotConf2, Long nbConferenceProposalsConf2, Long nbTwitterFollowers2, String confExpected) {
         this.nameConf1 = nameConf1;
         this.nbConferenceSlotConf1 = nbConferenceSlotConf1;
         this.nbConferenceProposalsConf1 = nbConferenceProposalsConf1;
@@ -78,7 +78,7 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
     }
 
     /**
-     * Test de la methode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getTheHypestConfs}
+     * Test de la methode {@link FavoriteServiceImpl#getTheHypestConfs}
      * cas ou une valeur est retournee
      */
     @Test
@@ -86,18 +86,18 @@ public class FavoriteHandlerEventJUnitParameterizedTest {
         addConference(nameConf1, nbConferenceSlotConf1, nbConferenceProposalsConf1, nbTwitterFollowers1);
         addConference(nameConf2, nbConferenceSlotConf2, nbConferenceProposalsConf2, nbTwitterFollowers2);
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        Conference theBestConf = favoriteHandlerEvent.getTheHypestConfs().get(0);
+        Conference theBestConf = favoriteService.getTheHypestConfs().get(0);
         assertThat(theBestConf.getName()).isEqualTo(confExpected);
     }
 
     /**
-     * Test de la methode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getTheHypestConfs}
+     * Test de la methode {@link FavoriteServiceImpl#getTheHypestConfs}
      * cas ou une exception est remontee lors de la recuperation des donnees
      */
     @Test(expected = PersistenceException.class)
     public void shouldNotFindTheMoreSelectiveConferenceIfPersistenceException() throws Exception {
         when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
-        favoriteHandlerEvent.getTheHypestConfs();
+        favoriteService.getTheHypestConfs();
         failBecauseExceptionWasNotThrown(PersistenceException.class);
     }
 

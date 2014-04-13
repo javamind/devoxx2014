@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class ConferenceHandlerEvent implements ConferenceService
+public class ConferenceServiceImpl implements ConferenceService
 {
     private static Logger LOG = LoggerFactory.make();
 

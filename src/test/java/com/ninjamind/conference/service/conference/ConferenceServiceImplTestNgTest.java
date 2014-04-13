@@ -23,14 +23,14 @@ import static org.mockito.Mockito.when;
  *
  * @author EHRET_G
  */
-public class ConferenceHandlerEventTestNgTest {
+public class ConferenceServiceImplTestNgTest {
     @Mock
     ConferenceRepository conferenceRepository;
     @Mock
     CountryRepository countryRepository;
 
     @InjectMocks
-    ConferenceHandlerEvent service;
+    ConferenceServiceImpl service;
 
     @BeforeMethod
     public void setup() {

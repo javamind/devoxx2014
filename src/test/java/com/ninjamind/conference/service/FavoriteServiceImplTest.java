@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,14 +17,14 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
- * Test de la class {@link FavoriteHandlerEvent}
+ * Test de la class {@link FavoriteServiceImpl}
  */
-public class FavoriteHandlerEventTest {
+public class FavoriteServiceImplTest {
     @Mock
     private ConferenceRepository conferenceRepository;
 
     @InjectMocks
-    private FavoriteHandlerEvent favoriteHandlerEvent;
+    private FavoriteServiceImpl favoriteService;
 
     private List<Conference> conferences = new ArrayList<>();
 
@@ -34,7 +33,7 @@ public class FavoriteHandlerEventTest {
         MockitoAnnotations.initMocks(this);
     }
     /**
-     * Test de la methode {@link com.ninjamind.conference.service.FavoriteHandlerEvent#getTheHypestConfs()}
+     * Test de la methode {@link FavoriteServiceImpl#getTheHypestConfs()}
      * cas ou une valeur est retournee
      */
     @Test
@@ -47,7 +46,7 @@ public class FavoriteHandlerEventTest {
         conferences.add(mixit2014);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        List<Conference> theHypestConfs = favoriteHandlerEvent.getTheHypestConfs();
+        List<Conference> theHypestConfs = favoriteService.getTheHypestConfs();
         List<String> confNames = new ArrayList<String>();
         for (Conference conf : theHypestConfs) {
             confNames.add(conf.getName());
@@ -62,7 +61,7 @@ public class FavoriteHandlerEventTest {
         conferences.add(jugsummercamp2014);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        List<Conference> theHypestConfs2 = favoriteHandlerEvent.getTheHypestConfs();
+        List<Conference> theHypestConfs2 = favoriteService.getTheHypestConfs();
         List<String> confNames2 = new ArrayList<String>();
         for (Conference conf : theHypestConfs2) {
             confNames2.add(conf.getName());
@@ -77,7 +76,7 @@ public class FavoriteHandlerEventTest {
         conferences.add(mixit2014WithoutParam);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        List<Conference> theHypestConfs3 = favoriteHandlerEvent.getTheHypestConfs();
+        List<Conference> theHypestConfs3 = favoriteService.getTheHypestConfs();
         List<String> confNames3 = new ArrayList<String>();
         for (Conference conf : theHypestConfs3) {
             confNames3.add(conf.getName());
@@ -89,7 +88,7 @@ public class FavoriteHandlerEventTest {
 
 
     /**
-     * Test de la methode {@link FavoriteHandlerEvent#getTheHypestConfs}
+     * Test de la methode {@link FavoriteServiceImpl#getTheHypestConfs}
      * cas ou aucune conference n'existe
      */
     @Test
@@ -97,7 +96,7 @@ public class FavoriteHandlerEventTest {
         when(conferenceRepository.findAll()).thenReturn(conferences);
 
         try {
-            favoriteHandlerEvent.getTheHypestConfs();
+            favoriteService.getTheHypestConfs();
             Assert.fail();
         } catch (Exception e) {
             //OK

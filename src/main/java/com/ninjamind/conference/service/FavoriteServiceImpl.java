@@ -18,7 +18,7 @@ import java.util.List;
  * @author EHRET_G
  * @author Agnes
  */
-public class FavoriteHandlerEvent implements FavoriteService {
+public class FavoriteServiceImpl implements FavoriteService {
 
     private static Logger LOG = LoggerFactory.make();
 

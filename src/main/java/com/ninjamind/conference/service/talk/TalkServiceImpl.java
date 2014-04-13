@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class TalkHandlerEvent implements TalkService
+public class TalkServiceImpl implements TalkService
 {
     private static Logger LOG = LoggerFactory.make();
 

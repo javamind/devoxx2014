@@ -5,8 +5,6 @@ import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.data.Index;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,11 +19,10 @@ import java.util.List;
 import static junitparams.JUnitParamsRunner.$;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
-import static org.assertj.core.data.Index.atIndex;
 import static org.mockito.Mockito.when;
 
 /**
- * Classe de test de la classe {@link com.ninjamind.conference.service.FavoriteHandlerEvent}.
+ * Classe de test de la classe {@link FavoriteServiceImpl}.
  * <br/>
  * Le but est de montrer
  * <ul>
@@ -42,12 +39,12 @@ import static org.mockito.Mockito.when;
  * @author Agnès
  */
 @RunWith(JUnitParamsRunner.class)
-public class FavoriteHandlerEventCibleTest {
+public class FavoriteServiceImplCibleTest {
     @Mock
     private ConferenceRepository conferenceRepository;
 
     @InjectMocks
-    private FavoriteHandlerEvent favoriteHandlerEvent;
+    private FavoriteServiceImpl favoriteService;
 
     private List<Conference> conferences = new ArrayList<>();
 
@@ -90,7 +87,7 @@ public class FavoriteHandlerEventCibleTest {
         conferences.add(conf1);
         conferences.add(conf2);
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        assertThat(favoriteHandlerEvent.getTheHypestConfs()).extracting("name").containsExactlyElementsOf(confsExpected);
+        assertThat(favoriteService.getTheHypestConfs()).extracting("name").containsExactlyElementsOf(confsExpected);
     }
 
 
@@ -102,7 +99,7 @@ public class FavoriteHandlerEventCibleTest {
     @Test(expected = PersistenceException.class)
     public void shouldThrowExceptionWhenProblemOnDatabase() throws Exception {
         when(conferenceRepository.findAll()).thenThrow(new PersistenceException());
-        favoriteHandlerEvent.getTheHypestConfs();
+        favoriteService.getTheHypestConfs();
         failBecauseExceptionWasNotThrown(PersistenceException.class);
 
     }
@@ -116,7 +113,7 @@ public class FavoriteHandlerEventCibleTest {
     public void shouldThrowExceptionWhenNoConf() {
         when(conferenceRepository.findAll()).thenReturn(conferences);
         try {
-            favoriteHandlerEvent.getTheHypestConfs();
+            favoriteService.getTheHypestConfs();
             failBecauseExceptionWasNotThrown(Exception.class);
         } catch (Exception e) {
             assertThat(e).hasMessage("Aucune conference evaluée").hasNoCause();
@@ -136,7 +133,7 @@ public class FavoriteHandlerEventCibleTest {
 
         //Mock
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        assertThat(favoriteHandlerEvent.getTheHypestConfs()).extracting("name").contains("Mix-IT2014", "Devoxx2014");
+        assertThat(favoriteService.getTheHypestConfs()).extracting("name").contains("Mix-IT2014", "Devoxx2014");
 
     }
 

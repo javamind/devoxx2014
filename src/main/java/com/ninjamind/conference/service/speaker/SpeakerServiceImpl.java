@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class SpeakerHandlerEvent implements SpeakerService
+public class SpeakerServiceImpl implements SpeakerService
 {
     private static Logger LOG = LoggerFactory.make();
 

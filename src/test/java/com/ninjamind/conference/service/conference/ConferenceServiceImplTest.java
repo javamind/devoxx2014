@@ -34,14 +34,14 @@ import static org.mockito.Mockito.*;
  * @author EHRET_G
  */
 @RunWith(JUnitParamsRunner.class)
-public class ConferenceHandlerEventTest {
+public class ConferenceServiceImplTest {
     @Mock
     ConferenceRepository conferenceRepository;
     @Mock
     CountryRepository countryRepository;
 
     @InjectMocks
-    ConferenceHandlerEvent service;
+    ConferenceServiceImpl service;
 
     private List<Conference> conferences = new ArrayList<>();
 

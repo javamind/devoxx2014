@@ -28,14 +28,14 @@ import static org.mockito.Mockito.*;
  * @author EHRET_G
  */
 @RunWith(JUnitParamsRunner.class)
-public class SpeakerHandlerEventTest {
+public class SpeakerServiceImplTest {
     @Mock
     SpeakerRepository speakerRepository;
     @Mock
     CountryRepository countryRepository;
 
     @InjectMocks
-    SpeakerHandlerEvent service;
+    SpeakerServiceImpl service;
 
     private List<Speaker> speakers = new ArrayList<>();
 
