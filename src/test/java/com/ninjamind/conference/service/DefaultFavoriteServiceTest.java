@@ -17,14 +17,14 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
- * Test de la class {@link FavoriteServiceImpl}
+ * Test de la class {@link DefaultFavoriteService}
  */
-public class FavoriteServiceImplTest {
+public class DefaultFavoriteServiceTest {
     @Mock
     private ConferenceRepository conferenceRepository;
 
     @InjectMocks
-    private FavoriteServiceImpl favoriteService;
+    private DefaultFavoriteService defaultFavoriteService;
 
     private List<Conference> conferences = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class FavoriteServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
     /**
-     * Test de la methode {@link FavoriteServiceImpl#getTheHypestConfs()}
+     * Test de la methode {@link DefaultFavoriteService#getTheHypestConfs()}
      * cas ou une valeur est retournee
      */
     @Test
@@ -46,7 +46,7 @@ public class FavoriteServiceImplTest {
         conferences.add(mixit2014);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        List<Conference> theHypestConfs = favoriteService.getTheHypestConfs();
+        List<Conference> theHypestConfs = defaultFavoriteService.getTheHypestConfs();
         List<String> confNames = new ArrayList<String>();
         for (Conference conf : theHypestConfs) {
             confNames.add(conf.getName());
@@ -56,17 +56,18 @@ public class FavoriteServiceImplTest {
 
         /////////////// deuxième cas de test : Devoxx2014 + Mix-IT2014 + JugSummerCamp2014
         conferences.clear();
+        conferences.add(devoxx2014);
         conferences.add(mixit2014);
-        Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 12L, 97L, 349L);
+        Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 12L, 97L);
         conferences.add(jugsummercamp2014);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        List<Conference> theHypestConfs2 = favoriteService.getTheHypestConfs();
+        List<Conference> theHypestConfs2 = defaultFavoriteService.getTheHypestConfs();
         List<String> confNames2 = new ArrayList<String>();
         for (Conference conf : theHypestConfs2) {
             confNames2.add(conf.getName());
         }
-        List<String> expected2 = Arrays.asList("JugSummerCamp2014", "Mix-IT2014");
+        List<String> expected2 = Arrays.asList("JugSummerCamp2014","Mix-IT2014","Devoxx2014");
         assertEquals(expected2, confNames2);
 
         /////////////// troisième cas de test : Devoxx2014 + Mix-IT2014 sans un parametre
@@ -76,7 +77,7 @@ public class FavoriteServiceImplTest {
         conferences.add(mixit2014WithoutParam);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
-        List<Conference> theHypestConfs3 = favoriteService.getTheHypestConfs();
+        List<Conference> theHypestConfs3 = defaultFavoriteService.getTheHypestConfs();
         List<String> confNames3 = new ArrayList<String>();
         for (Conference conf : theHypestConfs3) {
             confNames3.add(conf.getName());
@@ -88,7 +89,7 @@ public class FavoriteServiceImplTest {
 
 
     /**
-     * Test de la methode {@link FavoriteServiceImpl#getTheHypestConfs}
+     * Test de la methode {@link DefaultFavoriteService#getTheHypestConfs}
      * cas ou aucune conference n'existe
      */
     @Test
@@ -96,10 +97,10 @@ public class FavoriteServiceImplTest {
         when(conferenceRepository.findAll()).thenReturn(conferences);
 
         try {
-            favoriteService.getTheHypestConfs();
+            defaultFavoriteService.getTheHypestConfs();
             Assert.fail();
         } catch (Exception e) {
-            //OK
+            assertEquals("Aucune conference evaluée", e.getMessage());
         }
     }
 

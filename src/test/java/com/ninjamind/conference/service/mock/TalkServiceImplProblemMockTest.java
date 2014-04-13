@@ -68,23 +68,23 @@ public class TalkServiceImplProblemMockTest {
     public void shouldUpdateTalk(){
         //La sauvegarde du talk retournera une instance avec un id
         Talk talkCreated = new Talk(CONF_NAME);
-        talkCreated.setId(1L);
+        talkCreated.setId(2345L);
 
         //La recherche de l'entite passee renvoie un resultat
-        when(talkRepository.findOne(1L)).thenReturn(talkCreated);
+        when(talkRepository.findOne(2345L)).thenReturn(talkCreated);
         //Sauvegarde
         when(talkRepository.save(any(Talk.class))).thenReturn(talkCreated);
 
         //On appelle notre service de creation
         Talk param = new Talk(CONF_NAME);
-        param.setId(1L);
+        param.setId(2345L);
         UpdatedEvent<Talk> updatedTalkEvent = service.updateTalk(param);
 
-        assertThat(((Talk)updatedTalkEvent.getValue()).getId()).isEqualTo(1L);
+        assertThat(((Talk)updatedTalkEvent.getValue()).getId()).isEqualTo(2345L);
         assertThat(((Talk)updatedTalkEvent.getValue()).getName()).isEqualTo(CONF_NAME);
 
         //Le but est de verifier que la recherche est appelee
-        verify(talkRepository, times(1)).findOne(1L);
+        verify(talkRepository, times(1)).findOne(2345L);
         verifyNoMoreInteractions(talkRepository);
     }
 
@@ -95,18 +95,18 @@ public class TalkServiceImplProblemMockTest {
     @Test
     public void shouldNotUpdateTalkWhenConfIsNotFound(){
         //La recherche de l'entite passee renvoie pas de resultat
-        when(talkRepository.findOne(1L)).thenReturn(null);
+        when(talkRepository.findOne(2345L)).thenReturn(null);
 
         //On appelle notre service de creation
         Talk param = new Talk(CONF_NAME);
-        param.setId(1L);
+        param.setId(2345L);
         UpdatedEvent<Talk> updatedTalkEvent = service.updateTalk(param);
 
         assertThat(updatedTalkEvent.getValue()).isNull();
         assertThat(updatedTalkEvent.isEntityFound()).isEqualTo(false);
 
         //Le but est de verifier que seule la recherche est appelee et non la sauvegarde
-        verify(talkRepository, only()).findOne(1L);
+        verify(talkRepository, only()).findOne(2345L);
         verifyNoMoreInteractions(talkRepository);
     }
 
@@ -117,15 +117,15 @@ public class TalkServiceImplProblemMockTest {
     @Test
     public void shouldDeleteTalk(){
         //La recherche de l'entite passee renvoie un resultat
-        when(talkRepository.findOne(1L)).thenReturn(new Talk(CONF_NAME));
+        when(talkRepository.findOne(2345L)).thenReturn(new Talk(CONF_NAME));
 
         //On appelle notre service de creation
-        DeletedEvent<Talk> deletedTalkEvent = service.deleteTalk(new Talk(1L));
+        DeletedEvent<Talk> deletedTalkEvent = service.deleteTalk(new Talk(2345L));
 
         assertThat(deletedTalkEvent.getValue()).isNotNull();
 
         //Le but est de verifier que la suppression et la recherche sont appelees
-        verify(talkRepository, times(1)).findOne(1L);
+        verify(talkRepository, times(1)).findOne(2345L);
         verify(talkRepository, times(1)).delete(any(Talk.class));
 
         verifyNoMoreInteractions(talkRepository);
@@ -138,16 +138,16 @@ public class TalkServiceImplProblemMockTest {
     @Test
     public void shouldNotDeleteTalkWhenEntityIsNotFound(){
         //La recherche de l'entite passee renvoie pas de resultat
-        when(talkRepository.findOne(1L)).thenReturn(null);
+        when(talkRepository.findOne(2345L)).thenReturn(null);
 
         //On appelle notre service de creation
-        DeletedEvent<Talk> deletedTalkEvent = service.deleteTalk(new Talk(1L));
+        DeletedEvent<Talk> deletedTalkEvent = service.deleteTalk(new Talk(2345L));
 
         assertThat(deletedTalkEvent.getValue()).isNull();
         assertThat(deletedTalkEvent.isEntityFound()).isEqualTo(false);
 
         //Le but est de verifier que seule la recherche est appelee et non la suppression
-        verify(talkRepository, only()).findOne(1L);
+        verify(talkRepository, only()).findOne(2345L);
         verifyNoMoreInteractions(talkRepository);
     }
 
