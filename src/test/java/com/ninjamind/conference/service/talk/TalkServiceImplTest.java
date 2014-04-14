@@ -40,29 +40,19 @@ public class TalkServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#createTalk(com.ninjamind.conference.domain.Talk)}
-     * cas ou argument null
-     */
+
     @Test(expected = NullPointerException.class)
     public void createTalkShouldThrownNullPointerExceptionIfArgIsNull(){
         service.createTalk(null);
     }
 
-    /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#createTalk(com.ninjamind.conference.domain.Talk)}
-     * cas ou pas de talk passe null
-     */
+
     @Test(expected = NullPointerException.class)
     public void shouldNotcreateTalkWhenArgNull(){
         service.createTalk(null);
     }
 
 
-    /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#createTalk(com.ninjamind.conference.domain.Talk)}
-     * cas nominal
-     */
     @Test
     public void shouldCreateTalk(){
         //La sauvegarde du talk retournera une instance avec un id

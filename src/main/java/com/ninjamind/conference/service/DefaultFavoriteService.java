@@ -18,7 +18,7 @@ import java.util.List;
  * @author EHRET_G
  * @author Agnes
  */
-public class FavoriteServiceImpl implements FavoriteService {
+public class DefaultFavoriteService implements FavoriteService {
 
     private static Logger LOG = LoggerFactory.make();
 
@@ -41,9 +41,9 @@ public class FavoriteServiceImpl implements FavoriteService {
                 })
                 .toSortedList(new Comparator<Conference>() {
                     @Override
-                    // les conferences sont classees par rapport au ratio conf sumise conf retenue
+                    // les conferences sont classees par ordre decroissant du nb de followers Twitter
                     public int compare(Conference c1, Conference c2) {
-                        return Double.compare(c1.getProposalsRatio(), c2.getProposalsRatio()) ;
+                        return Double.compare(c1.getProposalsRatio(), c2.getProposalsRatio());
                     }
                 });
 

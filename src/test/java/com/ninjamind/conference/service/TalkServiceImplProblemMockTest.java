@@ -1,7 +1,9 @@
-package com.ninjamind.conference.service.mock;
+package com.ninjamind.conference.service;
 
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.events.CreatedEvent;
+import com.ninjamind.conference.events.DeletedEvent;
+import com.ninjamind.conference.events.UpdatedEvent;
 import com.ninjamind.conference.repository.TalkRepository;
 import com.ninjamind.conference.service.talk.TalkServiceImpl;
 import junitparams.JUnitParamsRunner;
@@ -24,9 +26,7 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(JUnitParamsRunner.class)
 public class TalkServiceImplProblemMockTest {
-
     public static final String CONF_NAME = "Le bon testeur il teste... le mauvais testeur il teste...";
-
     @Mock
     TalkRepository talkRepository;
 
@@ -37,8 +37,6 @@ public class TalkServiceImplProblemMockTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
-
-
 
 
     @Test

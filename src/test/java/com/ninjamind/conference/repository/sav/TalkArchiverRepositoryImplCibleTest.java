@@ -1,4 +1,4 @@
-package com.ninjamind.conference.repository;
+package com.ninjamind.conference.repository.sav;
 
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.Operations;
@@ -8,6 +8,7 @@ import com.ninjamind.conference.config.PersistenceConfig;
 import com.ninjamind.conference.database.InitializeOperations;
 import com.ninjamind.conference.domain.Status;
 import com.ninjamind.conference.domain.Talk;
+import com.ninjamind.conference.repository.TalkArchiverRepository;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test de a classe {@link TalkArchiverRepository}
+ * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
  *
  * @author EHRET_G
  */

@@ -1,17 +1,14 @@
-package com.ninjamind.conference.repository;
+package com.ninjamind.conference.repository.sav;
 
 import com.ninjamind.conference.config.PersistenceConfig;
 import com.ninjamind.conference.domain.Talk;
-import com.ninjamind.conference.junit.rule.DbUnitTestRule;
+import com.ninjamind.conference.repository.TalkArchiverRepository;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -24,16 +21,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
- *
- * @author EHRET_G
- */
-@ContextConfiguration(classes = {PersistenceConfig.class})
-public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-    @Rule
-    public DbUnitTestRule dbUnitTestRule = new DbUnitTestRule(readDataSet());
+@ContextConfiguration(classes = {PersistenceConfig.class})
+public class TalkArchiverRepositoryImpAbtsractDbunitlTest extends AbstractDbunitRepositoryTest {
 
     @Autowired
     private TalkArchiverRepository talkArchiverRepository;
@@ -47,9 +37,11 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
         try {
             return new FlatXmlDataSetBuilder().build(new File("src/test/resources/datasets/talk_init.xml"));
         } catch (MalformedURLException | DataSetException e) {
-           throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
+
+
 
     @Test
     public void shouldFindOneConfToArchiveWhenYearIs2014() {
@@ -60,11 +52,8 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
 
     }
 
-    @Test
-    public void shouldArchiveOneConfWhenYearIs2013() {
-        int nb = talkArchiverRepository.archiveTalks(2013);
-        assertThat(nb).isEqualTo(1);
-    }
+
+
 
     @Test
     public void shouldArchiveTalkWhenOneIsFound() throws Exception {
@@ -78,7 +67,8 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
             }
         });
 
-        dbUnitTestRule.assertTableInDatabaseIsEqualToXmlDataset("TALK", "src/test/resources/datasets/talk_archived.xml", "id", "name", "dateStart", "dateEnd", "status");
+        assertTableInDatabaseIsEqualToXmlDataset("TALK", "src/test/resources/datasets/talk_archived.xml", "id", "name", "dateStart", "dateEnd", "status");
 
     }
+
 }
