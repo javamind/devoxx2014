@@ -1,8 +1,9 @@
-package com.ninjamind.conference.repository;
+package com.ninjamind.conference.repository.sav;
 
 import com.ninjamind.conference.config.PersistenceConfig;
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.junit.rule.DbUnitTestRule;
+import com.ninjamind.conference.repository.TalkArchiverRepository;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -29,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author EHRET_G
  */
 @ContextConfiguration(classes = {PersistenceConfig.class})
-public class TalkArchiverRepositoryImplRuleJunitTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Rule
     public DbUnitTestRule dbUnitTestRule = new DbUnitTestRule(readDataSet());
@@ -42,6 +43,7 @@ public class TalkArchiverRepositoryImplRuleJunitTest extends AbstractTransaction
 
     @Autowired
     protected PlatformTransactionManager transactionManager;
+
 
 
     /**

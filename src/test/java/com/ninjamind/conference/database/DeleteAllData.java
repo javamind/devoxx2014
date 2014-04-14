@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 
 /**
- * Cette classe se base sur DbSetup pour supprimer toutes les données présentes en base de données
+ * Cette classe se base sur DbSetup pour supprimer toutes les donnes presentes en base de donnees
  *
  * @author EHRET_G
  */
@@ -31,7 +31,7 @@ public class DeleteAllData extends AbstractTransactionalJUnit4SpringContextTests
     protected DataSource dataSource;
 
     /**
-     * Avant chaque test un jeu de données est injecté
+     * Avant chaque test un jeu de donnees est injecte
      * @throws Exception
      */
     @Before
@@ -44,6 +44,6 @@ public class DeleteAllData extends AbstractTransactionalJUnit4SpringContextTests
 
     @Test
     public void shouldDeleteAllDataInDatabase(){
-        //Vide car le but est de juste lancer la mise a jour de la base de données
+        //Vide car le but est de juste lancer la mise a jour de la base de donnees
     }
 }

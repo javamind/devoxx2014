@@ -17,8 +17,8 @@ import javax.sql.DataSource;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 
 /**
- * Cette classe se base sur DbSetup pour charger un jeu de données plus complet
- * pour pouvoir faire des tests d'intégration
+ * Cette classe se base sur DbSetup pour charger un jeu de donnÃ©es plus complet
+ * pour pouvoir faire des tests d'intÃ©gration
  *
  * @author EHRET_G
  */
@@ -32,7 +32,7 @@ public class InitializeData extends AbstractTransactionalJUnit4SpringContextTest
     protected DataSource dataSource;
 
     /**
-     * Avant chaque test un jeu de données est injecté
+     * Avant chaque test un jeu de donnÃ©es est injectÃ©
      * @throws Exception
      */
     @Before
@@ -52,6 +52,6 @@ public class InitializeData extends AbstractTransactionalJUnit4SpringContextTest
 
     @Test
     public void shouldCreateDataSetInDatabase(){
-        //Vide car le but est de juste lancer la mise a jour de la base de données
+        //Vide car le but est de juste lancer la mise a jour de la base de donnÃ©es
     }
 }

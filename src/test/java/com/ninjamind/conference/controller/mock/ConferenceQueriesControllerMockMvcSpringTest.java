@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 /**
  * Test du controller {@link com.ninjamind.conference.controller.ConferenceQueriesController}
- * exemple utilsiation de {@link org.springframework.test.web.servlet.MockMvc}
+ * exemple utilisation de {@link org.springframework.test.web.servlet.MockMvc}
  * @author ehret_g
  */
 public class ConferenceQueriesControllerMockMvcSpringTest {

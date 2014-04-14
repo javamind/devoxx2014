@@ -1,4 +1,4 @@
-package com.ninjamind.conference.service.mock;
+package com.ninjamind.conference.service;
 
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.events.CreatedEvent;

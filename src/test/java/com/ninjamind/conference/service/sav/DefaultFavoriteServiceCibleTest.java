@@ -1,8 +1,9 @@
-package com.ninjamind.conference.service;
+package com.ninjamind.conference.service.sav;
 
 import com.google.common.collect.Lists;
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
+import com.ninjamind.conference.service.DefaultFavoriteService;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -23,7 +24,7 @@ import static org.assertj.core.data.Index.atIndex;
 import static org.mockito.Mockito.when;
 
 /**
- * Classe de test de la classe {@link DefaultFavoriteService}.
+ * Classe de test de la classe {@link com.ninjamind.conference.service.DefaultFavoriteService}.
  * <br/>
  * Le but est de montrer
  * <ul>

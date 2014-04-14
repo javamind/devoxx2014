@@ -1,7 +1,8 @@
-package com.ninjamind.conference.service;
+package com.ninjamind.conference.service.sav;
 
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
+import com.ninjamind.conference.service.DefaultFavoriteService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
