@@ -38,10 +38,9 @@ public class TalkServiceImplProblemMockTest {
         MockitoAnnotations.initMocks(this);
     }
 
-     /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#createTalk(com.ninjamind.conference.domain.Talk)}
-     * cas nominal
-     */
+
+
+
     @Test
     public void shouldCreateTalk(){
         //La sauvegarde du talk retournera une instance avec un id
@@ -59,96 +58,5 @@ public class TalkServiceImplProblemMockTest {
         verifyNoMoreInteractions(talkRepository);
     }
 
-
-    /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#updateTalk(com.ninjamind.conference.domain.Talk)}
-     * cas ou on cree sans avoir passé de pays
-     */
-    @Test
-    public void shouldUpdateTalk(){
-        //La sauvegarde du talk retournera une instance avec un id
-        Talk talkCreated = new Talk(CONF_NAME);
-        talkCreated.setId(1L);
-
-        //La recherche de l'entite passee renvoie un resultat
-        when(talkRepository.findOne(1L)).thenReturn(talkCreated);
-        //Sauvegarde
-        when(talkRepository.save(any(Talk.class))).thenReturn(talkCreated);
-
-        //On appelle notre service de creation
-        Talk param = new Talk(CONF_NAME);
-        param.setId(1L);
-        UpdatedEvent<Talk> updatedTalkEvent = service.updateTalk(param);
-
-        assertThat(((Talk)updatedTalkEvent.getValue()).getId()).isEqualTo(1L);
-        assertThat(((Talk)updatedTalkEvent.getValue()).getName()).isEqualTo(CONF_NAME);
-
-        //Le but est de verifier que la recherche est appelee
-        verify(talkRepository, times(1)).findOne(1L);
-        verifyNoMoreInteractions(talkRepository);
-    }
-
-    /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#updateTalk(com.ninjamind.conference.domain.Talk)}
-     * cas ou on ne modifie pas car la donnée n'a pas été trouvée
-     */
-    @Test
-    public void shouldNotUpdateTalkWhenConfIsNotFound(){
-        //La recherche de l'entite passee renvoie pas de resultat
-        when(talkRepository.findOne(1L)).thenReturn(null);
-
-        //On appelle notre service de creation
-        Talk param = new Talk(CONF_NAME);
-        param.setId(1L);
-        UpdatedEvent<Talk> updatedTalkEvent = service.updateTalk(param);
-
-        assertThat(updatedTalkEvent.getValue()).isNull();
-        assertThat(updatedTalkEvent.isEntityFound()).isEqualTo(false);
-
-        //Le but est de verifier que seule la recherche est appelee et non la sauvegarde
-        verify(talkRepository, only()).findOne(1L);
-        verifyNoMoreInteractions(talkRepository);
-    }
-
-    /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#deleteTalk(com.ninjamind.conference.domain.Talk)}
-     * cas nominal
-     */
-    @Test
-    public void shouldDeleteTalk(){
-        //La recherche de l'entite passee renvoie un resultat
-        when(talkRepository.findOne(1L)).thenReturn(new Talk(CONF_NAME));
-
-        //On appelle notre service de creation
-        DeletedEvent<Talk> deletedTalkEvent = service.deleteTalk(new Talk(1L));
-
-        assertThat(deletedTalkEvent.getValue()).isNotNull();
-
-        //Le but est de verifier que la suppression et la recherche sont appelees
-        verify(talkRepository, times(1)).findOne(1L);
-        verify(talkRepository, times(1)).delete(any(Talk.class));
-
-        verifyNoMoreInteractions(talkRepository);
-    }
-
-    /**
-     * Test de {@link com.ninjamind.conference.service.talk.TalkService#deleteTalk(com.ninjamind.conference.domain.Talk)}
-     * cas ou id passé ne correspond a aucun enregsitrement
-     */
-    @Test
-    public void shouldNotDeleteTalkWhenEntityIsNotFound(){
-        //La recherche de l'entite passee renvoie pas de resultat
-        when(talkRepository.findOne(1L)).thenReturn(null);
-
-        //On appelle notre service de creation
-        DeletedEvent<Talk> deletedTalkEvent = service.deleteTalk(new Talk(1L));
-
-        assertThat(deletedTalkEvent.getValue()).isNull();
-        assertThat(deletedTalkEvent.isEntityFound()).isEqualTo(false);
-
-        //Le but est de verifier que seule la recherche est appelee et non la suppression
-        verify(talkRepository, only()).findOne(1L);
-        verifyNoMoreInteractions(talkRepository);
-    }
 
 }
