@@ -14,6 +14,7 @@ import java.util.List;
  *
  * @author ehret_g
  */
+@org.springframework.stereotype.Repository
 public interface TalkArchiverRepository extends Repository<Talk, Long> {
     /**
      * Permet de récupérer la liste des talks à archiver

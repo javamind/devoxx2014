@@ -10,10 +10,16 @@ import org.assertj.core.api.Assertions;
 import org.hibernate.PropertyValueException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -28,8 +34,11 @@ import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
  * Classe de test du repository {@link com.ninjamind.conference.repository.CountryRepository}
  * @author ehret_g
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceConfig.class})
-public class CountryRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, TransactionalTestExecutionListener.class})
+@Transactional
+public class CountryRepositoryTest {
     /**
      * Datasource utilisee dans les tests
      */

@@ -7,6 +7,7 @@ import com.ninjamind.conference.repository.ConferenceRepository;
 import com.ninjamind.conference.utils.LoggerFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author EHRET_G
  * @author Agnes
  */
+@Service
 public class DefaultFavoriteService implements FavoriteService {
 
     private static Logger LOG = LoggerFactory.make();
