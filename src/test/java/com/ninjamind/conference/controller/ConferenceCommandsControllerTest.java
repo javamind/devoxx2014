@@ -42,7 +42,7 @@ public class ConferenceCommandsControllerTest {
     }
 
     /**
-     * Genere un flux Json contenant les donnees li�es � une conference
+     * Genere un flux Json contenant les donnees liees a une conference
      * @param id
      * @param name
      * @return
@@ -87,7 +87,7 @@ public class ConferenceCommandsControllerTest {
         when(conferenceService.createConference(any(Conference.class))).thenReturn(
                 new CreatedEvent<Conference>(false, null));
 
-        //L'appel de l'URL doit retourner un status 406 si donn�es inavlide
+        //L'appel de l'URL doit retourner un status 406 si donnees inavlide
         mockMvc.perform(
                 post("/conferences")
                         .content(generateConferenceJson(null, "Mix-IT"))
@@ -122,7 +122,7 @@ public class ConferenceCommandsControllerTest {
     }
 
     /**
-     * Test de la mise a jour d'une conference via l'API REST : <code>/conferences</code>. On teste le cas ou la donn�e n'existe pas
+     * Test de la mise a jour d'une conference via l'API REST : <code>/conferences</code>. On teste le cas ou la donnee n'existe pas
      * @throws Exception
      */
     @Test
@@ -131,7 +131,7 @@ public class ConferenceCommandsControllerTest {
         when(conferenceService.updateConference(any(Conference.class))).thenReturn(
                 new UpdatedEvent<Conference>(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si donn�es non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnees non trouvee
         mockMvc.perform(
                 put("/conferences")
                         .content(generateConferenceJson("1", "Mix-IT"))
@@ -152,7 +152,7 @@ public class ConferenceCommandsControllerTest {
         when(conferenceService.updateConference(any(Conference.class))).thenReturn(
                 new UpdatedEvent<Conference>(false, true, null));
 
-        //L'appel de l'URL doit retourner un status 406 si donn�es invalide
+        //L'appel de l'URL doit retourner un status 406 si donnees invalide
         mockMvc.perform(
                 put("/conferences")
                         .content(generateConferenceJson("1", "Mix-IT"))
@@ -187,7 +187,7 @@ public class ConferenceCommandsControllerTest {
     }
 
     /**
-     * Test de la suppression d'une conference via l'API REST : <code>/conferences</code>. On teste le cas ou la donn�e n'existe pas
+     * Test de la suppression d'une conference via l'API REST : <code>/conferences</code>. On teste le cas ou la donnee n'existe pas
      * @throws Exception
      */
     @Test
@@ -196,7 +196,7 @@ public class ConferenceCommandsControllerTest {
         when(conferenceService.deleteConference(any(Conference.class))).thenReturn(
                 new DeletedEvent<Conference>(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si donn�es non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnees non trouvee
         mockMvc.perform(
                 delete("/conferences/{id}", "1")
                         .content(generateConferenceJson("1", "Mix-IT"))

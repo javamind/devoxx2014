@@ -40,7 +40,7 @@ public class SpeakerCommandsControllerTest {
     }
 
     /**
-     * Genere un flux Json contenant les donnees li�es � une speaker
+     * Genere un flux Json contenant les donnees liees a une speaker
      * @param id
      * @param firstname
      * @param lastname
@@ -86,7 +86,7 @@ public class SpeakerCommandsControllerTest {
         when(speakerService.createSpeaker(any(Speaker.class))).thenReturn(
                 new CreatedEvent(false, null));
 
-        //L'appel de l'URL doit retourner un status 406 si donn�es inavlide
+        //L'appel de l'URL doit retourner un status 406 si donnees invalide
         mockMvc.perform(
                 post("/speakers")
                         .content(generateSpeakerJson(null, "Martin", "Fowler"))
@@ -120,7 +120,7 @@ public class SpeakerCommandsControllerTest {
     }
 
     /**
-     * Test de la mise a jour d'une speaker via l'API REST : <code>/speakers</code>. On teste le cas ou la donn�e n'existe pas
+     * Test de la mise a jour d'une speaker via l'API REST : <code>/speakers</code>. On teste le cas ou la donnee n'existe pas
      * @throws Exception
      */
     @Test
@@ -129,7 +129,7 @@ public class SpeakerCommandsControllerTest {
         when(speakerService.updateSpeaker(any(Speaker.class))).thenReturn(
                 new UpdatedEvent(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si donn�es non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnees non trouvee
         mockMvc.perform(
                 put("/speakers")
                         .content(generateSpeakerJson("1", "Martin", "Fowler"))
@@ -150,7 +150,7 @@ public class SpeakerCommandsControllerTest {
         when(speakerService.updateSpeaker(any(Speaker.class))).thenReturn(
                 new UpdatedEvent(false, true, null));
 
-        //L'appel de l'URL doit retourner un status 406 si donn�es invalide
+        //L'appel de l'URL doit retourner un status 406 si donnees invalide
         mockMvc.perform(
                 put("/speakers")
                         .content(generateSpeakerJson("1", "Martin", "Fowler"))
@@ -182,7 +182,7 @@ public class SpeakerCommandsControllerTest {
     }
 
     /**
-     * Test de la suppression d'une speaker via l'API REST : <code>/speakers</code>. On teste le cas ou la donn�e n'existe pas
+     * Test de la suppression d'une speaker via l'API REST : <code>/speakers</code>. On teste le cas ou la donnee n'existe pas
      * @throws Exception
      */
     @Test
@@ -191,7 +191,7 @@ public class SpeakerCommandsControllerTest {
         when(speakerService.deleteSpeaker(any(Speaker.class))).thenReturn(
                 new DeletedEvent<Speaker>(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si donn�es non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnees non trouvee
         mockMvc.perform(
                 delete("/speakers/{id}", "1")
                         .content(generateSpeakerJson("1", "Martin", "Fowler"))

@@ -47,7 +47,7 @@ public class TalkArchiverRepositoryImplTest extends AbstractTransactionalJUnit4S
 
 
     /**
-     * Fichier de données
+     * Fichier de donnees
      *
      * @return
      */

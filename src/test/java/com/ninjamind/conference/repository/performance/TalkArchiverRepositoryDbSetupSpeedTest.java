@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Test de a classe {@link com.ninjamind.conference.repository.TalkArchiverRepository}
  * en utilisant testNg et DbSetup. Le but est de voir que Dbsetup est encore plus rapide si on
- * ne charge la donn�e qu'au besoin
+ * ne charge la donnee qu'au besoin
  *
  * @see TalkArchiverRepositoryImplDbUnitTest
  * @author EHRET_G

@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
- * Test de la classe {@link LoggerFactory}  pour v�rifier le fonction de la factory
+ * Test de la classe {@link LoggerFactory}  pour verifier le fonction de la factory
  * de {@link org.apache.log4j.Logger}
  */
 public class LoggerFactoryTest {

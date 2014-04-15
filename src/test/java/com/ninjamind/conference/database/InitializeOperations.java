@@ -7,7 +7,7 @@ import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
 import static com.ninja_squad.dbsetup.Operations.insertInto;
 
 /**
- * Classe contenant les principales requêtes de mise a jour des données
+ * Classe contenant les principales requetes de mise a jour des donnees
  *
  * @author EHRET_G
  */

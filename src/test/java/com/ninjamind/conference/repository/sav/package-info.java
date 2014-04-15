@@ -1,5 +1,5 @@
 /**
- * Dans le cadre de notre présentation nous faison un refacto de la classe
+ * Dans le cadre de notre presentation nous faison un refacto de la classe
  * {@link com.ninjamind.conference.repository.TalkArchiverRepositoryImplTest}. Nous
  * sauvegardons dans ce package les etapes
  * <ul>

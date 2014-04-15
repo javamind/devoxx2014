@@ -40,7 +40,7 @@ public class TalkCommandsControllerTest {
     }
 
     /**
-     * Genere un flux Json contenant les donnees li�es � une talk
+     * Genere un flux Json contenant les donnees liees a un talk
      * @param id
      * @param name
      * @return
@@ -81,7 +81,7 @@ public class TalkCommandsControllerTest {
         when(talkService.createTalk(any(Talk.class))).thenReturn(
                 new CreatedEvent<Talk>(false, null));
 
-        //L'appel de l'URL doit retourner un status 406 si donn�es inavlide
+        //L'appel de l'URL doit retourner un status 406 si donnees invalide
         mockMvc.perform(
                 post("/talks")
                         .content(generateTalkJson(null, "Le bon testeur il teste..."))
@@ -113,7 +113,7 @@ public class TalkCommandsControllerTest {
     }
 
     /**
-     * Test de la mise a jour d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donn�e n'existe pas
+     * Test de la mise a jour d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donnee n'existe pas
      * @throws Exception
      */
     @Test
@@ -122,7 +122,7 @@ public class TalkCommandsControllerTest {
         when(talkService.updateTalk(any(Talk.class))).thenReturn(
                 new UpdatedEvent<Talk>(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si donn�es non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnees non trouvee
         mockMvc.perform(
                 put("/talks")
                         .content(generateTalkJson("1", "Le bon testeur il teste..."))
@@ -143,7 +143,7 @@ public class TalkCommandsControllerTest {
         when(talkService.updateTalk(any(Talk.class))).thenReturn(
                 new UpdatedEvent<Talk>(false, true, null));
 
-        //L'appel de l'URL doit retourner un status 406 si donn�es invalide
+        //L'appel de l'URL doit retourner un status 406 si donnees invalide
         mockMvc.perform(
                 put("/talks")
                         .content(generateTalkJson("1", "Le bon testeur il teste..."))
@@ -175,7 +175,7 @@ public class TalkCommandsControllerTest {
     }
 
     /**
-     * Test de la suppression d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donn�e n'existe pas
+     * Test de la suppression d'une talk via l'API REST : <code>/talks</code>. On teste le cas ou la donnee n'existe pas
      * @throws Exception
      */
     @Test
@@ -184,7 +184,7 @@ public class TalkCommandsControllerTest {
         when(talkService.deleteTalk(any(Talk.class))).thenReturn(
                 new DeletedEvent(false, null));
 
-        //L'appel de l'URL doit retourner un status 404 si donn�es non trouvee
+        //L'appel de l'URL doit retourner un status 404 si donnees non trouvee
         mockMvc.perform(
                 delete("/talks/{id}", "1")
                         .content(generateTalkJson("1", "Le bon testeur il teste..."))
