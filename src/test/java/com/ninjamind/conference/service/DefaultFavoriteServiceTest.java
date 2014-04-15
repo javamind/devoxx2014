@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
@@ -100,7 +100,7 @@ public class DefaultFavoriteServiceTest {
             defaultFavoriteService.getTheHypestConfs();
             Assert.fail();
         } catch (Exception e) {
-            assertEquals("Aucune conference evaluée", e.getMessage());
+            assertEquals("Aucune conference evaluee", e.getMessage());
         }
     }
 

@@ -48,7 +48,7 @@ public class DefaultFavoriteService implements FavoriteService {
                 });
 
         if (results == null || results.isEmpty()) {
-            throw new Exception("Aucune conference evaluée");
+            throw new Exception("Aucune conference evaluee");
         }
         return results;
     }

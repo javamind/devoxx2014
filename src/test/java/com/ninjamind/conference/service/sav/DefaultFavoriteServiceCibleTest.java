@@ -118,7 +118,7 @@ public class DefaultFavoriteServiceCibleTest {
             defaultFavoriteService.getTheHypestConfs();
             failBecauseExceptionWasNotThrown(Exception.class);
         } catch (Exception e) {
-            assertThat(e).hasMessage("Aucune conference evaluée").hasNoCause();
+            assertThat(e).hasMessage("Aucune conference evaluee").hasNoCause();
         }
     }
 
