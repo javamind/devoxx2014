@@ -1,7 +1,9 @@
 package com.ninjamind.conference.service;
 
+import com.google.common.collect.Lists;
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static junitparams.JUnitParamsRunner.$;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +36,8 @@ public class DefaultFavoriteServiceTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
+
+
     /**
      * Test de la methode {@link DefaultFavoriteService#getTheHypestConfs()}
      * cas ou une valeur est retournee
@@ -54,9 +60,8 @@ public class DefaultFavoriteServiceTest {
         List<String> expected = Arrays.asList("Mix-IT2014", "Devoxx2014");
         assertEquals(expected, confNames);
 
-        /////////////// deuxième cas de test : Devoxx2014 + Mix-IT2014 + JugSummerCamp2014
+        /////////////// deuxième cas de test : Mix-IT2014 + JugSummerCamp2014
         conferences.clear();
-        conferences.add(devoxx2014);
         conferences.add(mixit2014);
         Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 12L, 97L);
         conferences.add(jugsummercamp2014);
@@ -67,7 +72,7 @@ public class DefaultFavoriteServiceTest {
         for (Conference conf : theHypestConfs2) {
             confNames2.add(conf.getName());
         }
-        List<String> expected2 = Arrays.asList("JugSummerCamp2014","Mix-IT2014","Devoxx2014");
+        List<String> expected2 = Arrays.asList("JugSummerCamp2014","Mix-IT2014");
         assertEquals(expected2, confNames2);
 
         /////////////// troisième cas de test : Devoxx2014 + Mix-IT2014 sans un parametre
@@ -84,6 +89,7 @@ public class DefaultFavoriteServiceTest {
         }
         List<String> expected3 = Arrays.asList("Devoxx2014");
         assertEquals(expected3, confNames3);
+
     }
 
 
