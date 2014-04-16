@@ -99,7 +99,7 @@ public class DefaultFavoriteServiceTest {
         try {
             defaultFavoriteService.getTheHypestConfs();
             Assert.fail();
-        } catch (Exception e) {
+        } catch (NoConfException e) {
             assertEquals("Aucune conference evaluee", e.getMessage());
         }
     }

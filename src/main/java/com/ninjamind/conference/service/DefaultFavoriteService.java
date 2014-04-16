@@ -24,7 +24,7 @@ public class DefaultFavoriteService implements FavoriteService {
 
 
     @Override
-    public List<Conference> getTheHypestConfs() throws Exception {
+    public List<Conference> getTheHypestConfs() throws NoConfException {
         List<Conference> conferences = conferenceRepository.findAll();
         //On calcule les indicateurs que l'on va retourner dans une liste
 
@@ -45,7 +45,7 @@ public class DefaultFavoriteService implements FavoriteService {
                 });
 
         if (results == null || results.isEmpty()) {
-            throw new Exception("Aucune conference evaluee");
+            throw new NoConfException("Aucune conference evaluee");
         }
         return results;
     }

@@ -14,6 +14,6 @@ public interface FavoriteService {
      * Basé sur le Nb de Followers Twitter (>800)
      * @return les conferences sont classees de la plus hype à la moins hype!
      */
-    List<Conference> getTheHypestConfs() throws Exception;
+    List<Conference> getTheHypestConfs() throws NoConfException;
 
 }
