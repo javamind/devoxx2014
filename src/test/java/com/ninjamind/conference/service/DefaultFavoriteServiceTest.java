@@ -40,8 +40,8 @@ public class DefaultFavoriteServiceTest {
     public void testTheHypestConfOK() throws Exception {
 
         ///////////////  premier cas de test : Devoxx2014 + Mix-IT2014
-        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L, 2820L);
-        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L, 845L);
+        Conference devoxx2014 = new Conference("Devoxx2014", 154L, 658L);
+        Conference mixit2014 = new Conference("Mix-IT2014", 30L, 200L);
         conferences.add(devoxx2014);
         conferences.add(mixit2014);
 
@@ -73,7 +73,7 @@ public class DefaultFavoriteServiceTest {
         /////////////// troisième cas de test : Devoxx2014 + Mix-IT2014 sans un parametre
         conferences.clear();
         conferences.add(devoxx2014);
-        Conference mixit2014WithoutParam = new Conference("Mix-IT2014", null, 200L, null);
+        Conference mixit2014WithoutParam = new Conference("Mix-IT2014", null, 200L);
         conferences.add(mixit2014WithoutParam);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
