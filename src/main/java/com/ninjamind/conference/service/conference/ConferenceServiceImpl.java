@@ -28,9 +28,8 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class ConferenceServiceImpl implements ConferenceService
-{
-    private static Logger LOG = LoggerFactory.make();
+public class ConferenceServiceImpl implements ConferenceService {
+    private static final Logger LOG = LoggerFactory.make();
 
     @Autowired
     private CountryRepository countryRepository;

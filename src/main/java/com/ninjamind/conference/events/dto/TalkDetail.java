@@ -5,11 +5,7 @@ import com.ninjamind.conference.domain.Status;
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.utils.Utils;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Objet de transit lie
@@ -62,9 +58,9 @@ public class TalkDetail implements Serializable {
                 talk.getNbpeoplemax(),
                 talk.getLevel() != null ? talk.getLevel().toString() : null
         );
-        this.setDateStart(Utils.dateJavaToJson(talk.getDateStart()));
-        this.setDateEnd(Utils.dateJavaToJson(talk.getDateEnd()));
-        this.setStatus(talk.getStatus()!=null ? talk.getStatus().toString() : null);
+        this.dateStart = Utils.dateJavaToJson(talk.getDateStart());
+        this.dateEnd = Utils.dateJavaToJson(talk.getDateEnd());
+        this.status = talk.getStatus() != null ? talk.getStatus().toString() : null;
     }
 
     public Talk toTalk() {

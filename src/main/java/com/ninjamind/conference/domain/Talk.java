@@ -161,16 +161,30 @@ public class Talk {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
 
         Talk talk = (Talk) o;
 
-        if (description != null ? !description.equals(talk.description) : talk.description != null) return false;
-        if (level != talk.level) return false;
-        if (!name.equals(talk.name)) return false;
-        if (nbpeoplemax != null ? !nbpeoplemax.equals(talk.nbpeoplemax) : talk.nbpeoplemax != null) return false;
-        if (place != null ? !place.equals(talk.place) : talk.place != null) return false;
-        if (speakers != null ? !speakers.equals(talk.speakers) : talk.speakers != null) return false;
+        if (description != null ? !description.equals(talk.description) : talk.description != null){
+            return false;
+        }
+        if (level != talk.level){
+            return false;
+        }
+        if (!name.equals(talk.name)){
+            return false;
+        }
+        if (nbpeoplemax != null ? !nbpeoplemax.equals(talk.nbpeoplemax) : talk.nbpeoplemax != null){
+            return false;
+        }
+        if (place != null ? !place.equals(talk.place) : talk.place != null){
+            return false;
+        }
+        if (speakers != null ? !speakers.equals(talk.speakers) : talk.speakers != null){
+            return false;
+        }
 
         return true;
     }

@@ -4,12 +4,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.ninjamind.conference.domain.Conference;
 import com.ninjamind.conference.repository.ConferenceRepository;
-import com.ninjamind.conference.utils.LoggerFactory;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -21,8 +18,6 @@ import java.util.List;
  */
 @Service
 public class DefaultFavoriteService implements FavoriteService {
-
-    private static Logger LOG = LoggerFactory.make();
 
     @Autowired
     private ConferenceRepository conferenceRepository;
@@ -38,7 +33,7 @@ public class DefaultFavoriteService implements FavoriteService {
                 .filter(new Predicate<Conference>() {
                     @Override
                     public boolean apply(Conference conference) {
-                        return (conference.getProposalsRatio() != null);
+                        return conference.getProposalsRatio() != null;
                     }
                 })
                 .toSortedList(new Comparator<Conference>() {

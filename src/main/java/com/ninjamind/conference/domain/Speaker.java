@@ -127,20 +127,40 @@ public class Speaker {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
 
         Speaker speaker = (Speaker) o;
 
-        if (city != null ? !city.equals(speaker.city) : speaker.city != null) return false;
-        if (company != null ? !company.equals(speaker.company) : speaker.company != null) return false;
-        if (country != null ? !country.equals(speaker.country) : speaker.country != null) return false;
-        if (!firstname.equals(speaker.firstname)) return false;
-        if (!lastname.equals(speaker.lastname)) return false;
-        if (postalCode != null ? !postalCode.equals(speaker.postalCode) : speaker.postalCode != null) return false;
-        if (streetAdress != null ? !streetAdress.equals(speaker.streetAdress) : speaker.streetAdress != null)
+        if (city != null ? !city.equals(speaker.city) : speaker.city != null){
             return false;
-        if (talks != null ? !talks.equals(speaker.talks) : speaker.talks != null) return false;
+        }
+        if (company != null ? !company.equals(speaker.company) : speaker.company != null){
+            return false;
+        }
+        if (country != null ? !country.equals(speaker.country) : speaker.country != null){
+            return false;
+        }
+        if (!firstname.equals(speaker.firstname)){
+            return false;
+        }
+        if (!lastname.equals(speaker.lastname)){
+            return false;
+        }
+        if (postalCode != null ? !postalCode.equals(speaker.postalCode) : speaker.postalCode != null){
+            return false;
+        }
+        if (streetAdress != null ? !streetAdress.equals(speaker.streetAdress) : speaker.streetAdress != null){
+            return false;
+        }
+
+        if (talks != null ? !talks.equals(speaker.talks) : speaker.talks != null){
+            return false;
+        }
 
         return true;
     }

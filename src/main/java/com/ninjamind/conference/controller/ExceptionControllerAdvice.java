@@ -27,16 +27,18 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<String> handleException(JpaSystemException  e){
         //L'excpetion  JpaSystemException et liée à une {@link javax.persistence.PersistenceException} qui elle même encapsule
         //des exceptions plus précises
+        final String message = "Persistence error : ";
         if(e.getCause()!=null && e.getCause().getCause()!=null){
             switch (e.getCause().getCause().getClass().toString()){
                 case "org.hibernate.PropertyValueException":
-                    return new ResponseEntity<String>("Persistence error : " + e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+                    return new ResponseEntity<String>(message + e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
                 case "javax.persistence.NoResultException":
                 case "javax.persistence.EntityNotFoundException":
-                    return new ResponseEntity<String>("Persistence error : " + e.getCause().getMessage(), HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<String>(message + e.getCause().getMessage(), HttpStatus.NOT_FOUND);
+                default:
             }
         }
-        return new ResponseEntity<String>("Persistence error : " + e.getCause().getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<String>(message + e.getCause().getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**

@@ -21,6 +21,9 @@ public class Utils {
      */
     private static final Logger LOG = LoggerFactory.make();
 
+    private Utils() {
+    }
+
     /**
      * Permet de convertir une date recue au format Json en Java
      * @param date
@@ -34,8 +37,9 @@ public class Utils {
             return DATE_FORMAT_JSON.parse(date);
         } catch (ParseException e) {
             LOG.error(e);
+            return null;
         }
-        return null;
+
     }
 
     /**
