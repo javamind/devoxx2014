@@ -78,7 +78,7 @@ public class DefaultFavoriteServiceTest {
         /////////////// troisième cas de test : Devoxx2014 + Mix-IT2014 sans un parametre
         conferences.clear();
         conferences.add(devoxx2014);
-        Conference mixit2014WithoutParam = new Conference("Mix-IT2014", null, 200L, null);
+        Conference mixit2014WithoutParam = new Conference("Mix-IT2014", null, 200L);
         conferences.add(mixit2014WithoutParam);
 
         when(conferenceRepository.findAll()).thenReturn(conferences);
