@@ -60,7 +60,7 @@ public class DefaultFavoriteServiceTest {
         List<String> expected = Arrays.asList("Mix-IT2014", "Devoxx2014");
         assertEquals(expected, confNames);
 
-        /////////////// deuxième cas de test : Devoxx2014 + Mix-IT2014 + JugSummerCamp2014
+        /////////////// deuxième cas de test : Mix-IT2014 + JugSummerCamp2014
         conferences.clear();
         conferences.add(mixit2014);
         Conference jugsummercamp2014 = new Conference("JugSummerCamp2014", 10L, 100L);
