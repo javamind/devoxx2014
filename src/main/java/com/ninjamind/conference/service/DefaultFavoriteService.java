@@ -3,6 +3,7 @@ package com.ninjamind.conference.service;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.ninjamind.conference.domain.Conference;
+import com.ninjamind.conference.exception.NoConfException;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,17 @@
 package com.ninjamind.conference.repository;
 
+import com.ninja_squad.dbsetup.DbSetup;
+import com.ninja_squad.dbsetup.destination.DataSourceDestination;
+import com.ninja_squad.dbsetup.operation.Operation;
 import com.ninjamind.conference.config.PersistenceConfig;
+import com.ninjamind.conference.domain.Status;
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.junit.rule.DbUnitTestRule;
+import com.ninjamind.conference.repository.TalkArchiverRepository;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

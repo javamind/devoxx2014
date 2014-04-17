@@ -46,7 +46,6 @@ public abstract class AbstractDbunitTestNgRepositoryTest extends AbstractTransac
             databaseUrl = properties.getProperty("db.url");
             databaseUsername = properties.getProperty("db.username");
             databasePassword = properties.getProperty("db.password");
-
         }
     }
 

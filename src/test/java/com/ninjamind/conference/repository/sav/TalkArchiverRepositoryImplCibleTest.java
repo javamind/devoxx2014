@@ -1,11 +1,9 @@
 package com.ninjamind.conference.repository.sav;
 
 import com.ninja_squad.dbsetup.DbSetup;
-import com.ninja_squad.dbsetup.Operations;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import com.ninjamind.conference.config.PersistenceConfig;
-import com.ninjamind.conference.database.InitializeOperations;
 import com.ninjamind.conference.domain.Status;
 import com.ninjamind.conference.domain.Talk;
 import com.ninjamind.conference.repository.TalkArchiverRepository;

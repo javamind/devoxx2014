@@ -24,8 +24,9 @@ public class InitializeOperations {
     public static final Operation INSERT_CONFERENCE_DATA =
             insertInto("conference")
                     .columns("id", "name", "country_id", "dateStart", "dateEnd")
-                    .values(1, "Mix-IT", 1, new DateTime(2014,3,29,9,0).toDate(), new DateTime(2014,3,30,18,0).toDate())
-                    .values(2, "DevoxxFr", 1, new DateTime(2014,3,16,9,0).toDate(), new DateTime(2014,3,18,18,0).toDate())
+                    .values(1, "Mix-IT", 1, new DateTime(2014,4,29,9,0).toDate(), new DateTime(2014,4,30,18,0).toDate())
+                    .values(2, "DevoxxFr", 1, new DateTime(2014,4,16,9,0).toDate(), new DateTime(2014,4,18,18,0).toDate())
+                    .values(3, "JugSummerCamp", 1, new DateTime(2014,9,16,9,0).toDate(), new DateTime(2014,9,18,18,0).toDate())
                     .build();
 
     public static final Operation INSERT_SPEAKER_DATA =

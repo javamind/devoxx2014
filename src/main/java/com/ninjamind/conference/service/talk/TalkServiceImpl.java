@@ -34,7 +34,7 @@ public class TalkServiceImpl implements TalkService {
      */
     @Override
     public List<Talk> getAllTalk() {
-       return talkRepository.findAll(sortByNameAsc());
+        return talkRepository.findAll(sortByNameAsc());
     }
 
     /**

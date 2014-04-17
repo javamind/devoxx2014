@@ -5,5 +5,5 @@ package com.ninjamind.conference.domain;
  */
 public enum Status {
     ACTIVE,
-    Archived;
+    ARCHIVED;
 }

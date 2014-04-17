@@ -1,6 +1,7 @@
 package com.ninjamind.conference.service;
 
 import com.ninjamind.conference.domain.Conference;
+import com.ninjamind.conference.exception.NoConfException;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import java.util.Set;
 @Table(name = "talk")
 @NamedQueries(value = {
         @NamedQuery(name = "findTalkToArchive", query = "SELECT t FROM Talk t WHERE year(t.dateStart) < :year"),
-        @NamedQuery(name = "archiveTalks", query = "UPDATE Talk t SET t.status='Archived' WHERE year(t.dateStart) < :year")
+        @NamedQuery(name = "archiveTalks", query = "UPDATE Talk t SET t.status='ARCHIVED' WHERE year(t.dateStart) < :year")
 })
 public class Talk {
     @Id
