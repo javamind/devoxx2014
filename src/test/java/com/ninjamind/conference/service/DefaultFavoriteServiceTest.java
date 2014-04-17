@@ -2,6 +2,7 @@ package com.ninjamind.conference.service;
 
 import com.google.common.collect.Lists;
 import com.ninjamind.conference.domain.Conference;
+import com.ninjamind.conference.exception.NoConfException;
 import com.ninjamind.conference.repository.ConferenceRepository;
 import com.ninjamind.conference.service.DefaultFavoriteService;
 import junitparams.JUnitParamsRunner;
@@ -104,7 +105,7 @@ public class DefaultFavoriteServiceTest {
         try {
             defaultFavoriteService.getTheHypestConfs();
             Assert.fail();
-        } catch (Exception e) {
+        } catch (NoConfException e) {
             assertEquals("Aucune conference evaluee", e.getMessage());
         }
     }
