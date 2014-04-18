@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static junitparams.JUnitParamsRunner.$;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -39,6 +41,7 @@ public class DefaultFavoriteServiceTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
+
     /**
      * Test de la methode {@link DefaultFavoriteService#getTheHypestConfs()}
      * cas ou une valeur est retournee
